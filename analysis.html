@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Music Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif Devanagari', serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(6px) brightness(50%);
+            z-index: -1;
+        }
+
+        body {
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5e6c8;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            width: 100%;
+            color: white;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 18px;
+            background: linear-gradient(90deg, #ff5733, #d4af37);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #ff5733;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎵 AI-Powered Music Analysis</h1>
+        <p>Upload an Indian classical music file to analyze its Raaga, Taal, and emotional expression.</p>
+
+        <input type="file" id="musicFile" accept="audio/*">
+        <button onclick="analyzeMusic()">🎶 Start the Analysis</button>
+
+        <div class="result" id="analysisResult">
+            <h2>🔍 Analysis Results</h2>
+            <p id="ragaResult"></p>
+            <p id="emotionResult"></p>
+            <p id="taalResult"></p>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        function analyzeMusic() {
+            const fileInput = document.getElementById("musicFile");
+            const resultDiv = document.getElementById("analysisResult");
+            const ragaResult = document.getElementById("ragaResult");
+            const emotionResult = document.getElementById("emotionResult");
+            const taalResult = document.getElementById("taalResult");
+
+            if (!fileInput.files.length) {
+                alert("Please upload the music file");
+                return;
+            }
+
+            let fileName = fileInput.files[0].name;
+            ragaResult.innerHTML = `🎼 <b>${fileName}</b> Analysis in progress... Please wait.`;
+
+            resultDiv.style.display = "block";
+
+            setTimeout(() => {
+                ragaResult.innerHTML = "✅ Raaga Identified: Bhairavi";
+                emotionResult.innerHTML = "🧠 Emotion: Expresses Bhakti (Devotion) & Karuna (Compassion)";
+                taalResult.innerHTML = "📊 Taal: 120 BPM - Recognized as Teen Taal";
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raaga Simulation | Indian Classical Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+Devanagari&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Background Blur Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(6px) brightness(50%);
+            z-index: -1;
+        }
+        
+        /* Main Body Styling */
+        body {
+            color: #f5e6c8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif Devanagari', serif;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        select, button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        select {
+            background: #f5f5f5;
+            color: #333;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(90deg, #ff5733, #d4af37);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #ff5733;
+        }
+
+        .history {
+            font-size: 14px;
+            text-align: left;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #d4af37;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎵 Raaga Simulatio (राग सिम्युलेशन)</h1>
+        <p>Select a Raaga to experience its melody and history.</p>
+
+        <select id="raagaSelect">
+            <option value="Bhairavi">Raag Bhairavi</option>
+            <option value="Yaman">Raag Yaman</option>
+            <option value="Hindol">Raag Hindol</option>
+            <option value="Todi">Raag Todi</option>
+        </select>
+        <button onclick="simulateMusic()">🎶 Simulate</button>
+
+        <div class="result" id="simulationResult">
+            <h2>Playing: <span id="raagaName"></span></h2>
+            <audio controls id="audioPlayer">
+                <source src="" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="history" id="raagaHistory"></div>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        function simulateMusic() {
+            const raaga = document.getElementById("raagaSelect").value;
+            const resultDiv = document.getElementById("simulationResult");
+            const audioPlayer = document.getElementById("audioPlayer");
+            const raagaName = document.getElementById("raagaName");
+            const raagaHistory = document.getElementById("raagaHistory");
+
+            let audioFiles = {
+                "Bhairavi": "audio/bhairavi.mp3",
+                "Yaman": "audio/yaman.mp3",
+                "Hindol": "audio/hindol.mp3",
+                "Todi": "audio/todi.mp3"
+            };
+
+            let historyData = {
+                "Bhairavi": "Raag Bhairavi is known as the 'Queen of Raagas'. It is performed in the early morning and is associated with devotion and serenity.",
+                "Yaman": "Raag Yaman is an evening raaga that symbolizes beauty, grace, and divine energy. It has a romantic and uplifting mood.",
+                "Hindol": "Raag Hindol is linked to the arrival of spring and is deeply connected with the festival of Holi in Indian traditions.",
+                "Todi": "Raag Todi is a morning raaga known for its highly emotional and meditative qualities, often associated with introspection."
+            };
+
+            raagaName.innerText = raaga;
+            audioPlayer.src = audioFiles[raaga];
+            raagaHistory.innerText = historyData[raaga];
+            resultDiv.style.display = "block";
+            raagaHistory.style.display = "block";
+            audioPlayer.play();
+        }
+    </script>
+
+</body>
+</html>

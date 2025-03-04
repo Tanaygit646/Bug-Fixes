@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Audio & Video Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif Devanagari', serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(6px) brightness(50%);
+            z-index: -1;
+        }
+
+        body {
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5e6c8;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .feature-button {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            background: linear-gradient(90deg, #ff5733, #d4af37);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .feature-button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #ff5733;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>3️⃣ Live Audio & Video Streaming</h1>
+        <p>Experience live classical performances, Raaga Radio, and expert video lessons.</p>
+
+        <button class="feature-button" onclick="playLiveConcerts()">🎙️ Live Performances</button>
+        <button class="feature-button" onclick="playRaagaRadio()">📻 Raaga Radio</button>
+        <button class="feature-button" onclick="playVideoLessons()">📹 Video Lessons</button>
+
+        <a href="index.html" class="back-link">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        function playLiveConcerts() {
+            alert("🎙️ Streaming live concerts by classical maestros.");
+        }
+
+        function playRaagaRadio() {
+            alert("📻 Enjoy Raaga Radio, playing classical music based on the time of the day.");
+        }
+
+        function playVideoLessons() {
+            alert("📹 Watch video lessons on singing, sitar, veena, tabla, and more.");
+        }
+    </script>
+
+</body>
+</html>

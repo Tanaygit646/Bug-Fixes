@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Learning & Digital Concerts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif Devanagari', serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(6px) brightness(50%);
+            z-index: -1;
+        }
+
+        body {
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5e6c8;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .game-option, .event-option {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            background: linear-gradient(90deg, #ff5733, #d4af37);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .game-option:hover, .event-option:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #ff5733;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>7️⃣ Digital Concert Tickets & Workshops</h1>
+        <p>Discover upcoming concerts, masterclasses, and ways to support artists.</p>
+
+        <button class="event-option" onclick="viewConcerts()">🎟️ Concert Listings – Upcoming Festivals</button>
+        <button class="event-option" onclick="viewWorkshops()">🎼 Masterclasses & Workshops</button>
+        <button class="event-option" onclick="donateSupport()">💰 Support Artists & Music Revival</button>
+
+        <a href="index.html" class="back-link">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        function viewConcerts() {
+            alert("🎟️ Viewing upcoming classical music festivals (Sawai Gandharva, Dover Lane, etc.)");
+            // Implement concert listing logic here
+        }
+
+        function viewWorkshops() {
+            alert("🎼 Viewing masterclasses & workshops with renowned musicians.");
+            // Implement workshop listing logic here
+        }
+
+        function donateSupport() {
+            alert("💰 Support struggling artists and music revival programs.");
+            // Implement donation system logic here
+        }
+    </script>
+
+</body>
+</html>
