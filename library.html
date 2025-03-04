@@ -32,11 +32,53 @@
             background-size: cover;
             color: #f5e6c8;
             text-align: center;
-            padding: 20px;
+            padding: 80px 20px 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
 
         .container {
@@ -47,6 +89,7 @@
             text-align: center;
             box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
             border: 3px solid #d4af37;
+            animation: fadeIn 0.8s ease-in-out;
         }
 
         h1 {
@@ -95,9 +138,48 @@
             text-decoration: underline;
             color: #ff5733;
         }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #d4af37;
+            box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .footer a {
+            color: #f5e6c8;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .footer a:hover {
+            color: #d4af37;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">Raaga & Taal</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li><a href="#">Live</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
 
     <div class="container">
         <h1>2️⃣ Raaga & Taal Library</h1>
@@ -111,23 +193,9 @@
         <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
-    <script>
-        function showRaagaDatabase() {
-            alert("📖 Learn about different raagas, their time of day, emotion, and compositions.");
-        }
-
-        function showTaalSection() {
-            alert("🕰️ Explore common taals like Teentaal, Ektaal, and Jhaptal with demonstrations.");
-        }
-
-        function showAarohAvroh() {
-            alert("🎵 Understand the ascending and descending scale (Aaroh-Avroh) and signature phrases of each raaga.");
-        }
-
-        function showAncientTexts() {
-            alert("📜 Read references from Natya Shastra, Sangeet Ratnakar, Brihaddeshi, and more.");
-        }
-    </script>
+    <div class="footer">
+        &copy; 2025 Raaga & Taal Library | <a href="#">Privacy Policy</a>
+    </div>
 
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,11 +35,51 @@
             text-align: center;
             padding: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
         }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
 
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
+        }
         .container {
             max-width: 600px;
             padding: 25px;
@@ -47,6 +88,27 @@
             text-align: center;
             box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
             border: 3px solid #d4af37;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            text-align: center;
+            color: #d4af37;
+            font-size: 14px;
         }
 
         h1 {
@@ -99,6 +161,19 @@
 </head>
 <body>
 
+    <nav class="navbar">
+        <a href="#" class="logo">Learning & Gamification</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li><a href="#">Live</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+        
+
+
     <div class="container">
         <h1>5️⃣ Interactive Learning & Gamification</h1>
         <p>Enhance your musical skills through fun challenges and interactive exercises.</p>
@@ -110,22 +185,20 @@
         <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
+    <div class="footer">© 2025 Music Learning Platform | All Rights Reserved</div>
+
     <script>
         function startRaagaQuiz() {
             alert("🎼 Starting Raaga Quiz! Listen carefully and identify the Raaga.");
-            // Implement audio-based quiz logic here
         }
 
         function startTaalTrainer() {
             alert("🥁 Taal Trainer activated! Tap along to match the tabla rhythm.");
-            // Implement rhythm matching logic here
         }
 
         function startSwarmandal() {
             alert("🎵 Virtual Swarmandal activated! Play and train your ears to identify scales.");
-            // Implement interactive swarmandal logic here
         }
     </script>
-
 </body>
 </html>

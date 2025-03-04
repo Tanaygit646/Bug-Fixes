@@ -37,21 +37,65 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            flex-direction: column;
+        }
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
 
         .container {
-            max-width: 700px;
+            max-width: 600px;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
             text-align: center;
             box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
             border: 3px solid #d4af37;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-top: 20px;
         }
 
         h1 {
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -60,14 +104,45 @@
         p {
             font-size: 18px;
             opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: #d4af37;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 14px;
+            opacity: 0.9;
             margin-bottom: 10px;
         }
 
         .instrument-button {
-            margin-top: 15px;
-            padding: 12px;
+            margin-top: 10px;
+            padding: 8px;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 14px;
             background: linear-gradient(90deg, #ff5733, #d4af37);
             color: white;
             cursor: pointer;
@@ -84,7 +159,7 @@
 
         .back-link {
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 10px;
             color: #d4af37;
             text-decoration: none;
             font-weight: bold;
@@ -98,6 +173,17 @@
     </style>
 </head>
 <body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">🎶 Virtual Instrument Experience</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
         <h1>🎻 Virtual Instrument Experience</h1>
         <p>Explore the sounds of classical Indian instruments by clicking below.</p>
@@ -111,6 +197,8 @@
         
         <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
+
+    <div class="footer">© 2025 Virtual Instrument Experience. All Rights Reserved.</div>
 
     <script>
         function playSound(file) {

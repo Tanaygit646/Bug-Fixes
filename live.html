@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* Global Reset */
         * {
             margin: 0;
             padding: 0;
@@ -32,26 +33,71 @@
             background-size: cover;
             color: #f5e6c8;
             text-align: center;
-            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 60px 20px 80px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
 
         .container {
             max-width: 600px;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
             text-align: center;
             box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
             border: 3px solid #d4af37;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-top: 20px;
         }
 
         h1 {
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -60,11 +106,12 @@
         p {
             font-size: 18px;
             opacity: 0.9;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
+        /* Buttons */
         .feature-button {
-            margin-top: 15px;
+            margin-top: 10px;
             padding: 12px;
             border-radius: 8px;
             font-size: 18px;
@@ -75,6 +122,7 @@
             border: none;
             transition: 0.3s ease-in-out;
             width: 100%;
+            outline: none;
         }
 
         .feature-button:hover {
@@ -82,45 +130,98 @@
             opacity: 0.9;
         }
 
+        .feature-button:focus {
+            outline: 3px solid rgba(255, 87, 51, 0.7);
+        }
+
         .back-link {
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 20px;
             color: #d4af37;
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
+            font-size: 16px;
         }
 
         .back-link:hover {
             text-decoration: underline;
             color: #ff5733;
         }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #d4af37;
+            box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .footer a {
+            color: #f5e6c8;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .footer a:hover {
+            color: #d4af37;
+        }
+
+        /* Smooth fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">🎵 Music Therapy</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    
     <div class="container">
         <h1>3️⃣ Live Audio & Video Streaming</h1>
         <p>Experience live classical performances, Raaga Radio, and expert video lessons.</p>
 
-        <button class="feature-button" onclick="playLiveConcerts()">🎙️ Live Performances</button>
-        <button class="feature-button" onclick="playRaagaRadio()">📻 Raaga Radio</button>
-        <button class="feature-button" onclick="playVideoLessons()">📹 Video Lessons</button>
+        <button class="feature-button" aria-label="Live Performances" onclick="playLiveConcerts()">🎙️ Live Performances</button>
+        <button class="feature-button" aria-label="Raaga Radio" onclick="playRaagaRadio()">📻 Raaga Radio</button>
+        <button class="feature-button" aria-label="Video Lessons" onclick="playVideoLessons()">📹 Video Lessons</button>
 
         <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
+    <div class="footer">
+        © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
+    </div>
+
     <script>
         function playLiveConcerts() {
-            alert("🎙️ Streaming live concerts by classical maestros.");
+            console.log("🎙️ Streaming live concerts by classical maestros.");
+            alert("Live streaming feature will be integrated soon!");
         }
 
         function playRaagaRadio() {
-            alert("📻 Enjoy Raaga Radio, playing classical music based on the time of the day.");
+            console.log("📻 Enjoying Raaga Radio.");
+            alert("Raaga Radio feature coming soon!");
         }
 
         function playVideoLessons() {
-            alert("📹 Watch video lessons on singing, sitar, veena, tabla, and more.");
+            console.log("📹 Watching video lessons.");
+            alert("Video lessons will be available soon!");
         }
     </script>
 

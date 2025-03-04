@@ -14,6 +14,20 @@
             font-family: 'Noto Serif Devanagari', serif;
         }
 
+        body {
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Blurred Background */
         body::before {
             content: "";
             position: fixed;
@@ -23,30 +37,88 @@
             height: 100%;
             background: url('assets/bg.jpg') no-repeat center center fixed;
             background-size: cover;
-            filter: blur(6px) brightness(50%);
+            filter: blur(8px) brightness(50%);
             z-index: -1;
         }
 
-        body {
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5e6c8;
-            text-align: center;
-            padding: 20px;
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
 
         .container {
             max-width: 600px;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
             text-align: center;
             box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
             border: 3px solid #d4af37;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
@@ -63,7 +135,8 @@
             margin-bottom: 10px;
         }
 
-        .game-option, .event-option {
+        /* Buttons */
+        .event-option {
             margin-top: 15px;
             padding: 12px;
             border-radius: 8px;
@@ -75,13 +148,43 @@
             border: none;
             transition: 0.3s ease-in-out;
             width: 100%;
+            outline: none;
         }
 
-        .game-option:hover, .event-option:hover {
+        .event-option:hover {
             transform: scale(1.05);
             opacity: 0.9;
         }
 
+        /* Floating Alert Box */
+        .alert-box {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #d4af37;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            color: #d4af37;
+            font-size: 14px;
+        }
+
+        /* Back Link */
         .back-link {
             display: inline-block;
             margin-top: 15px;
@@ -95,35 +198,70 @@
             text-decoration: underline;
             color: #ff5733;
         }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .event-option {
+                font-size: 16px;
+            }
+
+            .navbar, .footer {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
 
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">🎶 Interactive Learning & Digital Concerts</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
     <div class="container">
         <h1>7️⃣ Digital Concert Tickets & Workshops</h1>
         <p>Discover upcoming concerts, masterclasses, and ways to support artists.</p>
 
-        <button class="event-option" onclick="viewConcerts()">🎟️ Concert Listings – Upcoming Festivals</button>
-        <button class="event-option" onclick="viewWorkshops()">🎼 Masterclasses & Workshops</button>
-        <button class="event-option" onclick="donateSupport()">💰 Support Artists & Music Revival</button>
+        <button class="event-option" onclick="showAlert('🎟️ Viewing upcoming classical music festivals (Sawai Gandharva, Dover Lane, etc.)')">
+            🎟️ Concert Listings – Upcoming Festivals
+        </button>
+
+        <button class="event-option" onclick="showAlert('🎼 Viewing masterclasses & workshops with renowned musicians.')">
+            🎼 Masterclasses & Workshops
+        </button>
+
+        <button class="event-option" onclick="showAlert('💰 Support struggling artists and music revival programs.')">
+            💰 Support Artists & Music Revival
+        </button>
 
         <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
+    <!-- Floating Alert Box -->
+    <div id="alertBox" class="alert-box"></div>
+
+    <!-- Footer -->
+    <div class="footer">© 2025 Music Revival Initiative</div>
+
     <script>
-        function viewConcerts() {
-            alert("🎟️ Viewing upcoming classical music festivals (Sawai Gandharva, Dover Lane, etc.)");
-            // Implement concert listing logic here
-        }
+        function showAlert(message) {
+            var alertBox = document.getElementById("alertBox");
+            alertBox.innerText = message;
+            alertBox.style.display = "block";
 
-        function viewWorkshops() {
-            alert("🎼 Viewing masterclasses & workshops with renowned musicians.");
-            // Implement workshop listing logic here
-        }
-
-        function donateSupport() {
-            alert("💰 Support struggling artists and music revival programs.");
-            // Implement donation system logic here
+            setTimeout(function () {
+                alertBox.style.display = "none";
+            }, 3000);
         }
     </script>
 
