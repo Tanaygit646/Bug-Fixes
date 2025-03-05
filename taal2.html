@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taal in Indian Classical Music</title>
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif Devanagari', serif;
+        }
+
+        body {
+            background: url('assets/taal-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5e6c8;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 60px 20px 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            text-align: left;
+            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+            border: 3px solid #d4af37;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #d4af37;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #taalSearch {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Taal Box */
+        .taal-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .featured-taal {
+            background: rgba(255, 140, 0, 0.2);
+            padding: 15px;
+            border: 3px solid #ff5733;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #ff5733;
+        }
+
+        /* Smooth fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🥁 Taal in Indian Classical Music</h1>
+
+        <div class="featured-taal">
+            <h2>🌟 Featured Taal: Teentaal</h2>
+            <p><strong>Theka:</strong> Dha Dhin Dhin Dha | Dha Dhin Dhin Dha | Dha Tin Tin Ta | Ta Dhin Dhin Dha</p>
+            <p><strong>Matras:</strong> 16 (4+4+4+4)</p>
+            <p><strong>Sam:</strong> 1st beat</p>
+            <p><strong>Khali:</strong> 9th beat</p>
+        </div>
+
+        <h2>Search for a Taal</h2>
+        <div class="search-container">
+            <input type="text" id="taalSearch" placeholder="Enter Taal name...">
+        </div>
+
+        <h2>Popular Taals</h2>
+
+        <div class="taal-box" data-taal="teentaal">
+            <h3>Teentaal (16 beats)</h3>
+            <p><strong>Theka:</strong> Dha Dhin Dhin Dha | Dha Dhin Dhin Dha | Dha Tin Tin Ta | Ta Dhin Dhin Dha</p>
+            <p><strong>Matras:</strong> 16</p>
+        </div>
+
+        <div class="taal-box" data-taal="jhaptal">
+            <h3>Jhaptal (10 beats)</h3>
+            <p><strong>Theka:</strong> Dhin Na | Dhin Dhin Na | Tin Na | Dhin Dhin Na</p>
+            <p><strong>Matras:</strong> 10</p>
+        </div>
+
+        <div class="taal-box" data-taal="ektaal">
+            <h3>Ektaal (12 beats)</h3>
+            <p><strong>Theka:</strong> Dhin Dhin | Dhage Tete | Tin Tin | Tete Dhage</p>
+            <p><strong>Matras:</strong> 12</p>
+        </div>
+
+        <div class="taal-box" data-taal="rupak">
+            <h3>Rupak (7 beats)</h3>
+            <p><strong>Theka:</strong> Tin Tin Na | Dhin Na | Dhin Na</p>
+            <p><strong>Matras:</strong> 7</p>
+        </div>
+
+        <a class="back-link" href="index.html">⬅ Back to Music Homepage</a>
+    </div>
+
+    <script>
+        document.getElementById('taalSearch').addEventListener('input', function() {
+            let input = this.value.toLowerCase();
+            let taalBoxes = document.querySelectorAll('.taal-box');
+
+            taalBoxes.forEach(function(box) {
+                let taalName = box.getAttribute('data-taal');
+                if (taalName.includes(input)) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        });
+
+        // Change Featured Taal Randomly
+        const taals = [
+            { name: "Teentaal", theka: "Dha Dhin Dhin Dha | Dha Dhin Dhin Dha | Dha Tin Tin Ta | Ta Dhin Dhin Dha", matras: "16", sam: "1st", khali: "9th" },
+            { name: "Jhaptal", theka: "Dhin Na | Dhin Dhin Na | Tin Na | Dhin Dhin Na", matras: "10", sam: "1st", khali: "6th" },
+            { name: "Ektaal", theka: "Dhin Dhin | Dhage Tete | Tin Tin | Tete Dhage", matras: "12", sam: "1st", khali: "7th" }
+        ];
+
+        let randomTaal = taals[Math.floor(Math.random() * taals.length)];
+        document.querySelector('.featured-taal h2').innerText = `🌟 Featured Taal: ${randomTaal.name}`;
+        document.querySelector('.featured-taal p').innerHTML = `<strong>Theka:</strong> ${randomTaal.theka}`;
+    </script>
+
+</body>
+</html>

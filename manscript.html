@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ancient Manuscripts - Classical Texts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif', serif;
+        }
+
+        body {
+            background: url('assets/parchment-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #4a3b2b;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 30px;
+            background: rgba(255, 245, 230, 0.9);
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(74, 59, 43, 0.5);
+            border: 3px solid #8b5a2b;
+            animation: fadeIn 0.8s ease-in-out;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #8b5a2b;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #6d4c41;
+        }
+
+        p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .manuscript-box {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none; /* Hidden initially */
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #search {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 2px solid #8b5a2b;
+            outline: none;
+            background: rgba(0, 0, 0, 0.1);
+            color: #4a3b2b;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #8b5a2b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #6d4c41;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📜 Ancient Manuscripts</h1>
+
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search for a manuscript..." onkeyup="filterManuscripts()">
+        </div>
+
+        <!-- Manuscript 1: Rigveda -->
+        <div class="manuscript-box" data-name="rigveda">
+            <h2>🕉 Rigveda (ऋग्वेद)</h2>
+            <p><strong>Era:</strong> 1500-1200 BCE</p>
+            <p><strong>Language:</strong> Sanskrit</p>
+            <p><strong>Details:</strong> The Rigveda is one of the oldest known texts, consisting of hymns praising various deities.</p>
+            <img src="assets/rigveda.jpg" alt="Rigveda Manuscript">
+        </div>
+
+        <!-- Manuscript 2: Upanishads -->
+        <div class="manuscript-box" data-name="upanishads">
+            <h2>📖 Upanishads (उपनिषद्)</h2>
+            <p><strong>Era:</strong> 800-500 BCE</p>
+            <p><strong>Language:</strong> Sanskrit</p>
+            <p><strong>Details:</strong> The Upanishads focus on spiritual wisdom and philosophy, forming the core of Vedanta.</p>
+            <img src="assets/upanishads.jpg" alt="Upanishads Manuscript">
+        </div>
+
+        <!-- Manuscript 3: Bhagavad Gita -->
+        <div class="manuscript-box" data-name="bhagavad gita">
+            <h2>⚔ Bhagavad Gita (भगवद्गीता)</h2>
+            <p><strong>Era:</strong> ~200 BCE - 200 CE</p>
+            <p><strong>Language:</strong> Sanskrit</p>
+            <p><strong>Details:</strong> A sacred dialogue between Lord Krishna and Arjuna, part of the Mahabharata.</p>
+            <img src="assets/bhagavad-gita.jpg" alt="Bhagavad Gita Manuscript">
+        </div>
+
+        <!-- Manuscript 4: Thirukkural -->
+        <div class="manuscript-box" data-name="thirukkural">
+            <h2>📜 Thirukkural (திருக்குறள்)</h2>
+            <p><strong>Era:</strong> ~5th Century CE</p>
+            <p><strong>Language:</strong> Tamil</p>
+            <p><strong>Details:</strong> A classic Tamil text consisting of 1,330 couplets on ethics, governance, and love.</p>
+            <img src="assets/thirukkural.jpg" alt="Thirukkural Manuscript">
+        </div>
+
+        <!-- Manuscript 5: Dead Sea Scrolls -->
+        <div class="manuscript-box" data-name="dead sea scrolls">
+            <h2>⛰ Dead Sea Scrolls</h2>
+            <p><strong>Era:</strong> 3rd Century BCE - 1st Century CE</p>
+            <p><strong>Language:</strong> Hebrew, Aramaic</p>
+            <p><strong>Details:</strong> Ancient Jewish texts found in the Qumran Caves, containing biblical and sectarian writings.</p>
+            <img src="assets/dead-sea-scrolls.jpg" alt="Dead Sea Scrolls">
+        </div>
+
+        <a class="back-link" href="index.html">⬅ Back to Homepage</a>
+    </div>
+
+    <script>
+        function filterManuscripts() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let manuscripts = document.querySelectorAll(".manuscript-box");
+
+            manuscripts.forEach(ms => {
+                let name = ms.getAttribute("data-name");
+                if (name.includes(input)) {
+                    ms.style.display = "block";
+                } else {
+                    ms.style.display = "none";
+                }
+            });
+        }
+
+        // Show all manuscripts initially
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".manuscript-box").forEach(ms => {
+                ms.style.display = "block";
+            });
+        });
+    </script>
+
+</body>
+</html>
