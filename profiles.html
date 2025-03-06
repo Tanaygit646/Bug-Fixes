@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,6 +147,14 @@
         .spacer {
             height: 50px;
         }
+        a {
+    text-decoration: none;
+    color: inherit; /* Keeps the default text color */
+}
+
+a:hover {
+    color: #d4af37; /* Optional: Change color on hover */
+}
 
     </style>
 </head>
@@ -176,66 +183,64 @@
     <footer>
         <p>&copy; 2025 Classical Music Archive. All Rights Reserved.</p>
     </footer>
+<script>
+    const artists = [
+        { name: "Tansen", img: "images/artist1.jpg", bio: "Legendary musician in Mughal court.", link: "tansen.html" },
+        { name: "Bhimsen Joshi", img: "images/artist2.jpg", bio: "Hindustani classical vocalist.", link: "bhimsen-joshi.html" },
+        { name: "Ravi Shankar", img: "images/artist3.jpg", bio: "Sitar maestro.", link: "ravi-shankar.html" },
+        { name: "Lata Mangeshkar", img: "images/artist4.jpg", bio: "Iconic playback singer.", link: "lata-mangeshkar.html" },
+        { name: "MS Subbulakshmi", img: "images/artist5.jpg", bio: "Carnatic vocalist.", link: "ms-subbulakshmi.html" },
+        { name: "Pandit Jasraj", img: "images/artist6.jpg", bio: "Hindustani vocalist.", link: "pandit-jasraj.html" },
+        { name: "Ustad Zakir Hussain", img: "images/artist7.jpg", bio: "Tabla virtuoso.", link: "zakir-hussain.html" },
+        { name: "Kumar Gandharva", img: "images/artist8.jpg", bio: "Innovative classical singer.", link: "kumar-gandharva.html" },
+        { name: "Ustad Bismillah Khan", img: "images/artist9.jpg", bio: "Shehnai maestro.", link: "bismillah-khan.html" },
+        { name: "Hariprasad Chaurasia", img: "images/artist10.jpg", bio: "Flute legend.", link: "hariprasad-chaurasia.html" },
+        { name: "Shivkumar Sharma", img: "images/artist11.jpg", bio: "Santoor maestro.", link: "shivkumar-sharma.html" },
+        { name: "Alla Rakha", img: "images/artist12.jpg", bio: "Renowned tabla artist.", link: "alla-rakha.html" },
+        { name: "Vilayat Khan", img: "images/artist13.jpg", bio: "Sitar innovator.", link: "vilayat-khan.html" },
+        { name: "Amjad Ali Khan", img: "images/artist14.jpg", bio: "Sarod legend.", link: "amjad-ali-khan.html" },
+        { name: "Gundecha Brothers", img: "images/artist15.jpg", bio: "Dhrupad vocalists.", link: "gundecha-brothers.html" },
+        { name: "Balamuralikrishna", img: "images/artist16.jpg", bio: "Carnatic singer.", link: "balamuralikrishna.html" },
+        { name: "Anoushka Shankar", img: "images/artist17.jpg", bio: "Sitar artist.", link: "anoushka-shankar.html" },
+        { name: "Girija Devi", img: "images/artist18.jpg", bio: "Thumri singer.", link: "girija-devi.html" },
+        { name: "Shubha Mudgal", img: "images/artist19.jpg", bio: "Classical & fusion artist.", link: "shubha-mudgal.html" },
+        { name: "Rajan & Sajan Mishra", img: "images/artist20.jpg", bio: "Classical duo singers.", link: "rajan-sajan-mishra.html" }
+    ];
 
-    <script>
-        const artists = [
-            { name: "Tansen", img: "images/artist1.jpg", bio: "Legendary musician in Mughal court." },
-            { name: "Bhimsen Joshi", img: "images/artist2.jpg", bio: "Hindustani classical vocalist." },
-            { name: "Ravi Shankar", img: "images/artist3.jpg", bio: "Sitar maestro." },
-            { name: "Lata Mangeshkar", img: "images/artist4.jpg", bio: "Iconic playback singer." },
-            { name: "MS Subbulakshmi", img: "images/artist5.jpg", bio: "Carnatic vocalist." },
-            { name: "Pandit Jasraj", img: "images/artist6.jpg", bio: "Hindustani vocalist." },
-            { name: "Ustad Zakir Hussain", img: "images/artist7.jpg", bio: "Tabla virtuoso." },
-            { name: "Kumar Gandharva", img: "images/artist8.jpg", bio: "Innovative classical singer." },
-            { name: "Ustad Bismillah Khan", img: "images/artist9.jpg", bio: "Shehnai maestro." },
-            { name: "Hariprasad Chaurasia", img: "images/artist10.jpg", bio: "Flute legend." },
-            { name: "Shivkumar Sharma", img: "images/artist11.jpg", bio: "Santoor maestro." },
-            { name: "Alla Rakha", img: "images/artist12.jpg", bio: "Renowned tabla artist." },
-            { name: "Vilayat Khan", img: "images/artist13.jpg", bio: "Sitar innovator." },
-            { name: "Amjad Ali Khan", img: "images/artist14.jpg", bio: "Sarod legend." },
-            { name: "Gundecha Brothers", img: "images/artist15.jpg", bio: "Dhrupad vocalists." },
-            { name: "Balamuralikrishna", img: "images/artist16.jpg", bio: "Carnatic singer." },
-            { name: "Anoushka Shankar", img: "images/artist17.jpg", bio: "Sitar artist." },
-            { name: "Girija Devi", img: "images/artist18.jpg", bio: "Thumri singer." },
-            { name: "Shubha Mudgal", img: "images/artist19.jpg", bio: "Classical & fusion artist." },
-            { name: "Rajan & Sajan Mishra", img: "images/artist20.jpg", bio: "Classical duo singers." }
-        ];
+    const artistContainer = document.getElementById("artistContainer");
+    const loadMoreBtn = document.getElementById("loadMore");
+    let displayedArtists = 10;
 
-        const artistContainer = document.getElementById("artistContainer");
-        const loadMoreBtn = document.getElementById("loadMore");
-        let displayedArtists = 10;
+    function displayArtists(count) {
+        artistContainer.innerHTML = "";
+        for (let i = 0; i < count; i++) {
+            if (artists[i]) {
+                const artistDiv = document.createElement("div");
+                artistDiv.classList.add("profile-card");
+                artistDiv.style.cursor = "pointer"; // Makes it clear that it's clickable
+                artistDiv.onclick = () => window.location.href = artists[i].link; // Navigate to artist page
 
-        function displayArtists(count) {
-            artistContainer.innerHTML = "";
-            for (let i = 0; i < count; i++) {
-                if (artists[i]) {
-                    const artistDiv = document.createElement("div");
-                    artistDiv.classList.add("profile-card");
-                    artistDiv.innerHTML = `
-                        <img src="${artists[i].img}" alt="${artists[i].name}">
-                        <h2>${artists[i].name}</h2>
-                        <p>${artists[i].bio}</p>
-                    `;
-                    artistDiv.addEventListener("click", () => {
-                        window.location.href = `profile.html?artist=${encodeURIComponent(artists[i].name)}`;
-                    });
-                    artistContainer.appendChild(artistDiv);
-                }
+                artistDiv.innerHTML = `
+                    <img src="${artists[i].img}" alt="${artists[i].name}">
+                    <h2>${artists[i].name}</h2>
+                    <p>${artists[i].bio}</p>
+                `;
+
+                artistContainer.appendChild(artistDiv);
             }
         }
+    }
 
+    displayArtists(displayedArtists);
+
+    loadMoreBtn.addEventListener("click", () => {
+        displayedArtists += 5;
+        if (displayedArtists >= artists.length) {
+            displayedArtists = artists.length;
+            loadMoreBtn.style.display = "none";
+        }
         displayArtists(displayedArtists);
-
-        loadMoreBtn.addEventListener("click", () => {
-            displayedArtists += 5;
-            if (displayedArtists >= artists.length) {
-                displayedArtists = artists.length;
-                loadMoreBtn.style.display = "none";
-            }
-            displayArtists(displayedArtists);
-        });
-
-    </script>
-
+    });
+</script>
 </body>
 </html>

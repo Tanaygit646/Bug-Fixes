@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aroh, Avroh & Pakad - Classical Music</title>
+    <title>Raag & Taal Details</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             padding: 30px;
             background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
@@ -42,7 +42,6 @@
             background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
         }
 
         h2 {
@@ -62,23 +61,6 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
-            display: none; /* Hidden initially */
-        }
-
-        .search-box {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        #search {
-            width: 80%;
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 5px;
-            border: 2px solid #d4af37;
-            outline: none;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
         }
 
         .back-link {
@@ -105,77 +87,40 @@
 <body>
 
     <div class="container">
-        <h1>🎶 Aroh, Avroh & Pakad</h1>
+        <h1>🎶 Raag & Taal Details</h1>
 
-        <div class="search-box">
-            <input type="text" id="search" placeholder="Search for a Raag..." onkeyup="filterRaags()">
-        </div>
-
-        <!-- Raag Yaman -->
-        <div class="raag-box" data-raag="yaman">
-            <h2>🔹 Raag Yaman</h2>
+        <h2>🔹 Raag Yaman</h2>
+        <div class="raag-box">
             <p><strong>Aroh (Ascending):</strong> N R G M D N S'</p>
             <p><strong>Avroh (Descending):</strong> S' N D P M G R S</p>
             <p><strong>Pakad (Signature Phrase):</strong> N R G M, D N, P M G R</p>
+            <p><strong>Time:</strong> Evening (6-9 PM)</p>
+            <p><strong>Vadi (Main Note):</strong> Ga</p>
+            <p><strong>Samvadi (Second Important Note):</strong> Ni</p>
         </div>
 
-        <!-- Raag Bhairav -->
-        <div class="raag-box" data-raag="bhairav">
-            <h2>🔹 Raag Bhairav</h2>
+        <h2>🔹 Raag Bhairav</h2>
+        <div class="raag-box">
             <p><strong>Aroh (Ascending):</strong> S R G M P D N S'</p>
             <p><strong>Avroh (Descending):</strong> S' N D P M G R S</p>
             <p><strong>Pakad (Signature Phrase):</strong> S R G M, P D, P M G R S</p>
+            <p><strong>Time:</strong> Early Morning</p>
+            <p><strong>Vadi (Main Note):</strong> Dha</p>
+            <p><strong>Samvadi (Second Important Note):</strong> Re</p>
         </div>
 
-        <!-- Raag Bageshree -->
-        <div class="raag-box" data-raag="bageshree">
-            <h2>🔹 Raag Bageshree</h2>
+        <h2>🔹 Raag Bageshree</h2>
+        <div class="raag-box">
             <p><strong>Aroh (Ascending):</strong> S G M D N S'</p>
             <p><strong>Avroh (Descending):</strong> S' N D M G M G R S</p>
             <p><strong>Pakad (Signature Phrase):</strong> G M D N, D M G M, R S</p>
-        </div>
-
-        <!-- Raag Bhimpalasi -->
-        <div class="raag-box" data-raag="bhimpalasi">
-            <h2>🔹 Raag Bhimpalasi</h2>
-            <p><strong>Aroh (Ascending):</strong> N S G M P N S'</p>
-            <p><strong>Avroh (Descending):</strong> S' N D P M G M G R S</p>
-            <p><strong>Pakad (Signature Phrase):</strong> M P N S', S' D P, M G R S</p>
-        </div>
-
-        <!-- Raag Malkauns -->
-        <div class="raag-box" data-raag="malkauns">
-            <h2>🔹 Raag Malkauns</h2>
-            <p><strong>Aroh (Ascending):</strong> S g M d n S'</p>
-            <p><strong>Avroh (Descending):</strong> S' n d M g S</p>
-            <p><strong>Pakad (Signature Phrase):</strong> g M d n, d M g S</p>
+            <p><strong>Time:</strong> Late Night</p>
+            <p><strong>Vadi (Main Note):</strong> Ma</p>
+            <p><strong>Samvadi (Second Important Note):</strong> Sa</p>
         </div>
 
         <a class="back-link" href="index.html">⬅ Back to Homepage</a>
     </div>
-
-    <script>
-        function filterRaags() {
-            let input = document.getElementById("search").value.toLowerCase();
-            let raags = document.querySelectorAll(".raag-box");
-
-            raags.forEach(raag => {
-                let name = raag.getAttribute("data-raag");
-                if (name.includes(input)) {
-                    raag.style.display = "block";
-                } else {
-                    raag.style.display = "none";
-                }
-            });
-        }
-
-        // Show all raags initially
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".raag-box").forEach(raag => {
-                raag.style.display = "block";
-            });
-        });
-    </script>
 
 </body>
 </html>

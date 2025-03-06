@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raag Database</title>
+    <title>Taal Database</title>
     <style>
        /* Global Reset */
        * {
@@ -35,6 +35,47 @@
             flex-direction: column;
             min-height: 100vh;
             padding: 60px 20px 80px;
+        }
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: #d4af37;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
 
         /* Search Box */
@@ -97,36 +138,71 @@
     </style>
 </head>
 <body>
-    <h1>🎵 Indian Classical Raag Database</h1>
+    <h1>🎵 Indian Classical Taal Database</h1>
     <div class="search-box">
-        <input type="text" id="searchBar" placeholder="Search for a Raag..." onkeyup="searchRaag()">
+        <input type="text" id="searchBar" placeholder="Search for a Taal..." onkeyup="searchRaag()">
     </div>
 
 <div class="raag-container" id="raagList">
     <div class="raag-card" onclick="window.location.href='yaman.html'">
         <img src="images/raag1.jpg" alt="Raag Yaman">
-        <h2>Raag Yaman</h2>
-        <p>Evokes devotion and peace (Evening Raaga).</p>
+        <h2>Teentaal</h2>
+        <p>Versatile & Widely Used</p>
     </div>
     <div class="raag-card" onclick="window.location.href='raag-bhairav.html'">
         <img src="images/raag2.jpg" alt="Raag Bhairav">
-        <h2>Raag Bhairav</h2>
-        <p>Morning melody, serious and meditative.</p>
+        <h2>Dadra Taal</h2>
+        <p>Light & Rhythmic Flow</p>
     </div>
     <div class="raag-card" onclick="window.location.href='raag-bhairavi.html'">
         <img src="images/raag3.jpg" alt="Raag Bhairavi">
-        <h2>Raag Bhairavi</h2>
-        <p>Morning Raaga, brings tranquility.</p>
+        <h2>Kaharba Taal</h2>
+        <p>Energetic & Folk Based</p>
     </div>
     <div class="raag-card" onclick="window.location.href='raag-darbari.html'">
         <img src="images/raag4.jpg" alt="Raag Darbari">
-        <h2>Raag Darbari</h2>
-        <p>Late night, deep and emotional tone.</p>
+        <h2>Teora Taal</h2>
+        <p>Devotional & Spiritual</p>
     </div>
     <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
         <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Raag Malkauns</h2>
-        <p>Mystical and powerful (Midnight Raaga).</p>
+        <h2>Jhaaptaal</h2>
+        <p>Complex & Dynamic</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Ektaal</h2>
+        <p>Balanced & Steady</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Rupak Taal</h2>
+        <p>Unique & Asymmetrical</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Chautal Taal</h2>
+        <p>Traditional & Powerful</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Dhamaar Taal</h2>
+        <p>Festive & Expressive</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Sool Taal</h2>
+        <p>Structured & Traditional</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Ada Chautaal</h2>
+        <p>Balanced & Dynamic</p>
+    </div>
+    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
+        <img src="images/raag5.jpg" alt="Raag Malkauns">
+        <h2>Deepchandi Taal</h2>
+        <p>Graceful & Lyrical</p>
     </div>
 </div>
 
