@@ -156,6 +156,21 @@ a:hover {
     color: #d4af37; /* Optional: Change color on hover */
 }
 
+/* Search Box */
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    border: 2px solid #d4af37;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+
     </style>
 </head>
 <body>
@@ -173,6 +188,10 @@ a:hover {
         <h1>Classical Music Artists</h1>
     </header>
 
+    <h1 class="mt-6 text-center text-3xl font-bold">🎵 Indian Classical Musician</h1>
+    <div class="search-box text-center my-4">
+        <input type="text" id="searchBar" placeholder="Search for an Artists..." onkeyup="searchRaag()" class="px-4 py-2 border rounded-lg">
+    </div>
     
     
     <div class="container" id="artistContainer"></div>
@@ -183,6 +202,7 @@ a:hover {
     <footer>
         <p>&copy; 2025 Classical Music Archive. All Rights Reserved.</p>
     </footer>
+
 <script>
     const artists = [
         { name: "Tansen", img: "images/artist1.jpg", bio: "Legendary musician in Mughal court.", link: "tansen.html" },
@@ -204,12 +224,42 @@ a:hover {
         { name: "Anoushka Shankar", img: "images/artist17.jpg", bio: "Sitar artist.", link: "anoushka-shankar.html" },
         { name: "Girija Devi", img: "images/artist18.jpg", bio: "Thumri singer.", link: "girija-devi.html" },
         { name: "Shubha Mudgal", img: "images/artist19.jpg", bio: "Classical & fusion artist.", link: "shubha-mudgal.html" },
-        { name: "Rajan & Sajan Mishra", img: "images/artist20.jpg", bio: "Classical duo singers.", link: "rajan-sajan-mishra.html" }
-    ];
+        { name: "Rajan & Sajan Mishra", img: "images/artist20.jpg", bio: "Classical duo singers.", link: "rajan-sajan-mishra.html" },
+        { name: "Mallikarjun Mansur", img: "images/artist21.jpg", bio: "Hindustani classical vocalist.", link: "mallikarjun-mansur.html" },
+        { name: "Kesarbai Kerkar", img: "images/artist22.jpg", bio: "Legendary classical singer.", link: "kesarbai-kerkar.html" },
+        { name: "Bade Ghulam Ali Khan", img: "images/artist23.jpg", bio: "Patiala Gharana vocalist.", link: "bade-ghulam-ali-khan.html" },
+        { name: "D V Paluskar", img: "images/artist24.jpg", bio: "Hindustani vocalist.", link: "dv-paluskar.html" },
+        { name: "Sawai Gandharva", img: "images/artist25.jpg", bio: "Kirana Gharana maestro.", link: "sawai-gandharva.html" },
+        { name: "Ram Narayan", img: "images/artist26.jpg", bio: "Sarangi maestro.", link: "ram-narayan.html" },
+        { name: "T N Krishnan", img: "images/artist27.jpg", bio: "Carnatic violinist.", link: "tn-krishnan.html" },
+        { name: "V G Jog", img: "images/artist28.jpg", bio: "Hindustani violinist.", link: "vg-jog.html" },
+        { name: "Nikhil Banerjee", img: "images/artist29.jpg", bio: "Sitar maestro.", link: "nikhil-banerjee.html" },
+        { name: "Ronu Majumdar", img: "images/artist30.jpg", bio: "Flute virtuoso.", link: "ronu-majumdar.html" },
+        { name: "Siddheshwari Devi", img: "images/artist31.jpg", bio: "Thumri queen.", link: "siddheshwari-devi.html" },
+        { name: "Roshan Ara Begum", img: "images/artist32.jpg", bio: "Hindustani classical vocalist.", link: "roshan-ara-begum.html" },
+        { name: "Bhajan Sopori", img: "images/artist33.jpg", bio: "Santoor maestro.", link: "bhajan-sopori.html" },
+        { name: "S Balachander", img: "images/artist34.jpg", bio: "Veena virtuoso.", link: "s-balachander.html" },
+        { name: "Chitti Babu", img: "images/artist35.jpg", bio: "Renowned veena player.", link: "chitti-babu.html" },
+        { name: "T R Mahalingam", img: "images/artist36.jpg", bio: "Carnatic flautist.", link: "tr-mahalingam.html" },
+        { name: "Jasraj Joshi", img: "images/artist37.jpg", bio: "Hindustani vocalist.", link: "jasraj-joshi.html" },
+        { name: "Basavaraj Rajguru", img: "images/artist38.jpg", bio: "Kirana Gharana exponent.", link: "basavaraj-rajguru.html" },
+        { name: "G N Balasubramaniam", img: "images/artist39.jpg", bio: "Carnatic vocalist.", link: "gn-balasubramaniam.html" },
+        { name: "Madurai Mani Iyer", img: "images/artist40.jpg", bio: "Carnatic vocalist.", link: "madurai-mani-iyer.html" },
+        { name: "Palghat Mani Iyer", img: "images/artist41.jpg", bio: "Mridangam maestro.", link: "palghat-mani-iyer.html" },
+        { name: "M L Vasanthakumari", img: "images/artist42.jpg", bio: "Carnatic vocalist.", link: "ml-vasanthakumari.html" },
+        { name: "Pt. Ramashreya Jha", img: "images/artist43.jpg", bio: "Composer & musicologist.", link: "ramashreya-jha.html" },
+        { name: "Krishnarao Shankar Pandit", img: "images/artist44.jpg", bio: "Gwalior Gharana vocalist.", link: "krishnarao-pandit.html" },
+        { name: "Pt. Buddhadev Dasgupta", img: "images/artist45.jpg", bio: "Sarod maestro.", link: "buddhadev-dasgupta.html" },
+        { name: "Pt. Ajoy Chakrabarty", img: "images/artist46.jpg", bio: "Kirana Gharana exponent.", link: "ajoy-chakrabarty.html" },
+        { name: "Pt. Venkatesh Kumar", img: "images/artist47.jpg", bio: "Hindustani vocalist.", link: "venkatesh-kumar.html" },
+        { name: "Lalgudi Jayaraman", img: "images/artist48.jpg", bio: "Carnatic violinist.", link: "lalgudi-jayaraman.html" },
+        { name: "Pt. Gokulotsav Maharaj", img: "images/artist49.jpg", bio: "Hindustani classical vocalist.", link: "gokulotsav-maharaj.html" },
+        { name: "Pt. Dinkar Kaikini", img: "images/artist50.jpg", bio: "Composer & teacher.", link: "dinkar-kaikini.html" }
 
+    ];
     const artistContainer = document.getElementById("artistContainer");
     const loadMoreBtn = document.getElementById("loadMore");
-    let displayedArtists = 10;
+    let displayedArtists = 20;
 
     function displayArtists(count) {
         artistContainer.innerHTML = "";
@@ -244,3 +294,4 @@ a:hover {
 </script>
 </body>
 </html>
+

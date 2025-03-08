@@ -46,8 +46,8 @@ body {
 
 /* Raag Container */
 .raag-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     justify-content: center;
     gap: 20px;
     max-width: 800px;

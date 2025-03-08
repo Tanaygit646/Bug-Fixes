@@ -47,28 +47,91 @@
         <input type="text" id="searchBar" placeholder="Search for a Taal..." onkeyup="searchTaal()">
     </div>
 
-    <div class="raag-container" id="raagList">
-        <div class="raag-card" onclick="window.location.href='teentaal.html'">
-            <h2>Teentaal</h2>
-            <p>Versatile & Widely Used</p>
-        </div>
-        <div class="raag-card" onclick="window.location.href='dadra.html'">
-            <h2>Dadra Taal</h2>
-            <p>Light & Rhythmic Flow</p>
-        </div>
-        <div class="raag-card" onclick="window.location.href='kaharba.html'">
-            <h2>Kaharba Taal</h2>
-            <p>Energetic & Folk Based</p>
-        </div>
-        <div class="raag-card" onclick="window.location.href='jhaptaal.html'">
-            <h2>Jhaaptaal</h2>
-            <p>Complex & Dynamic</p>
-        </div>
-        <div class="raag-card" onclick="window.location.href='ektaal.html'">
-            <h2>Ektaal</h2>
-            <p>Balanced & Steady</p>
-        </div>
+    <div class="raag-container" id="taalList">
+        <script>
+            const taals = [
+                { name: "Teentaal", description: "Versatile & Widely Used (16 Beats)" },
+                { name: "Dadra", description: "Light & Rhythmic Flow (6 Beats)" },
+                { name: "Kaharba", description: "Energetic & Folk Based (8 Beats)" },
+                { name: "Jhaaptaal", description: "Complex & Dynamic (10 Beats)" },
+                { name: "Ektaal", description: "Balanced & Steady (12 Beats)" },
+                { name: "Dhamaar", description: "Majestic & Slow (14 Beats)" },
+                { name: "Sooltaal", description: "Traditional & Powerful (10 Beats)" },
+                { name: "Ada Chautaal", description: "Rare & Unique (14 Beats)" },
+                { name: "Deepchandi", description: "Slow & Graceful (14 Beats)" },
+                { name: "Rupak", description: "Smooth Flow (7 Beats)" },
+                { name: "Chautal", description: "Dhrupad Style (12 Beats)" },
+                { name: "Tilwada", description: "Slow & Graceful (16 Beats)" },
+                { name: "Jhumra", description: "Serene & Flowing (14 Beats)" },
+                { name: "Sankeerna", description: "Complex & Layered (17 Beats)" },
+                { name: "Matta", description: "Bigger Cycle (9 Beats)" },
+                { name: "Pancham Sawari", description: "Odd Rhythm (15 Beats)" },
+                { name: "Shikhar", description: "Rare & Unique (17 Beats)" },
+                { name: "Gaja Jhampa", description: "Unique & Flowing (15 Beats)" },
+                { name: "Basant", description: "Spring Festival Rhythm (16 Beats)" },
+                { name: "Dadra 6 Matra", description: "Short & Catchy (6 Beats)" },
+                { name: "Khemta", description: "Energetic & Upbeat (6 Beats)" },
+                { name: "Char Taal Ki Sawari", description: "Complex & Advanced (11 Beats)" },
+                { name: "Laxmi Taal", description: "Traditional & Flowing (18 Beats)" },
+                { name: "Nav Taal", description: "9 Beats of Magic (9 Beats)" },
+                { name: "Ganesh Taal", description: "Graceful & Rhythmic (21 Beats)" },
+                { name: "Bhairav Taal", description: "Serene & Deep (16 Beats)" },
+                { name: "Basant Mukhari", description: "Mystical & Energetic (16 Beats)" },
+                { name: "Megh Taal", description: "Monsoon & Soft Beats (12 Beats)" },
+                { name: "Mangal Taal", description: "Auspicious & Celebratory (12 Beats)" },
+                { name: "Simhanandini", description: "Majestic & Powerful (16 Beats)" },
+                { name: "Indra Taal", description: "Rare & Unique (19 Beats)" },
+                { name: "Brahma Taal", description: "Highly Complex (28 Beats)" },
+                { name: "Rudra Taal", description: "Intense & Strong (11 Beats)" },
+                { name: "Dash Taal", description: "Balanced & Divine (10 Beats)" },
+                { name: "Hans Taal", description: "Graceful & Flowing (12 Beats)" },
+                { name: "Anagha Taal", description: "Sacred & Spiritual (13 Beats)" },
+                { name: "Vishnu Taal", description: "Majestic & Balanced (18 Beats)" },
+                { name: "Yati Taal", description: "Dynamic & Progressive (14 Beats)" },
+                { name: "Venkatesh Taal", description: "Carnatic Influence (14 Beats)" },
+                { name: "Teentaal", description: "Versatile & Widely Used (16 Beats)" },
+                { name: "Dadra", description: "Light & Rhythmic Flow (6 Beats)" },
+                { name: "Kaharba", description: "Energetic & Folk Based (8 Beats)" },
+                { name: "Jhaptaal", description: "Complex & Dynamic (10 Beats)" },
+                { name: "Ektaal", description: "Balanced & Steady (12 Beats)" },
+                { name: "Dhamaar", description: "Majestic & Slow (14 Beats)" },
+                { name: "Sooltaal", description: "Traditional & Powerful (10 Beats)" },
+                { name: "Deepchandi", description: "Slow & Graceful (14 Beats)" },
+                { name: "Rupak", description: "Smooth Flow (7 Beats)" },
+                { name: "Chautaal", description: "Dhrupad Style (12 Beats)" },
+                { name: "Jhumra", description: "Serene and Flowing (14 Beats)" },
+                { name: "Matta Taal", description: "Bigger Cycle (9 Beats)" },
+                { name: "Pancham Sawari", description: "Odd Rhythm (15 Beats)" },
+                { name: "Shikhar Taal", description: "Grand & Complex (17 Beats)" },
+                { name: "Gaj Jhampa Taal", description: "Unique & Expressive (15 Beats)" },
+                { name: "Bhairavi Taal", description: "Devotional & Classical (16 Beats)" },
+                { name: "Indra Taal", description: "Rare & Unique (19 Beats)" },
+                { name: "Brahma Taal", description: "Highly Complex (28 Beats)" },
+                { name: "Rudra Taal", description: "Intense & Strong (11 Beats)" },
+                { name: "Nag Taal", description: "Serpentine & Complex (11 Beats)" },
+                { name: "Dhruva Tala", description: "Long Cycle (14 Beats)" },
+                { name: "Matya Tala", description: "Medium & Balanced (10 Beats)" },
+                { name: "Rupaka Tala", description: "Short & Rhythmic (6 Beats)" },
+                { name: "Jhampa Tala", description: "Unique Pattern (10 Beats)" },
+                { name: "Triputa Tala", description: "Steady Flow (7 Beats)" },
+                { name: "Ata Tala", description: "Used in Advanced Compositions (14 Beats)" },
+                { name: "Eka Tala", description: "Simple & Foundational (4 Beats)" },
+                { name: "Khanda Chapu Tala", description: "Common in Carnatic (5 Beats)" },
+                { name: "Misra Chapu Tala", description: "Widely Used (7 Beats)" },
+                { name: "Sankeerna Chapu Tala", description: "Rare & Intricate (9 Beats)" }
+            ];
+    
+            taals.forEach(taal => {
+                document.write(`
+                    <div class="raag-card" onclick="window.location.href='taal-${taal.name.toLowerCase().replace(' ', '-')}.html'">
+                        <h2>${taal.name} Taal</h2>
+                        <p>${taal.description}</p>
+                    </div>
+                `);
+            });
+        </script>
     </div>
+    
 
     <!-- Footer -->
     <footer>
