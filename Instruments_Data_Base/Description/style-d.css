@@ -74,13 +74,14 @@ body::before {
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
     border: 2px solid #d4af37;
-    text-align: left;
+    text-align: center;
 }
 
 .artist-image {
     width: 100%;
     max-height: 450px;
     object-fit: cover;
+    object-position: center; /* Centers the image */
     border-radius: 10px;
     border: 3px solid #d4af37;
 }
@@ -88,19 +89,29 @@ body::before {
 h1 {
     color: #d4af37;
     margin: 20px 0;
-    font-size: 32px;
+    font-size: 50px;
     text-align: center;
 }
-
 h2 {
     color: #f5e6c8;
     margin-top: 25px;
     font-size: 24px;
-    border-bottom: 2px solid #d4af37;
-    display: inline-block;
-    padding-bottom: 5px;
     text-align: center;
+    padding-bottom: 5px;
+    position: relative;
+    display: inline-block; /* Keeps width only as wide as text */
 }
+
+h2::after {
+    content: "";
+    display: block;
+    width: 100%; /* Controls the border width */
+    height: 5px;
+    background-color: #d4af37;
+    margin: auto; /* Centers the border */
+    margin-top: 5px; /* Adds space between text and border */
+}
+
 
 p {
     font-size: 18px;
