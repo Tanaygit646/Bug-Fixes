@@ -4,220 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taal Database</title>
+    <link rel="stylesheet" href="taals_style.css">
     <style>
-       /* Global Reset */
-       * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Serif Devanagari', serif;
-        }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            filter: blur(6px) brightness(50%);
-            z-index: -1;
-        }
-
-        body {
-            color: #f5e6c8;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            min-height: 100vh;
-            padding: 60px 20px 80px;
-        }
         /* Navbar */
-        .navbar {
+        nav {
+            width: 100%;
+            background-color: black;
+            opacity: 0.9;
+            padding: 15px 20px;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 12px 20px;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
-            z-index: 1000;
         }
 
-        .navbar .logo {
-            color: #d4af37;
-            font-size: 22px;
+        nav h1 {
+            color: yellow;
+            font-size: 24px;
             font-weight: bold;
-            text-decoration: none;
         }
 
-        .navbar .menu {
+        /* Desktop Menu */
+        .nav-links {
+            display: flex;
             list-style: none;
-            display: flex;
-        }
-
-        .navbar .menu li {
-            margin: 0 15px;
-        }
-
-        .navbar .menu li a {
-            color: #f5e6c8;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        .navbar .menu li a:hover {
-            color: #d4af37;
-        }
-
-        /* Search Box */
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        .search-box input {
-            padding: 10px;
-            font-size: 16px;
-            width: 300px;
-            border: 2px solid #d4af37;
-            border-radius: 5px;
-            outline: none;
-            text-align: center;
-        }
-
-        /* Raag Container */
-        .raag-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
             gap: 20px;
-            max-width: 800px;
         }
 
-        .raag-card {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #d4af37;
-            box-shadow: 0px 5px 15px rgba(212, 175, 55, 0.5);
-            width: 180px;
+        .nav-links li a {
+            color: yellow;
+            text-decoration: none;
+            font-size: 18px;
             transition: 0.3s;
         }
 
-        .raag-card:hover {
-            transform: scale(1.05);
+        .nav-links li a:hover {
+            color: orange;
         }
 
-        .raag-card img {
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: yellow;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            left: 0;
             width: 100%;
-            border-radius: 8px;
+            background-color: black;
+            padding: 15px 0;
         }
 
-        .raag-card h2 {
-            display: block;
-            color: #d4af37;
-            font-size: 18px;
+        .mobile-menu a {
+            color: yellow;
             text-decoration: none;
-            margin-top: 10px;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            font-size: 18px;
+            transition: 0.3s;
         }
 
-        .raag-card p {
-            font-size: 14px;
-            margin-top: 5px;
-            opacity: 0.8;
+        .mobile-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu.active {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <h1>AI Music Tool</h1>
+
+        <!-- Hamburger Icon -->
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+        <!-- Desktop Menu -->
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="analysis.html">Analysis</a></li>
+            <li><a href="simulation.html">Simulation</a></li>
+            <li><a href="synthesis.html">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+            <li><a href="Library/library.html">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+            <li><a href="Explore/explore.html">Explore</a></li>
+        </ul>
+
+        <!-- Mobile Menu -->
+        <ul id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html" onclick="closeMenu()">Home</a></li>
+            <li><a href="analysis.html" onclick="closeMenu()">Analysis</a></li>
+            <li><a href="simulation.html" onclick="closeMenu()">Simulation</a></li>
+            <li><a href="synthesis.html" onclick="closeMenu()">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html" onclick="closeMenu()">Instruments</a></li>
+            <li><a href="Library/library.html" onclick="closeMenu()">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html" onclick="closeMenu()">Artists</a></li>
+            <li><a href="Explore/explore.html" onclick="closeMenu()">Explore</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Content -->
     <h1>🎵 Indian Classical Taal Database</h1>
+
     <div class="search-box">
-        <input type="text" id="searchBar" placeholder="Search for a Taal..." onkeyup="searchRaag()">
+        <input type="text" id="searchBar" placeholder="Search for a Taal..." onkeyup="searchTaal()">
     </div>
 
-<div class="raag-container" id="raagList">
-    <div class="raag-card" onclick="window.location.href='yaman.html'">
-        <img src="images/raag1.jpg" alt="Raag Yaman">
-        <h2>Teentaal</h2>
-        <p>Versatile & Widely Used</p>
+    <div class="raag-container" id="raagList">
+        <div class="raag-card" onclick="window.location.href='teentaal.html'">
+            <img src="images/teentaal.jpg" alt="Teentaal - Versatile & Widely Used" loading="lazy">
+            <h2>Teentaal</h2>
+            <p>Versatile & Widely Used</p>
+        </div>
+        <div class="raag-card" onclick="window.location.href='dadra.html'">
+            <img src="images/dadra.jpg" alt="Dadra Taal - Light & Rhythmic Flow" loading="lazy">
+            <h2>Dadra Taal</h2>
+            <p>Light & Rhythmic Flow</p>
+        </div>
+        <div class="raag-card" onclick="window.location.href='kaharba.html'">
+            <img src="images/kaharba.jpg" alt="Kaharba Taal - Energetic & Folk Based" loading="lazy">
+            <h2>Kaharba Taal</h2>
+            <p>Energetic & Folk Based</p>
+        </div>
+        <div class="raag-card" onclick="window.location.href='jhaptaal.html'">
+            <img src="images/jhaptaal.jpg" alt="Jhaaptaal - Complex & Dynamic" loading="lazy">
+            <h2>Jhaaptaal</h2>
+            <p>Complex & Dynamic</p>
+        </div>
+        <div class="raag-card" onclick="window.location.href='ektaal.html'">
+            <img src="images/ektaal.jpg" alt="Ektaal - Balanced & Steady" loading="lazy">
+            <h2>Ektaal</h2>
+            <p>Balanced & Steady</p>
+        </div>
     </div>
-    <div class="raag-card" onclick="window.location.href='raag-bhairav.html'">
-        <img src="images/raag2.jpg" alt="Raag Bhairav">
-        <h2>Dadra Taal</h2>
-        <p>Light & Rhythmic Flow</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-bhairavi.html'">
-        <img src="images/raag3.jpg" alt="Raag Bhairavi">
-        <h2>Kaharba Taal</h2>
-        <p>Energetic & Folk Based</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-darbari.html'">
-        <img src="images/raag4.jpg" alt="Raag Darbari">
-        <h2>Teora Taal</h2>
-        <p>Devotional & Spiritual</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Jhaaptaal</h2>
-        <p>Complex & Dynamic</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Ektaal</h2>
-        <p>Balanced & Steady</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Rupak Taal</h2>
-        <p>Unique & Asymmetrical</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Chautal Taal</h2>
-        <p>Traditional & Powerful</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Dhamaar Taal</h2>
-        <p>Festive & Expressive</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Sool Taal</h2>
-        <p>Structured & Traditional</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Ada Chautaal</h2>
-        <p>Balanced & Dynamic</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Deepchandi Taal</h2>
-        <p>Graceful & Lyrical</p>
-    </div>
-</div>
 
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by Bugs & Fixes</p>
+        &copy; 2025 AI Music Tool. All rights reserved.
+    </footer>
 
-
-<script>
-    function searchRaag() {
-        let input = document.getElementById("searchBar").value.toLowerCase();
-        let cards = document.getElementsByClassName("raag-card");
-        
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
-            cards[i].style.display = title.includes(input) ? "block" : "none";
+    <!-- JavaScript -->
+    <script>
+        function toggleMenu() {
+            let menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("active");
         }
-    }
-</script>
+
+        function closeMenu() {
+            document.getElementById("mobileMenu").classList.remove("active");
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener("click", function(event) {
+            let menu = document.getElementById("mobileMenu");
+            let toggleButton = document.querySelector(".menu-toggle");
+            if (!menu.contains(event.target) && !toggleButton.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        function searchTaal() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let cards = document.getElementsByClassName("raag-card");
+
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+                let description = cards[i].getElementsByTagName("p")[0].innerText.toLowerCase();
+                cards[i].style.display = (title.includes(input) || description.includes(input)) ? "block" : "none";
+            }
+        }
+    </script>
+
 </body>
 </html>
