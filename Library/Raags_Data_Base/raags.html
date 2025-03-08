@@ -4,144 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raag Database</title>
+    <link rel="stylesheet" href="raags_style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-       /* Global Reset */
-       * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Serif Devanagari', serif;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('/Bug-Fixes/assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            filter: blur(6px) brightness(50%);
-            z-index: -1;
-        }
-
         body {
-            color: #f5e6c8;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            min-height: 100vh;
-            padding: 60px 20px 80px;
-        }
-
-        /* Search Box */
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        .search-box input {
-            padding: 10px;
-            font-size: 16px;
-            width: 300px;
-            border: 2px solid #d4af37;
-            border-radius: 5px;
-            outline: none;
-            text-align: center;
-        }
-
-        /* Raag Container */
-        .raag-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 800px;
-        }
-
-        .raag-card {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #d4af37;
-            box-shadow: 0px 5px 15px rgba(212, 175, 55, 0.5);
-            width: 180px;
-            transition: 0.3s;
-        }
-
-        .raag-card:hover {
-            transform: scale(1.05);
-        }
-
-        .raag-card img {
-            width: 100%;
-            border-radius: 8px;
-        }
-
-        .raag-card h2 {
-            display: block;
-            color: #d4af37;
-            font-size: 18px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .raag-card p {
-            font-size: 14px;
-            margin-top: 5px;
-            opacity: 0.8;
+            padding-top: 64px; /* Prevent navbar from overlapping content */
         }
     </style>
 </head>
 <body>
-    <h1>🎵 Indian Classical Raag Database</h1>
-    <div class="search-box">
-        <input type="text" id="searchBar" placeholder="Search for a Raag..." onkeyup="searchRaag()">
-    </div>
 
-<div class="raag-container" id="raagList">
-    <div class="raag-card" onclick="window.location.href='yaman.html'">
-        <img src="images/raag1.jpg" alt="Raag Yaman">
-        <h2>Raag Yaman</h2>
-        <p>Evokes devotion and peace (Evening Raaga).</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-bhairav.html'">
-        <img src="images/raag2.jpg" alt="Raag Bhairav">
-        <h2>Raag Bhairav</h2>
-        <p>Morning melody, serious and meditative.</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-bhairavi.html'">
-        <img src="images/raag3.jpg" alt="Raag Bhairavi">
-        <h2>Raag Bhairavi</h2>
-        <p>Morning Raaga, brings tranquility.</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-darbari.html'">
-        <img src="images/raag4.jpg" alt="Raag Darbari">
-        <h2>Raag Darbari</h2>
-        <p>Late night, deep and emotional tone.</p>
-    </div>
-    <div class="raag-card" onclick="window.location.href='raag-malkauns.html'">
-        <img src="images/raag5.jpg" alt="Raag Malkauns">
-        <h2>Raag Malkauns</h2>
-        <p>Mystical and powerful (Midnight Raaga).</p>
-    </div>
-</div>
-
-
-
-<script>
-    function searchRaag() {
-        let input = document.getElementById("searchBar").value.toLowerCase();
-        let cards = document.getElementsByClassName("raag-card");
+    <!-- Navigation Bar -->
+    <nav class="w-full bg-black bg-opacity-80 py-4 px-6 fixed top-0 left-0 z-50 flex justify-between items-center">
+        <h1 class="text-2xl text-yellow-300 font-bold">AI Music Tool</h1>
         
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
-            cards[i].style.display = title.includes(input) ? "block" : "none";
+        <!-- Hamburger Icon (Hidden on Large Screens) -->
+        <div class="md:hidden cursor-pointer text-yellow-300 text-3xl" onclick="toggleMenu()">
+            ☰
+        </div>
+
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="index.html" class="text-yellow-300 hover:text-yellow-500">Home</a></li>
+            <li><a href="analysis.html" class="text-yellow-300 hover:text-yellow-500">Analysis</a></li>
+            <li><a href="simulation.html" class="text-yellow-300 hover:text-yellow-500">Simulation</a></li>
+            <li><a href="synthesis.html" class="text-yellow-300 hover:text-yellow-500">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html" class="text-yellow-300 hover:text-yellow-500">Instruments</a></li>
+            <li><a href="Library/library.html" class="text-yellow-300 hover:text-yellow-500">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html" class="text-yellow-300 hover:text-yellow-500">Artists</a></li>
+            <li><a href="Explore/explore.html" class="text-yellow-300 hover:text-yellow-500">Explore</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu (Initially Hidden) -->
+    <ul id="mobileMenu" class="hidden flex flex-col absolute top-16 left-0 w-full bg-black bg-opacity-90 text-center p-4 md:hidden">
+        <li class="py-2"><a href="index.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Home</a></li>
+        <li class="py-2"><a href="analysis.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Analysis</a></li>
+        <li class="py-2"><a href="simulation.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Simulation</a></li>
+        <li class="py-2"><a href="synthesis.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Synthesis</a></li>
+        <li class="py-2"><a href="Instruments_Data_Base/instruments.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Instruments</a></li>
+        <li class="py-2"><a href="Library/library.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Library</a></li>
+        <li class="py-2"><a href="Artists_Data_Base/profiles.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Artists</a></li>
+        <li class="py-2"><a href="Explore/explore.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Explore</a></li>
+    </ul>
+
+    <h1 class="mt-6 text-center text-3xl font-bold">🎵 Indian Classical Raag Database</h1>
+    <div class="search-box text-center my-4">
+        <input type="text" id="searchBar" placeholder="Search for a Raag..." onkeyup="searchRaag()" class="px-4 py-2 border rounded-lg">
+    </div>
+
+    <div class="raag-container flex flex-wrap justify-center gap-6 p-6" id="raagList">
+        <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='yaman.html'">
+            <img src="images/raag1.jpg" alt="Raag Yaman" class="w-full rounded-lg">
+            <h2 class="text-xl font-bold mt-2">Raag Yaman</h2>
+            <p>Evokes devotion and peace (Evening Raaga).</p>
+        </div>
+        <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='raag-bhairav.html'">
+            <img src="images/raag2.jpg" alt="Raag Bhairav" class="w-full rounded-lg">
+            <h2 class="text-xl font-bold mt-2">Raag Bhairav</h2>
+            <p>Morning melody, serious and meditative.</p>
+        </div>
+        <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='raag-bhairavi.html'">
+            <img src="images/raag3.jpg" alt="Raag Bhairavi" class="w-full rounded-lg">
+            <h2 class="text-xl font-bold mt-2">Raag Bhairavi</h2>
+            <p>Morning Raaga, brings tranquility.</p>
+        </div>
+        <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='raag-darbari.html'">
+            <img src="images/raag4.jpg" alt="Raag Darbari" class="w-full rounded-lg">
+            <h2 class="text-xl font-bold mt-2">Raag Darbari</h2>
+            <p>Late night, deep and emotional tone.</p>
+        </div>
+        <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='raag-malkauns.html'">
+            <img src="images/raag5.jpg" alt="Raag Malkauns" class="w-full rounded-lg">
+            <h2 class="text-xl font-bold mt-2">Raag Malkauns</h2>
+            <p>Mystical and powerful (Midnight Raaga).</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by Bugs & Fixes</p>
+        &copy; 2025 AI Music Tool. All rights reserved.
+    </footer>
+
+    <script>
+        function searchRaag() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let cards = document.getElementsByClassName("raag-card");
+            
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+                cards[i].style.display = title.includes(input) ? "block" : "none";
+            }
         }
-    }
-</script>
+
+        function toggleMenu() {
+            let menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("hidden");
+        }
+
+        function closeMenu() {
+            document.getElementById("mobileMenu").classList.add("hidden");
+        }
+    </script>
+
 </body>
 </html>
