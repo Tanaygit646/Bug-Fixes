@@ -44,4 +44,4 @@ npm run dev #development mode
 
 ### Congrats! Your server will be running at port `6001` i.e, `http://localhost:6001`.
 
-## [IMPORTANT] To stop the server which is already running, press `Ctrl+C`. Do this to avoid unexpected errors.
+## [IMPORTANT] To stop the server which is already running, press `Ctrl+C` in the terminal. Do this to avoid unexpected errors.
