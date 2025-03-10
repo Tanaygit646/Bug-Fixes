@@ -7,8 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
+      rel="google-fonts"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"
+    ></script>
+
     <style>
       * {
         margin: 0;
@@ -129,7 +138,7 @@
 
       input {
         padding: 12px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(2, 1, 1, 0.1);
         border: 2px solid #d4af37;
         border-radius: 8px;
         width: 100%;
@@ -178,6 +187,28 @@
         padding: 10px 0;
         font-size: 14px;
       }
+
+      /* Shoelace customizations */
+      sl-textarea::part(base):focus-within {
+        border-color: #d4af37;
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.5);
+      }
+
+      sl-textarea::part(base) {
+        background: transparent; /* Makes the background transparent */
+        border: 1px solid #313131; /* Optional: Keep a visible border */
+      }
+
+      sl-textarea::part(textarea) {
+        background: transparent; /* Makes the text input area transparent */
+        color: white; /* Ensures text remains visible */
+      }
+
+      sl-details::part(base) {
+        background-color: rgba(0, 0, 0, 0);
+        border: 1px solid #313131;
+        margin: 5px 0px;
+      }
     </style>
   </head>
   <body>
@@ -196,7 +227,20 @@
         Experience the divine transformation of classical Raagas through
         AI-powered synthesis.
       </p>
-      <input type="file" id="musicFile" accept="audio/*" />
+      <sl-textarea
+        placeholder="Tell us about the music you want"
+        maxlength="150"
+        required
+      ></sl-textarea>
+      <sl-details summary="Advanced" class="custom-icons">
+        <sl-icon name="chevron-down" slot="expand-icon"></sl-icon>
+        <sl-icon name="chevron-left" slot="collapse-icon"></sl-icon>
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+      </sl-details>
       <button onclick="synthesizeMusic()">🎼 Synthesize Music</button>
       <div class="result" id="synthesisResult">
         <h2>🔊 Generated Music</h2>
