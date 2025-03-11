@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription - AI Music Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Noto Serif Devanagari', serif;
+            background: url('assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #e8c07d;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glow:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8 text-white relative">
+
+    <h1 class="text-5xl font-extrabold text-yellow-300 mb-6 fade-in">🎵 Choose Your Plan</h1>
+    <p class="text-lg text-yellow-200 mb-8 text-center max-w-2xl fade-in">Unlock exclusive AI-powered features to enhance your Indian Classical Music experience.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in relative">
+        <!-- Basic Plan -->
+        <div class="p-8 bg-yellow-900 bg-opacity-30 rounded-xl shadow-2xl text-center border-2 border-yellow-500 transform hover:scale-105 transition duration-300 glow">
+            <h2 class="text-3xl font-semibold text-yellow-300">🎶 Basic Plan</h2>
+            <p class="mt-4 text-yellow-200">✔ Free access to fundamental features</p>
+            <p class="mt-2 text-yellow-200">✔ Limited AI Music Analysis</p>
+            <p class="mt-2 text-yellow-200">✔ Community Support</p>
+            <p class="text-2xl font-bold text-yellow-400 mt-6">₹0 / month</p>
+            <button onclick="location.href='index.html'" class="mt-6 px-6 py-3 bg-green-600 rounded-lg hover:bg-green-700 transition">Get Started</button>
+        </div>
+
+        <!-- Premium Plan -->
+        <div class="p-8 bg-yellow-800 bg-opacity-50 rounded-xl shadow-2xl text-center border-2 border-yellow-400 transform hover:scale-105 transition duration-300 glow">
+            <h2 class="text-3xl font-semibold text-yellow-300">🎼 Premium Plan</h2>
+            <p class="mt-4 text-yellow-200">✔ Advanced AI Music Analysis</p>
+            <p class="mt-2 text-yellow-200">✔ Raaga & Taal Recognition</p>
+            <p class="mt-2 text-yellow-200">✔ Unlimited Access to AI Synthesis</p>
+            <p class="mt-2 text-yellow-200">✔ Priority Community Support</p>
+            <p class="text-2xl font-bold text-yellow-400 mt-6">₹499 / month</p>
+            <button onclick="location.href='login.html'" class="mt-6 px-6 py-3 bg-red-600 rounded-lg hover:bg-red-700 transition">Subscribe</button>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="p-8 bg-yellow-700 bg-opacity-70 rounded-xl shadow-2xl text-center border-2 border-yellow-300 transform hover:scale-105 transition duration-300 glow">
+            <h2 class="text-3xl font-semibold text-yellow-300">🎧 Pro Plan</h2>
+            <p class="mt-4 text-yellow-200">✔ All Premium Features</p>
+            <p class="mt-2 text-yellow-200">✔ Real-time Music Transcription</p>
+            <p class="mt-2 text-yellow-200">✔ Access to Exclusive AI-Generated Music</p>
+            <p class="mt-2 text-yellow-200">✔ Dedicated 24/7 Support</p>
+            <p class="text-2xl font-bold text-yellow-400 mt-6">₹999 / month</p>
+            <button onclick="location.href='login.html'" class="mt-6 px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition">Subscribe</button>
+        </div>
+    </div>
+
+    <footer class="mt-12 text-center text-sm text-yellow-300 fade-in">
+        &copy; 2025 AI Music Tool. All rights reserved.
+    </footer>
+
+</body>
+</html>
