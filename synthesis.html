@@ -7,8 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
+      rel="google-fonts"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"
+    ></script>
+
     <style>
       * {
         margin: 0;
@@ -129,7 +138,7 @@
 
       input {
         padding: 12px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(2, 1, 1, 0.1);
         border: 2px solid #d4af37;
         border-radius: 8px;
         width: 100%;
@@ -178,6 +187,83 @@
         padding: 10px 0;
         font-size: 14px;
       }
+
+      /* Shoelace customizations */
+      sl-textarea::part(base):focus-within {
+        border-color: #d4af37;
+        box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.5);
+      }
+
+      sl-textarea::part(base) {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid #313131;
+      }
+
+      sl-textarea::part(textarea) {
+        background: transparent;
+        color: white;
+      }
+
+      sl-details::part(base) {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid #313131;
+        margin: 5px 0px;
+      }
+
+      .label-on-left {
+        --label-width: 3.75rem;
+        --gap-width: 1rem;
+      }
+
+      .label-on-left + .label-on-left {
+        margin-top: var(--sl-spacing-medium);
+      }
+
+      .label-on-left::part(form-control) {
+        display: grid;
+        grid: auto / var(--label-width) 1fr;
+        gap: var(--sl-spacing-3x-small) var(--gap-width);
+        align-items: center;
+      }
+
+      .label-on-left::part(form-control-label) {
+        text-align: right;
+      }
+
+      .label-on-left::part(form-control-help-text) {
+        grid-column-start: 2;
+      }
+
+      sl-input::part(base):focus-within {
+        border-color: #d4af37;
+        box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.5);
+      }
+
+      sl-input::part(base) {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        border: 1px solid #313131;
+        padding: 5px;
+      }
+
+      sl-input::part(input) {
+        background: transparent;
+        color: white;
+        padding-bottom: 10px;
+      }
+      .hidden {
+        display: none;
+      }
+
+      h4 {
+        margin-top: 10px;
+        color: #ff0000;
+      }
+
+      .error-border {
+        border: 2px solid red !important;
+        border-radius: 0.25em;
+      }
     </style>
   </head>
   <body>
@@ -196,7 +282,34 @@
         Experience the divine transformation of classical Raagas through
         AI-powered synthesis.
       </p>
-      <input type="file" id="musicFile" accept="audio/*" />
+      <sl-textarea
+        placeholder="Tell us about the music you want (for example, '30 seconds of spiritual indian classical music')"
+        maxlength="150"
+        id="prompt"
+        required
+      ></sl-textarea>
+      <sl-details summary="ADVANCED OPTIONS" class="custom-icons">
+        <sl-icon name="chevron-down" slot="expand-icon"></sl-icon>
+        <sl-icon name="chevron-left" slot="collapse-icon"></sl-icon>
+
+        <sl-input
+          class="label-on-left"
+          label="Duration"
+          placeholder="seconds"
+          type="number"
+          id="duration"
+        ></sl-input>
+        <sl-input class="label-on-left" label="Genre" id="genre"></sl-input>
+        <sl-input class="label-on-left" label="Mood" id="mood"></sl-input>
+        <sl-input
+          class="label-on-left"
+          label="Tempo"
+          type="number"
+          id="tempo"
+          placeholder="BPM (beats per minute)"
+        ></sl-input>
+      </sl-details>
+      <h4 class="hidden" id="warning">Input Required!</h4>
       <button onclick="synthesizeMusic()">🎼 Synthesize Music</button>
       <div class="result" id="synthesisResult">
         <h2>🔊 Generated Music</h2>
