@@ -18,7 +18,7 @@ async function createTrack(requestData) {
             headers: { Authorization: `Bearer ${API_TOKEN}`, "Content-Type": "application/json" },
         });
 
-        console.log("Track created successfully:", response.data.tracks);
+        // console.log("Track created successfully:", response.data.tracks);
         return response.data; //returns a list[]
     } catch (error) {
         console.log(error);
@@ -51,7 +51,7 @@ async function getTrackStatus(task_id) {
         });
 
         if (response.status === 200) {
-            console.log(response.data);
+            // console.log(response.data);
             return response.data;
         } else {
             throw new Error(JSON.stringify({ error: "Composition failed" }));
@@ -76,6 +76,8 @@ async function handleTrackFile(trackPath, trackUrl) {
     }
 }
 
+
+
 async function watchTaskStatus(task_id, interval = 10000) { //interval in milliseconds
     while (true) {
         const trackStatus = await getTrackStatus(task_id);
@@ -94,14 +96,19 @@ async function watchTaskStatus(task_id, interval = 10000) { //interval in millis
 
 
 // Example usage:
-export default async function createAndCompose(duration = 30000, genre = "lo-fi", mood = "happy", tempo = "medium") {
-    const trackMeta = {
-        prompt: { text: "30 seconds happy lo-fi track" },
-        duration: duration,
-        genre: genre,
-        mood: mood,
-        tempo: tempo,
-    };
+export default async function createAndCompose(trackMeta) {
+    // duration = duration ?? 30000;
+    // genre = genre ?? "indian classical music";
+    // mood = mood ?? "spiritual";
+    // tempo = tempo ?? "80 BPM";
+
+    // const trackMeta = {
+    //     prompt: { text: prompt },
+    //     duration: duration,
+    //     genre: genre,
+    //     mood: mood,
+    //     tempo: tempo,
+    // };
 
     try {
         const trackObj = await createTrack(trackMeta);
@@ -112,7 +119,7 @@ export default async function createAndCompose(duration = 30000, genre = "lo-fi"
         }
 
         const trackId = trackObj.tracks[0];
-        console.log(`Created track with ID: ${trackId}`);
+        // console.log(`Created track with ID: ${trackId}`);
 
         const composeRes = await composeTrack(trackMeta, trackId);
 
@@ -120,11 +127,11 @@ export default async function createAndCompose(duration = 30000, genre = "lo-fi"
         if (!composeRes || !composeRes.task_id) {
             throw new Error("Failed to compose track: Invalid response from composeTrack");
         }
-        const taskId = 'daa56511-6319-453c-860b-f51c4ce70954_1';    //composeRes.task_id || 
-        console.log(`Started composition task with ID: ${taskId}`);
+        const taskId = composeRes.task_id;
+        // console.log(`Started composition task with ID: ${taskId}`);
 
         const generationMeta = await watchTaskStatus(taskId);
-        console.log(generationMeta);
+        // console.log(generationMeta);
 
         // Check if generationMeta, meta, and track_url exist
         if (!generationMeta || !generationMeta.meta || !generationMeta.meta.track_url) {
@@ -132,10 +139,13 @@ export default async function createAndCompose(duration = 30000, genre = "lo-fi"
         }
 
         const trackUrl = generationMeta.meta.track_url;
-        console.log("Downloading track file");
+        return trackUrl;
+        // console.log("Downloading track file");
+
+        // Uncomment this to download the track
         const composedTrackPath = path.join(trackPath, "composed_track.mp3");
         await handleTrackFile(composedTrackPath, trackUrl);
-        console.log("Composed! you can find your track as `composed_track.mp3`");
+        // console.log("Composed! you can find your track as `composed_track.mp3`");
 
     } catch (error) {
         console.error("An error occurred:", error.message);
@@ -143,4 +153,13 @@ export default async function createAndCompose(duration = 30000, genre = "lo-fi"
     }
 }
 
-createAndCompose();
+// const demoMeta = {
+//     prompt: { text: "Indian classical music, a beautiful and soothing melody" },
+//     duration: 30000,
+//     genre: "indian classical music",
+//     mood: "spiritual",
+//     tempo: "80 BPM",
+// }
+
+// const url = await createAndCompose(demoMeta);
+// console.log(url);

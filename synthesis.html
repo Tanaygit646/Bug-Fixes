@@ -105,10 +105,19 @@
 
       .result {
         margin-top: 20px;
-        padding: 15px;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(49, 49, 49, 0.25);
         border-radius: 10px;
-        display: none;
+        border: 1px solid #313131;
+        box-shadow: 0 0 3px #d4af37;
+      }
+
+      .result > h2 {
+        margin: 10px 0;
+      }
+
+      audio {
+        filter: invert(1) grayscale(100%) brightness(0.75);
+        width: 90%;
       }
 
       @keyframes fadeIn {
@@ -251,8 +260,14 @@
         color: white;
         padding-bottom: 10px;
       }
-      .hidden {
-        display: none;
+
+      #generating {
+        display: flex;
+        align-items: center;
+        margin: 5px 10px 0 10px;
+        justify-content: space-between;
+        border-top: #d4af37 1px solid;
+        padding-top: 15px;
       }
 
       h4 {
@@ -263,6 +278,10 @@
       .error-border {
         border: 2px solid red !important;
         border-radius: 0.25em;
+      }
+
+      .hidden {
+        display: none;
       }
     </style>
   </head>
@@ -282,13 +301,22 @@
         Experience the divine transformation of classical Raagas through
         AI-powered synthesis.
       </p>
+
+      <!-- prompt -->
       <sl-textarea
         placeholder="Tell us about the music you want (for example, '30 seconds of spiritual indian classical music')"
         maxlength="150"
         id="prompt"
+        class=""
         required
       ></sl-textarea>
-      <sl-details summary="ADVANCED OPTIONS" class="custom-icons">
+
+      <!-- advanced options -->
+      <sl-details
+        summary="ADVANCED OPTIONS"
+        id="advancedOptions"
+        class="custom-icons"
+      >
         <sl-icon name="chevron-down" slot="expand-icon"></sl-icon>
         <sl-icon name="chevron-left" slot="collapse-icon"></sl-icon>
 
@@ -309,14 +337,33 @@
           placeholder="BPM (beats per minute)"
         ></sl-input>
       </sl-details>
+
+      <!-- error message -->
       <h4 class="hidden" id="warning">Input Required!</h4>
-      <button onclick="synthesizeMusic()">🎼 Synthesize Music</button>
-      <div class="result" id="synthesisResult">
-        <h2>🔊 Generated Music</h2>
-        <audio id="synthesizedAudio" controls></audio>
+
+      <!-- generating music -->
+      <div style="display: none" id="generating">
+        <h2>⏳ Generating Music...(it takes around 20 seconds)</h2>
+        <sl-spinner
+          style="
+            font-size: 2rem;
+            --track-width: 5px;
+            --indicator-color: #ff5733;
+            --track-color: #d4af37;
+          "
+        ></sl-spinner>
       </div>
+
+      <!-- result -->
+      <div class="result hidden" id="synthesisResult">
+        <h2>Generated Music</h2>
+        <audio id="generatedMusic" controls></audio>
+      </div>
+
+      <!-- submit button -->
+      <button id="synthesizeBtn">🎼 Synthesize Music</button>
     </div>
     <footer class="footer">&copy; 2025 AI Music. All rights reserved.</footer>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
