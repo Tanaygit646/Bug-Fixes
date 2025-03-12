@@ -58,11 +58,9 @@ synthesizeMusicBtn.addEventListener('click', async () => {
         const audioElement = document.getElementById("generatedMusic");
         audioElement.src = data.trackUrl;
 
+        hide(generating);
+        synthesisResult.classList.remove("hidden");
 
-        setTimeout(() => {
-            hide(generating);
-            synthesisResult.classList.remove("hidden");
-        }, 15000)
 
 
     } catch (error) {
