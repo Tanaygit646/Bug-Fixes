@@ -28,9 +28,9 @@ synthesizeMusicBtn.addEventListener('click', async () => {
         tempo: `${tempo.value || 80} BPM`
     }
 
-    console.log(trackMeta);
+    // console.log(trackMeta);
     const baseUrl = `http://localhost:6001/synthesis`
-    console.log(baseUrl)
+    // console.log(baseUrl)
 
     try {
         prompt.classList.add("hidden");
@@ -50,10 +50,10 @@ synthesizeMusicBtn.addEventListener('click', async () => {
         )
 
         if (!response.ok) throw new Error("Failed to generate music");
-        console.log(response);
+        // console.log(response);
 
         const data = await response.json();
-        console.log("Music generated:", data);
+        // console.log("Music generated:", data);
 
         const audioElement = document.getElementById("generatedMusic");
         audioElement.src = data.trackUrl;
