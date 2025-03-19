@@ -1,255 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI-Powered Music Analysis</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
+      rel="google-fonts"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"
+    ></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
 
-        body {
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5e6c8;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            position: relative;
-        }
+      body {
+        background: url("assets/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: #f5e6c8;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: relative;
+      }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
-        }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: -1;
+      }
 
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
-            z-index: 1000;
-        }
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+        z-index: 1000;
+      }
 
-        .navbar .logo {
-            color: #d4af37;
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-        }
+      .navbar .logo {
+        color: #d4af37;
+        font-size: 22px;
+        font-weight: bold;
+        text-decoration: none;
+      }
 
-        .navbar .menu {
-            list-style: none;
-            display: flex;
-        }
+      .navbar .menu {
+        list-style: none;
+        display: flex;
+      }
 
-        .navbar .menu li {
-            margin: 0 15px;
-        }
+      .navbar .menu li {
+        margin: 0 15px;
+      }
 
-        .navbar .menu li a {
-            color: #f5e6c8;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
-        }
+      .navbar .menu li a {
+        color: #f5e6c8;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+      }
 
-        .navbar .menu li a:hover {
-            color: #d4af37;
-        }
+      .navbar .menu li a:hover {
+        color: #d4af37;
+      }
 
-        .container {
-            max-width: 600px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
-            border: 3px solid #d4af37;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+      .container {
+        max-width: 600px;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+        border: 3px solid #d4af37;
+        animation: fadeIn 0.5s ease-in-out;
+      }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+      h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-        p {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 10px;
-        }
+      p {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 10px;
+      }
 
-        input {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #d4af37;
-            border-radius: 8px;
-            width: 100%;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-        }
+      input {
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #d4af37;
+        border-radius: 8px;
+        width: 100%;
+        color: #fff;
+        font-size: 16px;
+        outline: none;
+      }
 
-        button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            font-size: 18px;
-            background: linear-gradient(90deg, #ff5733, #d4af37);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s ease-in-out;
-        }
+      button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 18px;
+        background: linear-gradient(90deg, #ff5733, #d4af37);
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s ease-in-out;
+      }
 
-        button:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
+      button:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+      }
 
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            display: none;
-            transition: all 0.3s ease-in-out;
-        }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid #313131;
+        box-shadow: 0 0 3px #d4af37;
+      }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #d4af37;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+      .result > h2 {
+        font-size: 25px;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
 
-        .back-link:hover {
-            text-decoration: underline;
-            color: #ff5733;
-        }
-        /* Blurred Background */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            filter: blur(8px) brightness(50%);
-            z-index: -1;
-        }
+      .result > p {
+        font-size: 16px;
+      }
 
-        /* Footer */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            color: #d4af37;
-            box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
-        }
+      .back-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+      }
 
-        .footer a {
-            color: #f5e6c8;
-            text-decoration: none;
-            margin: 0 8px;
-            transition: 0.3s;
-        }
+      .back-link:hover {
+        text-decoration: underline;
+        color: #ff5733;
+      }
+      /* Blurred Background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("assets/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        filter: blur(8px) brightness(50%);
+        z-index: -1;
+      }
 
-        .footer a:hover {
-            color: #d4af37;
-        }
+      /* Footer */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #d4af37;
+        box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
+      }
 
-        /* Smooth fade-in effect */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+      .footer a {
+        color: #f5e6c8;
+        text-decoration: none;
+        margin: 0 8px;
+        transition: 0.3s;
+      }
+
+      .footer a:hover {
+        color: #d4af37;
+      }
+
+      /* Smooth fade-in effect */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #analyzing {
+        display: flex;
+        align-items: center;
+        margin: 5px 10px 0 10px;
+        justify-content: space-between;
+        border-top: #d4af37 1px solid;
+        padding-top: 15px;
+      }
+
+      .hidden {
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar">
-        <a href="#" class="logo">AI Music</a>
-        <ul class="menu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+      <a href="#" class="logo">AI Music</a>
+      <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </nav>
     <div class="container">
-        <h1>🎵 AI-Powered Music Analysis</h1>
-        <p>Upload an Indian classical music file to analyze its Raaga, Taal, and emotional expression.</p>
+      <h1>🎵 AI-Powered Music Analysis</h1>
+      <p>
+        Upload an Indian classical music file to analyze its Raaga, Taal, and
+        emotional expression.
+      </p>
+      <input class="" type="file" id="musicFile" accept="audio/*" />
+      <button class="" id="analyzeBtn">🎶 Start the Analysis</button>
 
-        <input type="file" id="musicFile" accept="audio/*">
-        <button onclick="analyzeMusic()">🎶 Start the Analysis</button>
+      <!-- analyzing music -->
+      <div style="display: none" id="analyzing">
+        <h2 id="loading">Uploading...</h2>
+        <sl-spinner
+          style="
+            font-size: 2rem;
+            --track-width: 5px;
+            --indicator-color: #ff5733;
+            --track-color: #d4af37;
+          "
+        ></sl-spinner>
+      </div>
 
-        <div class="result" id="analysisResult">
-            <h2>🔍 Analysis Results</h2>
-            <p id="ragaResult"></p>
-            <p id="emotionResult"></p>
-            <p id="taalResult"></p>
-        </div>
+      <div class="result hidden" id="analysisResult">
+        <h2>🔍 Analysis Results</h2>
+        <p id="ragaResult"></p>
+        <p id="emotionResult"></p>
+        <p id="taalResult"></p>
+      </div>
 
-        <a href="index.html" class="back-link">⬅ Back to Home</a>
+      <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
     <div class="footer">
-        © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
+      © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms & Conditions</a>
     </div>
-    
-    <script>
-        function analyzeMusic() {
-            const fileInput = document.getElementById("musicFile");
-            const resultDiv = document.getElementById("analysisResult");
 
-            if (!fileInput.files.length) {
-                alert("Please upload a valid audio file.");
-                return;
-            }
-
-            resultDiv.style.display = "block";
-            setTimeout(() => {
-                document.getElementById("ragaResult").innerHTML = "✅ Raaga: Bhairavi";
-                document.getElementById("emotionResult").innerHTML = "🧠 Emotion: Devotion & Compassion";
-                document.getElementById("taalResult").innerHTML = "📊 Taal: Teen Taal (120 BPM)";
-            }, 3000);
-        }
-    </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

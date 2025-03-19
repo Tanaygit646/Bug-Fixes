@@ -11,7 +11,6 @@ export const staticFiles = path.join(__dirname, '..');
 
 app.use(cors());
 app.use(express.static(staticFiles));
-app.use(express.json());
 
 
 export default app;
