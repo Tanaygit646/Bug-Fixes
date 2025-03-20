@@ -1,0 +1,219 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=EB+Garamond:wght@500&display=swap');
+
+/* Background Blur */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(6px) brightness(50%);
+    z-index: -1;
+}
+
+/* Ancient Font Style */
+body {
+    font-family: 'Noto Serif Devanagari', serif;
+    color: #e8c07d; /* Golden shade */
+}
+
+.ornamental-border {
+    border: 2px solid #d4af37;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(212, 175, 55, 0.5);
+}
+
+h1, h2 {
+    text-shadow: 2px 2px 10px rgba(255, 255, 0, 0.7);
+}
+
+footer {
+    position: flex;
+    height: 300px;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    width: 110%;
+    background: rgb(0, 0, 0);
+    color: #e8c07d;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+/* Fancy Section Header */
+h3 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #222;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, hsla(66, 100%, 50%, 0.938), #ffea00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+
+
+/* Team Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted for better responsiveness */
+    gap: 20px; /* More spacing between cards */
+    justify-items: center;
+    padding-top: 80px; /* Prevents overlap with navbar */
+}
+
+/* Team Card - Glassmorphism */
+.bg-white {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1000px) rotateY(0deg); /* Fixed */
+    width: 320px;
+    max-width: 100%;
+    z-index: 10; /* Increased so it stays above other elements */
+    text-align: center;
+}
+
+/* Navbar - Ensure it Stays on Top */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    z-index: 1000; /* Ensures navbar is always on top */
+}
+
+
+
+/* Team Image */
+.team-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: transform 0.3s ease-in-out;
+}
+/* Floating Image Effect */
+.rounded-full {
+    border: 4px solid #fdfdff;
+    transition: transform 0.4s ease-in-out;
+    filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.2));
+}
+
+.rounded-full:hover {
+    transform: translateY(-10px) rotate(360deg) scale(2.5);
+    filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Social Media Icons */
+.text-2xl i {
+    margin: 8px;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.text-2xl i:hover {
+    transform: scale(1.5) rotate(-360deg);
+    color:#0;
+}
+
+/* Name Styling */
+.team-card h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: hsl(0, 75%, 5%);
+}
+
+/* Name Hover Animation - Scale & Glow */
+.team-card:hover h4 {
+    transform: scale(1.5);
+    color: #ffcc00; /* Gold effect on hover */
+    text-shadow: 0px 0px 10px rgba(56, 0, 239, 0.8);
+}
+
+/* Role Styling */
+.team-card p {
+    font-size: 16px;
+    color: rgba(20, 19, 19, 0.8);
+    transition: opacity 0.3s ease-in-out, transform 0.4s ease-in-out;
+    opacity: 0.9;
+}
+
+/* Role Hover Animation - Fade & Slide */
+.team-card:hover p {
+    opacity: 1;
+    transform: translateY(-5px);
+    color: #00ffcc; /* Cyan glow effect */
+    text-shadow: 0px 0px 10px rgba(0, 255, 204, 0.8);
+}
+
+/* Hover Glow Animation */
+@keyframes glow {
+    0% { box-shadow: 0px 0px 5px rgba(0, 0, 255, 0.1); }
+    50% { box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.3); }
+    100% { box-shadow: 0px 0px 5px rgba(0, 0, 255, 0.1); }
+}
+
+.bg-white:hover {
+    animation: glow 1s infinite alternate;
+}
+
+
+body {
+    font-family: 'Noto Serif Devanagari', serif;
+    background: url('assets/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #e8c07d;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glow:hover {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    transition: box-shadow 0.3s ease-in-out;
+}
