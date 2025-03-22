@@ -1,0 +1,261 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=EB+Garamond:wght@500&display=swap');
+
+
+/* Background Blur */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(6px) brightness(50%);
+    z-index: -1;
+}
+
+/* Ancient Font Style */
+body {
+    font-family: 'Noto Serif Devanagari', serif;
+    color: #e8c07d; /* Golden shade */
+}
+
+
+/* General Styling */
+.container {
+    max-width: 800px;
+    margin:  auto;
+    padding: 100px;
+}
+
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding-top: 80px;
+}
+
+
+
+/* Developer Card - Rectangular */
+.card {
+    display: flex;
+    align-items: center;
+    background: beige;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    width: 1000px;
+    height: 300px;
+    gap: 50px;
+    text-align: left;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 6px 6px 20px rgba(232, 192, 125, 0.4);
+    border-color: rgba(232, 192, 125, 0.5);
+}
+
+
+/* Image Section - Square */
+.card-img img {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    border: 3px solid #e8c07d;
+    transition: transform 0.3s ease-in-out;
+    object-fit: cover;
+}
+.card-img img:hover {
+    transform: scale(1.1);
+}
+
+/* Card Content */
+.card-content {
+    flex: 1;
+}
+
+.card-content h3 {
+    color: #000000;
+    text-align: justify;
+    font-size: 2.0rem;
+    margin-bottom: 5px;
+    transition: color 0.3s ease-in-out;
+}
+
+.card-content h3:hover {
+    color: #ffdd95;
+}
+
+.role {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+/* Social Links Styling */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.social-links a {
+    font-size: 2rem;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+}
+
+/* Specific Colors for Icons */
+.social-links a[href*="linkedin"] {
+    color: #0077b5;
+}
+
+.social-links a[href*="linkedin"]:hover {
+    color: #0a65a6;
+}
+
+.social-links a[href*="twitter"],
+.social-links a[href*="x.com"] {
+    color: #101010;
+}
+
+.social-links a[href*="twitter"]:hover,
+.social-links a[href*="x.com"]:hover {
+    color: #000000;
+}
+
+.social-links a[href*="github"] {
+    color: #333;
+}
+
+.social-links a[href*="github"]:hover {
+    color: #000;
+}
+
+/* Button Styling */
+.card-buttons {
+    margin-top: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 15px;
+    margin: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: unset;
+    text-decoration: none;
+    color: #000000;
+    background: #ff0000;
+    border-radius: 40px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background: #66c8da;
+    transform: scale(1.05);
+}
+
+
+
+
+
+/* Ornamental Border with Glow Effect */
+.ornamental-border {
+        position: relative;
+        padding: 2rem;
+        border-radius: 16px;
+        overflow: hidden;
+        height: 100%;
+        border: 2px solid rgba(232, 192, 125, 0.6);
+        box-shadow: 0 0 20px rgba(232, 192, 125, 0.4);
+        transition: box-shadow 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+}
+
+
+
+/* Section Styling */
+#about-us {
+    position: relative; /* Use relative or absolute if needed */
+    background: white;
+    width: 1200px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    margin: 0 auto; /* Centers horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem; /* Adjust padding for spacing */
+}
+
+#about-us h2, #about-us h1 {
+    color: #e8c07d;
+    font-weight: bold;
+}
+
+#about-us p {
+    color: #1771f8; /* Soft gray */
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+#about-us:hover {
+    transform: scale(0.95);
+    box-shadow: 6px 6px 20px rgba(255, 206, 11, 0.989);
+    border-color: rgb(0, 0, 0);
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .card {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .card-img img {
+        width: 100px;
+        height: 100px;
+    }
+}
