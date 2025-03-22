@@ -5,90 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <!-- Meet Our Team Section -->
-<section class="max-w-6xl mx-auto py-10 hidden-section" id="team-section">
-    <h3 class="text-4xl font-bold text-center mb-6">Our Team</h3>
-    <div class="grid md:grid-cols-4 gap-6">
-        <!-- Team Member 1 -->
-        <div class="team-card bg-white p-4 rounded-lg shadow-lg text-center">
-            <img src="assets/debangshu.jpeg" loading="lazy" alt="debangsu" class="rounded-full mb-4 w-32 h-32 mx-auto">
-            <h4>Debangshu Das</h4>
-            <p>Fullstack Developer</p>
-            <div>
-                <a href="https://www.linkedin.com/in/debangshu-das-626097317/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://x.com/itzchromavision" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="https://github.com/debangshu919" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
-                    <i class="fa-brands fa-github"></i>
-                </a>
+    <br>
+    <div id="about-us" class="py-16 bg-[#1b1b1b] text-white text-center ornamental-border transition-transform duration-300 hover:scale-105">
+        <br>
+        <div class="max-w-6xl mx-auto">
+            <!-- Section Title -->
+            <h1 class="text-4xl font-bold text-[#e8c07d] mb-6">About Us</h1>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+                Welcome to <span class="text-[#e8c07d] font-semibold">Sargam AI</span> – a revolutionary project born from passion, innovation, and a shared love for Indian Classical Music. 
+                Developed during a high-stakes <strong>hackathon</strong>, our team of four talented developers combined <strong>AI, deep learning, and music theory</strong> to craft a unique AI-driven platform that redefines raga synthesis, analysis, and simulation.
+            </p>
+    <br>
+            <!-- Mission & Vision -->
+            <div class="mt-16">
+                <h2 class="text-3xl font-semibold text-[#e8c07d] mb-4">Our Mission</h2>
+                <br>
+                <p class="text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    Our mission is to <strong>bridge the gap between AI and Indian Classical Music</strong>, enabling musicians, researchers, and enthusiasts to explore music through the lens of technology. 
+                    We strive to <strong>enhance musical creativity, foster learning, and preserve the rich heritage of ragas</strong> through AI.
+                </p>
+            </div>
+
+
+            <!-- Developer Card -->
+            <div class="container">
+                <h2 class="text-3xl font-semibold text-[#e8c07d] mb-4">Our Team</h2>
+                <div class="grid">
+                    <div class="card">
+                        <!-- Developer Image -->
+                        <div class="card-img">
+                            <img src="assets/prob.jpeg" alt="John Doe">
+                            <!-- Social Icons -->
+                            <div class="social-links">
+                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Card Content -->
+                        <div class="card-content">
+                            <h3>Prolayjit  Biswas</h3>
+                            <br>
+                            <p class="role">AI/ML Engineer</p>
+                            <p class="description">
+                                Expert in deep learning, John developed AI algorithms for raga analysis and simulation.
+                            </p>
+                            <!-- Action Buttons -->
+                            <div class="card-buttons">
+                                <a href="#" class="btn">Portfolio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Team Member 2 -->
-        <div class="team-card bg-white p-4 rounded-lg shadow-lg text-center">
-            <img src="assets/debopam.jpeg" loading="lazy" alt="Arghya Roy - Project Lead" class="rounded-full mb-4 w-32 h-32 mx-auto">
-            <h4>Debopam Sarkar</h4>
-            <p>UI/UX Desingner</p>
-            <div>
-                <a href="https://www.linkedin.com/in/debopam-sarkar/overlay/photo/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://x.com/debopam525" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="https://github.com/debopam525" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Team Member 3 -->
-        <div class="team-card bg-white p-4 rounded-lg shadow-lg text-center">
-            <img src="assets/tanay.jpeg" loading="lazy" alt="Abhijit Dutta - Project Coordinator" class="rounded-full mb-4 w-32 h-32 mx-auto">
-            <h4>Tanay Saha</h4>
-            <p>Fullstack Developer</p>
-            <div>
-                <a href="https://www.linkedin.com/in/tanay-saha-11485532b/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://x.com/tanaysaha90" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="https://github.com/Tanaygit646" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Team Member 4 -->
-        <div class="team-card bg-white p-4 rounded-lg shadow-lg text-center">
-            <img src="assets/prob.jpeg" loading="lazy" alt="Prolayjit Biswas - Web Developer" class="rounded-full mb-4 w-32 h-32 mx-auto">
-            <h4>Prolayjit Biswas</h4>
-            <p>Frontend Developer</p>
-            <div>
-                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
-                    <i class="fa-brands fa-github"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
+    </div> 
+  </div>
+</div>
 
 </body>
 </html>
