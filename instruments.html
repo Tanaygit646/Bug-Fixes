@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indian Classical Instruments</title>
+    <link rel="stylesheet" href="./Instruments_Data_Base/ins-style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="#" class="logo">🎶 Virtual Instrument Experience</a>
+      <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <br /><br />
+    <h1>🎵 Indian Classical Instruments</h1>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchBar"
+        placeholder="Search for an Instrument..."
+        onkeyup="searchInstrument()"
+      />
+    </div>
+
+    <!-- Instrument List -->
+    <div class="instrument-container" id="instrumentList">
+      <!--Visible Instruments -->
+      <a href="description/bansuri.html"
+        ><div class="instrument-card">
+          <img src="Images/bansuri.jpg" alt="Bansuri" />
+          <h2>Bansuri</h2>
+          <p>A bamboo flute associated with Lord Krishna.</p>
+        </div></a
+      >
+
+      <a href="description/santoor.html"
+        ><div class="instrument-card">
+          <img src="Images/santoor.jpg" alt="Santoor" />
+          <h2>Santoor</h2>
+          <p>A trapezoid-shaped string instrument played with mallets.</p>
+        </div></a
+      >
+
+      <a href="description/shenai.html"
+        ><div class="instrument-card">
+          <img src="Images/sehnai2.webp" alt="Shehnai" />
+          <h2>Shehnai</h2>
+          <p>A double-reed wind instrument used in classical music.</p>
+        </div></a
+      >
+
+      <a href="description/tanpura.html"
+        ><div class="instrument-card">
+          <img src="Images/tanpura2.jpg" alt="Tanpura" />
+          <h2>Tanpura</h2>
+          <p>A long-necked plucked string instrument for drone sounds.</p>
+        </div></a
+      >
+
+      <!-- 50 Hidden Instruments -->
+      <a href="description/pakhwaj.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/pakhawaj2.jpg" alt="Pakhawaj" />
+          <h2>Pakhawaj</h2>
+          <p>A barrel-shaped drum for additional instrument for song.</p>
+        </div></a
+      >
+
+      <a href="description/tabla.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/tabla2.webp" alt="Tabla" />
+          <h2>Tabla</h2>
+          <p>A pair of hand drums for give the taal in any song.</p>
+        </div></a
+      >
+
+      <a href="description/sitar.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/sitar2.webp" alt="Sitar" />
+          <h2>Sitar</h2>
+          <p>A plucked string instrument.</p>
+        </div></a
+      >
+
+      <a href="description/sarod.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/sarod2.jpg" alt="Sarod" />
+          <h2>Sarod</h2>
+          <p>A fretless string instrument.</p>
+        </div></a
+      >
+
+      <a href="description/veena.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/veena2.jpeg" alt="Veena" />
+          <h2>Veena</h2>
+          <p>A South Indian classical instrument.</p>
+        </div></a
+      >
+
+      <a href="description/mridangam.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/mridangona.webp" alt="Mridangam" />
+          <h2>Mridangam</h2>
+          <p>A Carnatic percussion instrument.</p>
+        </div></a
+      >
+
+      <a href="description/dhol.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/dhool2.jpg" alt="Dhol" />
+          <h2>Dhol</h2>
+          <p>A double-sided drum.used in puja.</p>
+        </div></a
+      >
+
+      <a href="description/harmonium.html"
+        ><div class="instrument-card hidden">
+          <img src="Images/harmoniumm2.jpg" alt="Harmonium" />
+          <h2>Harmonium</h2>
+          <p>A free-reed keyboard instrument.</p>
+        </div></a
+      >
+
+      <a href="description/ghatam.html"
+        ><div class="instrument-card hidden">
+          <img src="images/ghatam.webp" alt="Ghatam" />
+          <h2>Ghatam</h2>
+          <p>A clay pot percussion instrument.</p>
+        </div></a
+      >
+
+      <a href="description/rudra-veena.html"
+        ><div class="instrument-card hidden">
+          <img src="images/rudra-veena.jpeg" alt="Rudra Veena" />
+          <h2>Rudra Veena</h2>
+          <p>A large plucked string instrument.</p>
+        </div></a
+      >
+
+      <a href="description/esraj.html"
+        ><div class="instrument-card hidden">
+          <img src="images/esraj.jpeg" alt="Esraj" />
+          <h2>Esraj</h2>
+          <p>A bowed string instrument.</p>
+        </div></a
+      >
+
+      <a href="description/saragani.html"
+        ><div class="instrument-card hidden">
+          <img src="images/saragani.webp" alt="Sarangi" />
+          <h2>Sarangi</h2>
+          <p>A short-necked bowed instrument.</p>
+        </div></a
+      >
+
+      <a href="description/jal-tarang.html"
+        ><div class="instrument-card hidden">
+          <img src="images/jal-tarang.jpeg" alt="Jal Tarang" />
+          <h2>Jal Tarang</h2>
+          <p>A set of ceramic bowls filled with water.</p>
+        </div></a
+      >
+
+      <a href="description/ektara.html"
+        ><div class="instrument-card hidden">
+          <img src="images/ektara.webp" alt="Ektara" />
+          <h2>Ektara</h2>
+          <p>A single-stringed instrument.</p>
+        </div></a
+      >
+
+      <a href="description/shrutibox.html"
+        ><div class="instrument-card hidden">
+          <img src="images/shruti-box.webp" alt="Shruti Box" />
+          <h2>Shruti Box</h2>
+          <p>A drone instrument for music.</p>
+        </div></a
+      >
+
+      <a href="description/surbahar.html"
+        ><div class="instrument-card hidden">
+          <img src="images/surbahar.jpeg" alt="Surbahar" />
+          <h2>Surbahar</h2>
+          <p>A bass sitar used for dhrupad music.</p>
+        </div></a
+      >
+
+      <a href="description/tambura.html"
+        ><div class="instrument-card hidden">
+          <img src="images/tambura.jpeg" alt="Tambura" />
+          <h2>Tambura</h2>
+          <p>A drone instrument similar to the tanpura.</p>
+        </div></a
+      >
+    </div>
+    <!-- Footer -->
+    <footer>
+      <p>Made with ❤️ by Bugs & Fixes</p>
+      &copy; 2025 AI Music Tool. All rights reserved.
+    </footer>
+    <script>
+      function searchInstrument() {
+        let input = document.getElementById("searchBar").value.toLowerCase();
+        let cards = document.getElementsByClassName("instrument-card");
+
+        for (let i = 0; i < cards.length; i++) {
+          let title = cards[i]
+            .getElementsByTagName("h2")[0]
+            .innerText.toLowerCase();
+
+          if (title.includes(input) || input.length === 0) {
+            cards[i].style.display = "block";
+          } else {
+            cards[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
