@@ -59,11 +59,12 @@ app.get("/home", (req, res) => {
 app.get("/:page", (req, res) => {
     const page = req.params.page;
     const filePath = path.join(staticFiles, `${page}.html`);
+    const errorPage = path.join(staticFiles, "error.html");
 
     // Send the requested HTML file if it exists
     res.sendFile(filePath, (err) => {
         if (err) {
-            return res.status(404).send("Oop! Page Not Found");
+            return res.sendFile(errorPage);
         }
     });
 });
