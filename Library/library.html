@@ -1,201 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raaga & Taal Library</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Serif Devanagari', serif;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: url("assets/bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: #f5e6c8;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: -1;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+        z-index: 1000;
+      }
+
+      .navbar .logo {
+        color: #d4af37;
+        font-size: 22px;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .menu {
+        list-style: none;
+        display: flex;
+      }
+
+      .menu li {
+        margin: 0 15px;
+      }
+
+      .menu li a {
+        color: #f5e6c8;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+      }
+
+      .menu li a:hover {
+        color: #d4af37;
+      }
+
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #d4af37;
+      }
+
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          position: absolute;
+          top: 50px;
+          left: 0;
+          background: rgba(0, 0, 0, 0.9);
+          text-align: center;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            filter: blur(6px) brightness(50%);
-            z-index: -1;
+        .menu.active {
+          display: flex;
         }
 
-        body {
-            background: url('assets/bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5e6c8;
-            text-align: center;
-            padding: 80px 20px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            flex-direction: column;
+        .menu li {
+          margin: 15px 0;
         }
 
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
-            z-index: 1000;
+        .menu-toggle {
+          display: block;
         }
+      }
 
-        .navbar .logo {
-            color: #d4af37;
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-        }
+      .container {
+        max-width: 600px;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
+        border: 3px solid #d4af37;
+        animation: fadeIn 0.8s ease-in-out;
+      }
 
-        .navbar .menu {
-            list-style: none;
-            display: flex;
-        }
+      h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-        .navbar .menu li {
-            margin: 0 15px;
-        }
+      p {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 10px;
+      }
 
-        .navbar .menu li a {
-            color: #f5e6c8;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
-        }
+      .feature-button {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 18px;
+        background: linear-gradient(90deg, #ff5733, #d4af37);
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s ease-in-out;
+        width: 100%;
+      }
 
-        .navbar .menu li a:hover {
-            color: #d4af37;
-        }
+      .feature-button:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+      }
 
-        .container {
-            max-width: 600px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
-            border: 3px solid #d4af37;
-            animation: fadeIn 0.8s ease-in-out;
-        }
+      .back-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+      }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+      .back-link:hover {
+        text-decoration: underline;
+        color: #ff5733;
+      }
 
-        p {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 10px;
-        }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #d4af37;
+        box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
+      }
 
-        .feature-button {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 18px;
-            background: linear-gradient(90deg, #ff5733, #d4af37);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            border: none;
-            transition: 0.3s ease-in-out;
-            width: 100%;
-        }
+      .footer a {
+        color: #f5e6c8;
+        text-decoration: none;
+        margin: 0 8px;
+        transition: 0.3s;
+      }
 
-        .feature-button:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
+      .footer a:hover {
+        color: #d4af37;
+      }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #d4af37;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
         }
-
-        .back-link:hover {
-            text-decoration: underline;
-            color: #ff5733;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            color: #d4af37;
-            box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
-        }
-
-        .footer a {
-            color: #f5e6c8;
-            text-decoration: none;
-            margin: 0 8px;
-            transition: 0.3s;
-        }
-
-        .footer a:hover {
-            color: #d4af37;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="navbar">
-        <a href="#" class="logo">Raaga & Taal</a>
-        <ul class="menu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li><a href="#">Live</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+      <a href="#" class="logo">AI Music Tool</a>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <ul class="menu" id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="simulation.html">Simulation</a></li>
+        <li><a href="synthesis.html">Synthesis</a></li>
+        <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+        <li><a href="Library/library.html">Library</a></li>
+        <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+      </ul>
     </nav>
 
     <div class="container">
-        <h1>2️⃣ Raaga & Taal Library</h1>
-        <p>Explore the rich heritage of Indian classical music through raagas, taals, and ancient texts.</p>
+      <h1>2️⃣ Raaga & Taal Library</h1>
+      <p>
+        Explore the rich heritage of Indian classical music through raagas,
+        taals, and ancient texts.
+      </p>
 
-        <button class="feature-button" onclick="window.location.href='Raags_Data_Base/raags.html'">📖 Comprehensive Raaga Database</button>
-        <button class="feature-button" onclick="window.location.href='Taals_Data_Base/taals.html'">🕰️ Taal Section</button>
-        <button class="feature-button" onclick="window.location.href='Key_Notes/aap.html'">🎵 Aaroh-Avroh & Pakad Details</button>
-        <button class="feature-button" onclick="window.location.href='Text_Manascripts/manascripts.html'">📜 Ancient Texts & Manuscripts</button>
+      <button
+        class="feature-button"
+        onclick="window.location.href='Raags_Data_Base/raags.html'"
+      >
+        📖 Comprehensive Raaga Database
+      </button>
+      <button
+        class="feature-button"
+        onclick="window.location.href='Taals_Data_Base/taals.html'"
+      >
+        🕰️ Taal Section
+      </button>
+      <button
+        class="feature-button"
+        onclick="window.location.href='Key_Notes/aap.html'"
+      >
+        🎵 Aaroh-Avroh & Pakad Details
+      </button>
+      <button
+        class="feature-button"
+        onclick="window.location.href='Text_Manascripts/manascripts.html'"
+      >
+        📜 Ancient Texts & Manuscripts
+      </button>
 
-        <a href="index.html" class="back-link">⬅ Back to Home</a>
+      <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
     <div class="footer">
-        &copy; 2025 Raaga & Taal Library | <a href="#">Privacy Policy</a>
+      &copy; 2025 Raaga & Taal Library | <a href="#">Privacy Policy</a>
     </div>
-
-</body>
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.classList.toggle("active");
+      }
+    </script>
+  </body>
 </html>

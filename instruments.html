@@ -8,13 +8,19 @@
   </head>
   <body>
     <nav class="navbar">
-      <a href="#" class="logo">🎶 Virtual Instrument Experience</a>
-      <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+      <a href="#" class="logo">AI Music Tool</a>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <ul class="menu" id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="simulation.html">Simulation</a></li>
+        <li><a href="synthesis.html">Synthesis</a></li>
+        <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+        <li><a href="Library/library.html">Library</a></li>
+        <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
       </ul>
     </nav>
+
     <br /><br />
     <h1>🎵 Indian Classical Instruments</h1>
 
@@ -221,6 +227,10 @@
             cards[i].style.display = "none";
           }
         }
+      }
+      function toggleMenu() {
+        let menu = document.getElementById("menu");
+        menu.classList.toggle("active");
       }
     </script>
   </body>

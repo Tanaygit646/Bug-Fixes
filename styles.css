@@ -45,15 +45,7 @@ footer {
 }
 
 /* Navbar - Ensure it Stays on Top */
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px;
-    z-index: 1000; /* Ensures navbar is always on top */
-}
+
 
 
 
