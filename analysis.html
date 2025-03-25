@@ -48,7 +48,6 @@
         z-index: -1;
       }
 
-      /* Navbar */
       .navbar {
         position: fixed;
         top: 0;
@@ -71,26 +70,57 @@
         text-decoration: none;
       }
 
-      .navbar .menu {
+      .menu {
         list-style: none;
         display: flex;
       }
 
-      .navbar .menu li {
+      .menu li {
         margin: 0 15px;
       }
 
-      .navbar .menu li a {
+      .menu li a {
         color: #f5e6c8;
         text-decoration: none;
         font-size: 16px;
         transition: 0.3s;
       }
 
-      .navbar .menu li a:hover {
+      .menu li a:hover {
         color: #d4af37;
       }
 
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #d4af37;
+      }
+
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          position: absolute;
+          top: 50px;
+          left: 0;
+          background: rgba(0, 0, 0, 0.9);
+          text-align: center;
+        }
+
+        .menu.active {
+          display: flex;
+        }
+
+        .menu li {
+          margin: 15px 0;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+      }
       .container {
         max-width: 600px;
         padding: 25px;
@@ -246,33 +276,28 @@
   </head>
   <body>
     <nav class="navbar">
-      <a href="#" class="logo">AI Music</a>
-      <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+      <a href="#" class="logo">AI Music Tool</a>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <ul class="menu" id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="simulation.html">Simulation</a></li>
+        <li><a href="synthesis.html">Synthesis</a></li>
+        <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+        <li><a href="Library/library.html">Library</a></li>
+        <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
       </ul>
     </nav>
+
     <div class="container">
       <h1>🎵 AI-Powered Music Analysis</h1>
-      <p>
-        Upload an Indian classical music file to analyze its Raaga, Taal, and
-        emotional expression.
-      </p>
-      <input class="" type="file" id="musicFile" accept="audio/*" />
-      <button class="" id="analyzeBtn">🎶 Start the Analysis</button>
+      <p>Upload an Indian classical music file to analyze its Raaga, Taal, and emotional expression.</p>
+      <input type="file" id="musicFile" accept="audio/*" />
+      <button id="analyzeBtn">🎶 Start the Analysis</button>
 
-      <!-- analyzing music -->
       <div style="display: none" id="analyzing">
         <h2 id="loading">Uploading...</h2>
-        <sl-spinner
-          style="
-            font-size: 2rem;
-            --track-width: 5px;
-            --indicator-color: #ff5733;
-            --track-color: #d4af37;
-          "
-        ></sl-spinner>
+        <sl-spinner style="font-size: 2rem; --track-width: 5px; --indicator-color: #ff5733; --track-color: #d4af37;"></sl-spinner>
       </div>
 
       <div class="result hidden" id="analysisResult">
@@ -281,15 +306,17 @@
         <p id="emotionResult"></p>
         <p id="taalResult"></p>
       </div>
-
       <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
     <div class="footer">
-      © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms & Conditions</a>
+      © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+      function toggleMenu() {
+        document.getElementById("menu").classList.toggle("active");
+      }
+    </script>
   </body>
 </html>
