@@ -44,7 +44,18 @@ footer {
     font-size: 14px;
 }
 
+
 /* Navbar - Ensure it Stays on Top */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    z-index: 1000; /* Ensures navbar is always on top */
+}
+
 
 
 
@@ -129,4 +140,27 @@ footer {
 #what-is-sargam-ai .content span {
     color: #e8c07d;
     font-weight: 600;
+}
+main {
+    flex: 1; /* Pushes the footer down */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure the body takes full height */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Pushes the footer to the bottom */
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1px;
+    width: 100vw; /* Ensures full width */
 }

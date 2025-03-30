@@ -4,26 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raag Database</title>
-    <link rel="stylesheet" href="raags_style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            padding-top: 64px; /* Prevent navbar from overlapping content */
-        }
-    </style>
+    <link rel="stylesheet" href="raags_style.css">
 </head>
-<body>
+<body class="bg-gray-100">
 
     <!-- Navigation Bar -->
     <nav class="w-full bg-black bg-opacity-80 py-4 px-6 fixed top-0 left-0 z-50 flex justify-between items-center">
         <h1 class="text-2xl text-yellow-300 font-bold">AI Music Tool</h1>
-        
-        <!-- Hamburger Icon (Hidden on Large Screens) -->
-        <div class="md:hidden cursor-pointer text-yellow-300 text-3xl" onclick="toggleMenu()">
-            ☰
-        </div>
-
-        <!-- Desktop Menu -->
+        <div class="md:hidden cursor-pointer text-yellow-300 text-3xl" onclick="toggleMenu()">☰</div>
         <ul class="hidden md:flex space-x-6">
             <li><a href="index.html" class="text-yellow-300 hover:text-yellow-500">Home</a></li>
             <li><a href="analysis.html" class="text-yellow-300 hover:text-yellow-500">Analysis</a></li>
@@ -36,26 +25,25 @@
         </ul>
     </nav>
 
-    <!-- Mobile Menu (Initially Hidden) -->
-    <ul id="mobileMenu" class="hidden flex flex-col absolute top-16 left-0 w-full bg-black bg-opacity-90 text-center p-4 md:hidden">
-        <li class="py-2"><a href="index.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Home</a></li>
-        <li class="py-2"><a href="analysis.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Analysis</a></li>
-        <li class="py-2"><a href="simulation.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Simulation</a></li>
-        <li class="py-2"><a href="synthesis.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Synthesis</a></li>
-        <li class="py-2"><a href="Instruments_Data_Base/instruments.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Instruments</a></li>
-        <li class="py-2"><a href="Library/library.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Library</a></li>
-        <li class="py-2"><a href="Artists_Data_Base/profiles.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Artists</a></li>
-        <li class="py-2"><a href="Explore/explore.html" class="text-yellow-300 hover:text-yellow-500" onclick="closeMenu()">Explore</a></li>
-    </ul>
+    <h1 class="mt-16 text-center text-3xl font-bold">🎵 Indian Classical Raag Database</h1>
 
-    <h1 class="mt-6 text-center text-3xl font-bold">🎵 Indian Classical Raag Database</h1>
-    <div class="search-box text-center my-4">
-        <input type="text" id="searchBar" placeholder="Search for a Raag..." onkeyup="searchRaag()" class="px-4 py-2 border rounded-lg">
+    <!-- Search Bar -->
+    <div class="text-center my-4">
+        <input type="text" id="searchBar" placeholder="Search for a Raag..." onkeyup="searchRaag()"
+            class="px-4 py-2 border rounded-lg shadow-md w-80">
     </div>
 
-    <div class="raag-container flex flex-wrap justify-center gap-6 p-6" id="raagList">
-        <script>
-const raags = [
+    <!-- Raag Cards Container -->
+    <div class="raag-container p-6" id="raagList"></div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-10 p-4 bg-black text-yellow-300">
+        <p>Made with ❤️ by Bugs & Fixes</p>
+        &copy; 2025 AI Music Tool. All rights reserved.
+    </footer>
+
+    <script>
+        const raags = [
             { name: "Yaman", description: "Evokes devotion and peace (Evening Raaga)." },
             { name: "Bhairav", description: "Morning melody, serious and meditative." },
             { name: "Bhairavi", description: "Morning Raaga, brings tranquility." },
@@ -69,48 +57,37 @@ const raags = [
             { name: "Bhoopali", description: "Simple, serene, and uplifting." },
             { name: "Kedar", description: "Devotional and peaceful (Late night Raaga)." },
             { name: "Bilawal", description: "Joyous and bright (Morning Raaga)." },
-            { name: "Poorvi", description: "Mysterious and unique (Late afternoon Raaga)." },
-            { name: "Miyan Malhar", description: "Associated with rain and romance." },
+            { name: "Khamaj", description: "Romantic, nature, love, aesthetic (Night Raaga)." },
+            { name: "Bihag", description: "Associated with rain, melancholy, and romance." }
         ];
 
-    
+        function loadRaags() {
+            const raagList = document.getElementById("raagList");
+            raagList.innerHTML = "";
             raags.forEach(raag => {
-                document.write(`
-                    <div class="raag-card cursor-pointer p-4 shadow-lg" onclick="window.location.href='raag-${raag.name.toLowerCase().replace(' ', '-')}.html'">
-                        <h2 class="text-xl font-bold mt-2">Raag ${raag.name}</h2>
-                        <p>${raag.description}</p>
-                    </div>
-                `);
+                let raagCard = document.createElement("div");
+                raagCard.classList.add("raag-card");
+                raagCard.innerHTML = `
+                    <h2 class="text-xl font-bold">${raag.name}</h2>
+                    <p class="text-gray-600">${raag.description}</p>
+                `;
+                raagCard.onclick = () => window.location.href = `raag-${raag.name.toLowerCase().replace(" ", "-")}.html`;
+                raagList.appendChild(raagCard);
             });
-        </script>
-    </div>
-    
+        }
 
-    <!-- Footer -->
-    <footer>
-        <p>Made with ❤️ by Bugs & Fixes</p>
-        &copy; 2025 AI Music Tool. All rights reserved.
-    </footer>
-
-    <script>
         function searchRaag() {
             let input = document.getElementById("searchBar").value.toLowerCase();
             let cards = document.getElementsByClassName("raag-card");
-            
+
             for (let i = 0; i < cards.length; i++) {
                 let title = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
                 cards[i].style.display = title.includes(input) ? "block" : "none";
             }
         }
 
-        function toggleMenu() {
-            let menu = document.getElementById("mobileMenu");
-            menu.classList.toggle("hidden");
-        }
-
-        function closeMenu() {
-            document.getElementById("mobileMenu").classList.add("hidden");
-        }
+        // Load Raags when the page loads
+        document.addEventListener("DOMContentLoaded", loadRaags);
     </script>
 
 </body>

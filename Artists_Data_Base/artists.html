@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raaga & Taal Library</title>
+    <title>Artist Profiles & Community Engagement</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
@@ -113,7 +113,7 @@
           display: block;
         }
       }
-
+      /* Fade-in Animation */
       .container {
         max-width: 600px;
         padding: 25px;
@@ -122,7 +122,16 @@
         text-align: center;
         box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
         border: 3px solid #d4af37;
-        animation: fadeIn 0.8s ease-in-out;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 1s ease-in-out forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       h1 {
@@ -172,43 +181,23 @@
         color: #ff5733;
       }
 
+      /* Fixed Footer */
       .footer {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
         background: rgba(0, 0, 0, 0.9);
-        padding: 10px;
+        padding: 10px 0;
         text-align: center;
+        color: #d4af37;
         font-size: 14px;
-        color: #d4af37;
-        box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
-      }
-
-      .footer a {
-        color: #f5e6c8;
-        text-decoration: none;
-        margin: 0 8px;
-        transition: 0.3s;
-      }
-
-      .footer a:hover {
-        color: #d4af37;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        border-top: 2px solid #d4af37;
       }
     </style>
   </head>
   <body>
+    <!-- Navbar -->
     <nav class="navbar">
       <a href="#" class="logo">Sargam AI</a>
       <div class="menu-toggle" onclick="toggleMenu()">☰</div>
@@ -225,45 +214,45 @@
       </ul>
     </nav>
 
+    <!-- Main Container -->
     <div class="container">
-      <h1>2️⃣ Raaga & Taal Library</h1>
+      <h1>6️⃣ Artist Profiles & Community Engagement</h1>
       <p>
-        Explore the rich heritage of Indian classical music through raagas,
-        taals, and ancient texts.
+        Explore legendary artists, join discussions, and share your
+        performances.
       </p>
 
       <button
         class="feature-button"
-        onclick="window.location.href='Raags_Data_Base/raags.html'"
+        onclick="window.location.href='profiles.html'"
       >
-        📖 Comprehensive Raaga Database
-      </button>
-      <button
-        class="feature-button"
-        onclick="window.location.href='Taals_Data_Base/taals.html'"
-      >
-        🕰️ Taal Section
-      </button>
-      <button
-        class="feature-button"
-        onclick="window.location.href='Key_Notes/aap.html'"
-      >
-        🎵 Aaroh-Avroh & Pakad Details
-      </button>
-      <button
-        class="feature-button"
-        onclick="window.location.href='Text_Manascripts/manascripts.html'"
-      >
-        📜 Ancient Texts & Manuscripts
+        🎤 Artist Biographies
       </button>
 
       <a href="index.html" class="back-link">⬅ Back to Home</a>
     </div>
 
+    <!-- Footer -->
     <div class="footer">
-      &copy; 2025 Raaga & Taal Library | <a href="#">Privacy Policy</a>
+      &copy; 2025 Digital Music Community. All rights reserved.
     </div>
+
     <script>
+      function showBiographies() {
+        alert(
+          "🎤 Read about legends like Pt. Ravi Shankar, M.S. Subbulakshmi, Ustad Zakir Hussain, and more."
+        );
+      }
+
+      function showDiscussions() {
+        alert(
+          "📝 Join discussions on raagas, performances, and classical techniques."
+        );
+      }
+
+      function showUserUploads() {
+        alert("🎶 Share your performances and connect with the community.");
+      }
       function toggleMenu() {
         const menu = document.getElementById("menu");
         menu.classList.toggle("active");

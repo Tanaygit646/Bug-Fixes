@@ -3,194 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artist Profiles & Community Engagement</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Classical Music Artist Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Serif+Devanagari&display=swap" rel="stylesheet">
     <style>
         * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
-
-      body {
-        background: url("assets/bg.jpg") no-repeat center center fixed;
-        background-size: cover;
-        color: #f5e6c8;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        position: relative;
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: -1;
-      }
-
-      .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 12px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
-        z-index: 1000;
-      }
-
-      .navbar .logo {
-        color: #d4af37;
-        font-size: 22px;
-        font-weight: bold;
-        text-decoration: none;
-      }
-
-      .menu {
-        list-style: none;
-        display: flex;
-      }
-
-      .menu li {
-        margin: 0 15px;
-      }
-
-      .menu li a {
-        color: #f5e6c8;
-        text-decoration: none;
-        font-size: 16px;
-        transition: 0.3s;
-      }
-
-      .menu li a:hover {
-        color: #d4af37;
-      }
-
-      .menu-toggle {
-        display: none;
-        cursor: pointer;
-        font-size: 24px;
-        color: #d4af37;
-      }
-
-      @media (max-width: 768px) {
-        .menu {
-          display: none;
-          flex-direction: column;
-          width: 100%;
-          position: absolute;
-          top: 50px;
-          left: 0;
-          background: rgba(0, 0, 0, 0.9);
-          text-align: center;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-
-        .menu.active {
-          display: flex;
-        }
-
-        .menu li {
-          margin: 15px 0;
-        }
-
-        .menu-toggle {
-          display: block;
-        }
-      }
-        /* Fade-in Animation */
-        .container {
-            max-width: 600px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
+        body {
+            color: #f5e6c8;
             text-align: center;
-            box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
-            border: 3px solid #d4af37;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
+            padding: 20px;
+            background: url('../assets/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(6px) brightness(50%);
         }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        header {
+            margin-top: 80px;
         }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 10px;
-        }
-
-        .feature-button {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 18px;
-            background: linear-gradient(90deg, #ff5733, #d4af37);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            border: none;
-            transition: 0.3s ease-in-out;
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+            z-index: 1000;
         }
 
-        .feature-button:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 15px;
+        .navbar .logo {
             color: #d4af37;
-            text-decoration: none;
+            font-size: 22px;
             font-weight: bold;
+            text-decoration: none;
+        }
+        .navbar .menu {
+            list-style: none;
+            display: flex;
+        }
+        .navbar .menu li {
+            margin: 0 15px;
+        }
+        .navbar .menu li a {
+            color: #f5e6c8;
+            text-decoration: none;
+            font-size: 16px;
             transition: 0.3s;
         }
-
-        .back-link:hover {
-            text-decoration: underline;
-            color: #ff5733;
+        .navbar .menu li a:hover {
+            color: #d4af37;
         }
-
-        /* Fixed Footer */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.9);
-            padding: 10px 0;
+            padding: 10px;
             text-align: center;
-            color: #d4af37;
             font-size: 14px;
-            border-top: 2px solid #d4af37;
+            color: #d4af37;
+            box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
         }
+
+        .footer a {
+            color: #f5e6c8;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .footer a:hover {
+            color: #d4af37;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding-bottom: 100px;
+        }
+
+        .profile-card {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #d4af37;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            height: 320px;  /* Fixed height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile-card:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-card img {
+            width: 100%;
+            height: 200px; /* Fixed image height */
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .profile-card h2 {
+            color: #d4af37;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .load-more {
+            margin: 20px;
+            padding: 10px 20px;
+            background: #d4af37;
+            border: none;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .load-more:hover {
+            background: #ffcc33;
+        }
+
+        .spacer {
+            height: 50px;
+        }
+        a {
+    text-decoration: none;
+    color: inherit; /* Keeps the default text color */
+}
+
+a:hover {
+    color: #d4af37; /* Optional: Change color on hover */
+}
+
+/* Search Box */
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    border: 2px solid #d4af37;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
 
     </style>
 </head>
@@ -198,52 +177,121 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="#" class="logo">AI Music Tool</a>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <ul class="menu" id="menu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="analysis.html">Analysis</a></li>
-          <li><a href="simulation.html">Simulation</a></li>
-          <li><a href="synthesis.html">Synthesis</a></li>
-          <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
-          <li><a href="Library/library.html">Library</a></li>
-          <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+        <a href="#" class="logo">🎶 Artist Biography</a>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
-      </nav>
+    </nav>
+    <header>
+        <h1>Classical Music Artists</h1>
+    </header>
 
-
-    <!-- Main Container -->
-    <div class="container">
-        <h1>6️⃣ Artist Profiles & Community Engagement</h1>
-        <p>Explore legendary artists, join discussions, and share your performances.</p>
-
-        <button class="feature-button" onclick="window.location.href='profiles.html'">🎤 Artist Biographies</button>
-
-        <a href="index.html" class="back-link">⬅ Back to Home</a>
+    <h1 class="mt-6 text-center text-3xl font-bold">🎵 Indian Classical Musician</h1>
+    <div class="search-box text-center my-4">
+        <input type="text" id="searchBar" placeholder="Search for an Artists..." onkeyup="searchRaag()" class="px-4 py-2 border rounded-lg">
     </div>
+    
+    
+    <div class="container" id="artistContainer"></div>
+    <button class="load-more" id="loadMore">Load More</button>
 
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 Digital Music Community. All rights reserved.
-    </div>
+    <div class="spacer"></div> <!-- Prevents overlap with footer -->
 
-    <script>
-        function showBiographies() {
-            alert("🎤 Read about legends like Pt. Ravi Shankar, M.S. Subbulakshmi, Ustad Zakir Hussain, and more.");
+    <footer>
+        <p>&copy; 2025 Classical Music Archive. All Rights Reserved.</p>
+    </footer>
+
+<script>
+    const artists = [
+        { name: "Tansen", img: "images/artist1.jpg", bio: "Legendary musician in Mughal court.", link: "tansen.html" },
+        { name: "Bhimsen Joshi", img: "images/artist2.jpg", bio: "Hindustani classical vocalist.", link: "bhimsen-joshi.html" },
+        { name: "Ravi Shankar", img: "images/artist3.jpg", bio: "Sitar maestro.", link: "ravi-shankar.html" },
+        { name: "Lata Mangeshkar", img: "images/artist4.jpg", bio: "Iconic playback singer.", link: "lata-mangeshkar.html" },
+        { name: "MS Subbulakshmi", img: "images/artist5.jpg", bio: "Carnatic vocalist.", link: "ms-subbulakshmi.html" },
+        { name: "Pandit Jasraj", img: "images/artist6.jpg", bio: "Hindustani vocalist.", link: "pandit-jasraj.html" },
+        { name: "Ustad Zakir Hussain", img: "images/artist7.jpg", bio: "Tabla virtuoso.", link: "zakir-hussain.html" },
+        { name: "Kumar Gandharva", img: "images/artist8.jpg", bio: "Innovative classical singer.", link: "kumar-gandharva.html" },
+        { name: "Ustad Bismillah Khan", img: "images/artist9.jpg", bio: "Shehnai maestro.", link: "bismillah-khan.html" },
+        { name: "Hariprasad Chaurasia", img: "images/artist10.jpg", bio: "Flute legend.", link: "hariprasad-chaurasia.html" },
+        { name: "Shivkumar Sharma", img: "images/artist11.jpg", bio: "Santoor maestro.", link: "shivkumar-sharma.html" },
+        { name: "Alla Rakha", img: "images/artist12.jpg", bio: "Renowned tabla artist.", link: "alla-rakha.html" },
+        { name: "Vilayat Khan", img: "images/artist13.jpg", bio: "Sitar innovator.", link: "vilayat-khan.html" },
+        { name: "Amjad Ali Khan", img: "images/artist14.jpg", bio: "Sarod legend.", link: "amjad-ali-khan.html" },
+        { name: "Gundecha Brothers", img: "images/artist15.jpg", bio: "Dhrupad vocalists.", link: "gundecha-brothers.html" },
+        { name: "Balamuralikrishna", img: "images/artist16.jpg", bio: "Carnatic singer.", link: "balamuralikrishna.html" },
+        { name: "Anoushka Shankar", img: "images/artist17.jpg", bio: "Sitar artist.", link: "anoushka-shankar.html" },
+        { name: "Girija Devi", img: "images/artist18.jpg", bio: "Thumri singer.", link: "girija-devi.html" },
+        { name: "Shubha Mudgal", img: "images/artist19.jpg", bio: "Classical & fusion artist.", link: "shubha-mudgal.html" },
+        { name: "Rajan & Sajan Mishra", img: "images/artist20.jpg", bio: "Classical duo singers.", link: "rajan-sajan-mishra.html" },
+        { name: "Mallikarjun Mansur", img: "images/artist21.jpg", bio: "Hindustani classical vocalist.", link: "mallikarjun-mansur.html" },
+        { name: "Kesarbai Kerkar", img: "images/artist22.jpg", bio: "Legendary classical singer.", link: "kesarbai-kerkar.html" },
+        { name: "Bade Ghulam Ali Khan", img: "images/artist23.jpg", bio: "Patiala Gharana vocalist.", link: "bade-ghulam-ali-khan.html" },
+        { name: "D V Paluskar", img: "images/artist24.jpg", bio: "Hindustani vocalist.", link: "dv-paluskar.html" },
+        { name: "Sawai Gandharva", img: "images/artist25.jpg", bio: "Kirana Gharana maestro.", link: "sawai-gandharva.html" },
+        { name: "Ram Narayan", img: "images/artist26.jpg", bio: "Sarangi maestro.", link: "ram-narayan.html" },
+        { name: "T N Krishnan", img: "images/artist27.jpg", bio: "Carnatic violinist.", link: "tn-krishnan.html" },
+        { name: "V G Jog", img: "images/artist28.jpg", bio: "Hindustani violinist.", link: "vg-jog.html" },
+        { name: "Nikhil Banerjee", img: "images/artist29.jpg", bio: "Sitar maestro.", link: "nikhil-banerjee.html" },
+        { name: "Ronu Majumdar", img: "images/artist30.jpg", bio: "Flute virtuoso.", link: "ronu-majumdar.html" },
+        { name: "Siddheshwari Devi", img: "images/artist31.jpg", bio: "Thumri queen.", link: "siddheshwari-devi.html" },
+        { name: "Roshan Ara Begum", img: "images/artist32.jpg", bio: "Hindustani classical vocalist.", link: "roshan-ara-begum.html" },
+        { name: "Bhajan Sopori", img: "images/artist33.jpg", bio: "Santoor maestro.", link: "bhajan-sopori.html" },
+        { name: "S Balachander", img: "images/artist34.jpg", bio: "Veena virtuoso.", link: "s-balachander.html" },
+        { name: "Chitti Babu", img: "images/artist35.jpg", bio: "Renowned veena player.", link: "chitti-babu.html" },
+        { name: "T R Mahalingam", img: "images/artist36.jpg", bio: "Carnatic flautist.", link: "tr-mahalingam.html" },
+        { name: "Jasraj Joshi", img: "images/artist37.jpg", bio: "Hindustani vocalist.", link: "jasraj-joshi.html" },
+        { name: "Basavaraj Rajguru", img: "images/artist38.jpg", bio: "Kirana Gharana exponent.", link: "basavaraj-rajguru.html" },
+        { name: "G N Balasubramaniam", img: "images/artist39.jpg", bio: "Carnatic vocalist.", link: "gn-balasubramaniam.html" },
+        { name: "Madurai Mani Iyer", img: "images/artist40.jpg", bio: "Carnatic vocalist.", link: "madurai-mani-iyer.html" },
+        { name: "Palghat Mani Iyer", img: "images/artist41.jpg", bio: "Mridangam maestro.", link: "palghat-mani-iyer.html" },
+        { name: "M L Vasanthakumari", img: "images/artist42.jpg", bio: "Carnatic vocalist.", link: "ml-vasanthakumari.html" },
+        { name: "Pt. Ramashreya Jha", img: "images/artist43.jpg", bio: "Composer & musicologist.", link: "ramashreya-jha.html" },
+        { name: "Krishnarao Shankar Pandit", img: "images/artist44.jpg", bio: "Gwalior Gharana vocalist.", link: "krishnarao-pandit.html" },
+        { name: "Pt. Buddhadev Dasgupta", img: "images/artist45.jpg", bio: "Sarod maestro.", link: "buddhadev-dasgupta.html" },
+        { name: "Pt. Ajoy Chakrabarty", img: "images/artist46.jpg", bio: "Kirana Gharana exponent.", link: "ajoy-chakrabarty.html" },
+        { name: "Pt. Venkatesh Kumar", img: "images/artist47.jpg", bio: "Hindustani vocalist.", link: "venkatesh-kumar.html" },
+        { name: "Lalgudi Jayaraman", img: "images/artist48.jpg", bio: "Carnatic violinist.", link: "lalgudi-jayaraman.html" },
+        { name: "Pt. Gokulotsav Maharaj", img: "images/artist49.jpg", bio: "Hindustani classical vocalist.", link: "gokulotsav-maharaj.html" },
+        { name: "Pt. Dinkar Kaikini", img: "images/artist50.jpg", bio: "Composer & teacher.", link: "dinkar-kaikini.html" }
+
+    ];
+    const artistContainer = document.getElementById("artistContainer");
+    const loadMoreBtn = document.getElementById("loadMore");
+    let displayedArtists = 20;
+
+    function displayArtists(count) {
+        artistContainer.innerHTML = "";
+        for (let i = 0; i < count; i++) {
+            if (artists[i]) {
+                const artistDiv = document.createElement("div");
+                artistDiv.classList.add("profile-card");
+                artistDiv.style.cursor = "pointer"; // Makes it clear that it's clickable
+                artistDiv.onclick = () => window.location.href = artists[i].link; // Navigate to artist page
+
+                artistDiv.innerHTML = `
+                    <img src="${artists[i].img}" alt="${artists[i].name}">
+                    <h2>${artists[i].name}</h2>
+                    <p>${artists[i].bio}</p>
+                `;
+
+                artistContainer.appendChild(artistDiv);
+            }
         }
+    }
 
-        function showDiscussions() {
-            alert("📝 Join discussions on raagas, performances, and classical techniques.");
-        }
+    displayArtists(displayedArtists);
 
-        function showUserUploads() {
-            alert("🎶 Share your performances and connect with the community.");
+    loadMoreBtn.addEventListener("click", () => {
+        displayedArtists += 5;
+        if (displayedArtists >= artists.length) {
+            displayedArtists = artists.length;
+            loadMoreBtn.style.display = "none";
         }
-        function toggleMenu() {
-            const menu = document.getElementById("menu");
-            menu.classList.toggle("active");
-        }
-    </script>
-
+        displayArtists(displayedArtists);
+    });
+</script>
 </body>
 </html>
+

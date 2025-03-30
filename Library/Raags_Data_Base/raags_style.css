@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +13,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/Bug-Fixes/assets/bg.jpg') no-repeat center center fixed;
+    background: url(../../assets/bg.jpg) no-repeat center center fixed;
     background-size: cover;
     filter: blur(6px) brightness(50%);
     z-index: -1;
@@ -26,12 +27,97 @@ body {
     justify-content: center;
     flex-direction: column;
     min-height: 100vh;
-    padding: 60px 20px 80px;
+    padding: 15px 20px 80px;
+}
+/* Navbar */
+nav {
+    width: 100%;
+    background-color: black;
+    opacity: 0.9;
+    padding: 15px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+nav h1 {
+    color: yellow;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Desktop Menu */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: yellow;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: orange;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    color: yellow;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    padding: 15px 0;
+}
+
+.mobile-menu a {
+    color: yellow;
+    text-decoration: none;
+    padding: 10px;
+    text-align: center;
+    display: block;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.mobile-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+}
 /* Search Box */
 .search-box {
-    margin-bottom: 20px;
+    margin-bottom: 2px;
 }
 
 .search-box input {
@@ -49,17 +135,17 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     justify-content: center;
-    gap: 20px;
-    max-width: 800px;
+    gap: 10px;
+    max-width: 500px;
 }
 
 .raag-card {
     background: rgba(0, 0, 0, 0.85);
-    padding: 15px;
+    padding: 5px;
     border-radius: 10px;
     border: 2px solid #d4af37;
     box-shadow: 0px 5px 15px rgba(212, 175, 55, 0.5);
-    width: 180px;
+    width: 200px;
     transition: 0.3s;
 }
 
@@ -74,20 +160,22 @@ body {
 
 .raag-card h2 {
     display: block;
-    color: #d4af37;
+    color: #fcc100;
     font-size: 18px;
-    text-align: center;
     text-decoration: none;
     margin-top: 10px;
+    text-align: center;
 }
 
 .raag-card p {
     font-size: 14px;
     margin-top: 5px;
+    color: #ffffff;
     opacity: 0.8;
-    text-align: justify;
+    text-align: center;
 }
-footer {
+
+footer{
     position: fixed;
     bottom: 0;
     width: 100%;

@@ -276,28 +276,40 @@
   </head>
   <body>
     <nav class="navbar">
-      <a href="#" class="logo">AI Music Tool</a>
+      <a href="#" class="logo">Sargam AI</a>
       <div class="menu-toggle" onclick="toggleMenu()">☰</div>
       <ul class="menu" id="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="analysis.html">Analysis</a></li>
-        <li><a href="simulation.html">Simulation</a></li>
-        <li><a href="synthesis.html">Synthesis</a></li>
-        <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
-        <li><a href="Library/library.html">Library</a></li>
-        <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../analysis.html">Analysis</a></li>
+        <li><a href="../simulation.html">Simulation</a></li>
+        <li><a href="../synthesis.html">Synthesis</a></li>
+        <li>
+          <a href="../Instruments_Data_Base/instruments.html">Instruments</a>
+        </li>
+        <li><a href="../Library/library.html">Library</a></li>
+        <li><a href="../Artists_Data_Base/profiles.html">Artists</a></li>
       </ul>
     </nav>
 
     <div class="container">
       <h1>🎵 AI-Powered Music Analysis</h1>
-      <p>Upload an Indian classical music file to analyze its Raaga, Taal, and emotional expression.</p>
+      <p>
+        Upload an Indian classical music file to analyze its Raaga, Taal, and
+        emotional expression.
+      </p>
       <input type="file" id="musicFile" accept="audio/*" />
       <button id="analyzeBtn">🎶 Start the Analysis</button>
 
       <div style="display: none" id="analyzing">
         <h2 id="loading">Uploading...</h2>
-        <sl-spinner style="font-size: 2rem; --track-width: 5px; --indicator-color: #ff5733; --track-color: #d4af37;"></sl-spinner>
+        <sl-spinner
+          style="
+            font-size: 2rem;
+            --track-width: 5px;
+            --indicator-color: #ff5733;
+            --track-color: #d4af37;
+          "
+        ></sl-spinner>
       </div>
 
       <div class="result hidden" id="analysisResult">
@@ -310,7 +322,8 @@
     </div>
 
     <div class="footer">
-      © 2025 MusicStream | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a>
+      © 2025 Sargam AI | <a href="privacy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms & Conditions</a>
     </div>
 
     <script>
