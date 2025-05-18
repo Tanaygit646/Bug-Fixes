@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taal Database | AI Music Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0f00 50%, #251200 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative Elements */
+        .decoration {
+            position: absolute;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration.note-1 {
+            top: 20%;
+            left: 5%;
+            font-size: 5rem;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .decoration.note-2 {
+            top: 60%;
+            right: 7%;
+            font-size: 3.5rem;
+            animation: float 12s ease-in-out infinite 2s;
+        }
+
+        .decoration.note-3 {
+            bottom: 15%;
+            left: 10%;
+            font-size: 4rem;
+            animation: float 18s ease-in-out infinite 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .wave-decorator {
+            position: absolute;
+            height: 50px;
+            width: 100%;
+            opacity: 0.1;
+            overflow: hidden;
+        }
+
+        .wave-decorator.top {
+            top: 0;
+        }
+
+        .wave-decorator.bottom {
+            bottom: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-decorator svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(90deg, #000000 0%, #1a0f00 100%);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(255, 165, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFA500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav h1 .logo-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #FFA500;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.3rem 0;
+        }
+
+        .nav-links li a:hover {
+            color: #FFA500;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #FFA500;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #FFA500;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            flex-direction: column;
+            padding: 1rem 0;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.2);
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 99;
+            border-bottom: 1px solid #FFA500;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu li {
+            list-style: none;
+            padding: 0.8rem 2rem;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+        }
+
+        .mobile-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu li a:hover {
+            color: #FFA500;
+        }
+
+        /* Main Content */
+        .page-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            color: #FFA500;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-header h1 .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #FFA500;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0.5rem auto 0;
+            color: #c0c0c0;
+        }
+
+        .divider {
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFA500, transparent);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            padding: 0 1rem;
+        }
+
+        .search-box {
+            display: flex;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(255, 165, 0, 0.15);
+            border-radius: 50px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: #e0e0e0;
+        }
+
+        .search-box input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .search-box::after {
+            content: "🔍";
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #FFA500;
+        }
+
+        /* Sound Wave Visualization */
+        .sound-wave {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            opacity: 0.5;
+        }
+
+        .sound-wave .bar {
+            width: 4px;
+            background: #FFA500;
+            margin: 0 2px;
+            border-radius: 5px;
+            animation: sound-wave 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sound-wave {
+            0%, 100% { height: 5px; }
+            50% { height: 30px; }
+        }
+
+        .sound-wave .bar:nth-child(1) { animation-delay: 0.2s; }
+        .sound-wave .bar:nth-child(2) { animation-delay: 0.3s; }
+        .sound-wave .bar:nth-child(3) { animation-delay: 0.4s; }
+        .sound-wave .bar:nth-child(4) { animation-delay: 0.5s; }
+        .sound-wave .bar:nth-child(5) { animation-delay: 0.6s; }
+        .sound-wave .bar:nth-child(6) { animation-delay: 0.7s; }
+        .sound-wave .bar:nth-child(7) { animation-delay: 0.8s; }
+        .sound-wave .bar:nth-child(8) { animation-delay: 0.9s; }
+        .sound-wave .bar:nth-child(9) { animation-delay: 1.0s; }
+        .sound-wave .bar:nth-child(10) { animation-delay: 0.1s; }
+
+        /* Taal Cards Container */
+        .taal-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 5% 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .taal-card {
+            background: rgba(20, 10, 0, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 165, 0, 0.2);
+            position: relative;
+        }
+
+        .taal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+        }
+
+        .taal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .taal-header {
+            background: linear-gradient(45deg, #321900 0%, #1a0f00 100%);
+            color: #FFA500;
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .taal-title {
+            flex-grow: 1;
+        }
+
+        .taal-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .taal-header .beats {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: #e0e0e0;
+        }
+
+        .taal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 165, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFA500;
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .taal-body {
+            padding: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .taal-body p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #c0c0c0;
+            line-height: 1.6;
+        }
+
+        .taal-footer {
+            background: rgba(20, 10, 0, 0.8);
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+            color: #FFA500;
+            font-weight: 500;
+            border-top: 1px solid rgba(255, 165, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .taal-footer .usage {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .taal-footer .btn {
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .taal-footer .btn:hover {
+            background: rgba(255, 0, 0, 1);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #000000 0%, #1a0f00 100%);
+            color: #c0c0c0;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 165, 0, 0.3);
+            position: relative;
+        }
+
+        footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        footer .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFA500;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        footer .logo .logo-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #FFA500;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: #c0c0c0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FFA500;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 165, 0, 0.1);
+            color: #FFA500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .social-links a:hover {
+            background: #FFA500;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        footer .copyright {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 165, 0, 0.2);
+            color: #FFA500;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #FFA500;
+            color: #000;
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .taal-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+                padding: 0 1rem 3rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Elements -->
+    <div class="decoration note-1">♪</div>
+    <div class="decoration note-2">♫</div>
+    <div class="decoration note-3">♩</div>
+
+    <div class="wave-decorator top">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="#FFA500" opacity=".25"></path>
+        </svg>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <h1><span class="logo-circle"><i class="fas fa-music"></i></span> AI Music Tool</h1>
+
+        <!-- Hamburger Icon -->
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+
+        <!-- Desktop Menu -->
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="analysis.html">Analysis</a></li>
+            <li><a href="simulation.html">Simulation</a></li>
+            <li><a href="synthesis.html">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+            <li><a href="Library/library.html">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+            <li><a href="Explore/explore.html">Explore</a></li>
+        </ul>
+
+        <!-- Mobile Menu -->
+        <ul id="mobileMenu" class="mobile-menu">
+            <li><a href="index.html" onclick="closeMenu()"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="analysis.html" onclick="closeMenu()"><i class="fas fa-chart-line"></i> Analysis</a></li>
+            <li><a href="simulation.html" onclick="closeMenu()"><i class="fas fa-sliders-h"></i> Simulation</a></li>
+            <li><a href="synthesis.html" onclick="closeMenu()"><i class="fas fa-magic"></i> Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html" onclick="closeMenu()"><i class="fas fa-guitar"></i> Instruments</a></li>
+            <li><a href="Library/library.html" onclick="closeMenu()"><i class="fas fa-book"></i> Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html" onclick="closeMenu()"><i class="fas fa-user"></i> Artists</a></li>
+            <li><a href="Explore/explore.html" onclick="closeMenu()"><i class="fas fa-compass"></i> Explore</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><span class="icon-circle"><i class="fas fa-drum"></i></span> Indian Classical Taal Database</h1>
+        <div class="divider"></div>
+        <p>Explore the rich rhythmic patterns of Indian classical music through our comprehensive collection of taals</p>
+    </div>
+
+    <!-- Sound Wave Animation -->
+    <div class="sound-wave">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchBar" placeholder="Search by name, beats, or description..." onkeyup="searchTaal()">
+        </div>
+    </div>
+
+    <!-- Taal Cards -->
+    <div class="taal-container" id="taalList">
+        <!-- Taal cards will be populated by JavaScript -->
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <span class="logo-circle"><i class="fas fa-music"></i></span> AI Music Tool
+            </div>
+            
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Features</a>
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-soundcloud"></i></a>
+            </div>
+            
+            <p>Made with <span style="color: #FFA500;">❤️</span> by Bugs & Fixes</p>
+            <p class="copyright">&copy; 2025 AI Music Tool. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Taal data with expanded descriptions
+        const taals = [
+            { 
+                name: "Teentaal", 
+                beats: 16,
+                description: "The most widely used taal in Hindustani classical music. It consists of 16 beats divided into four equal parts. Its versatile nature makes it suitable for various forms including khyal, thumri, and instrumental compositions.",
+                usage: "Commonly used in medium to fast tempo performances",
+                icon: "drum"
+            },
+            { 
+                name: "Dadra", 
+                beats: 6,
+                description: "A light and rhythmic taal with 6 beats divided into two parts. It has a flowing quality that makes it ideal for semi-classical forms like thumri, dadra, and ghazal compositions.",
+                usage: "Popular in light classical and folk-inspired pieces",
+                icon: "music"
+            },
+            { 
+                name: "Kaharba", 
+                beats: 8,
+                description: "An energetic 8-beat taal that is particularly popular in folk and light classical music. Its symmetrical structure gives it a balanced feel that makes it accessible for beginners.",
+                usage: "Frequently used in bhajans and folk-based compositions",
+                icon: "drum-steelpan"
+            },
+            { 
+                name: "Jhaaptaal", 
+                beats: 10,
+                description: "A complex 10-beat taal divided into 2+3+2+3 pattern that creates an interesting rhythmic asymmetry. This structure provides a unique flow that challenges both performers and listeners.",
+                usage: "Often featured in instrumental solos and complex vocal compositions",
+                icon: "drum"
+            },
+            { 
+                name: "Ektaal", 
+                beats: 12,
+                description: "A balanced and steady 12-beat taal divided into six parts of two beats each. Its steady and symmetric structure makes it suitable for elaborate melodic improvisations.",
+                usage: "Preferred for slower tempo vilambit khyal and dhrupad",
+                icon: "music"
+            },
+            { 
+                name: "Dhamaar", 
+                beats: 14,
+                description: "A majestic 14-beat taal with a 5+2+3+4 structure. Originally associated with the Dhrupad genre, it has a royal and profound character with complex mathematical possibilities.",
+                usage: "Traditional choice for Dhrupad compositions",
+                icon: "drum-steelpan"
+            },
+            { 
+                name: "Sooltaal", 
+                beats: 10,
+                description: "A powerful 10-beat rhythm pattern arranged as 2+2+2+2+2. Its consistent binary structure provides a strong foundation for complex melodic explorations.",
+                usage: "Used in classical instrumental performances and dance",
+                icon: "drum"
+            },
+            { 
+                name: "Ada Chautaal", 
+                beats: 14,
+                description: "A rare and unique 14-beat taal with a complex structure of 2+4+4+4. Its unusual grouping creates distinctive rhythmic textures that stand out in performances.",
+                usage: "Featured in specialized classical recitals",
+                icon: "music"
+            },
+            { 
+                name: "Deepchandi", 
+                beats: 14,
+                description: "A graceful 14-beat taal divided into 3+4+3+4 that creates a beautiful lilting pattern. It shares similarities with Dhamaar but has its own unique character.",
+                usage: "Common in thumri, dadra and semi-classical genres",
+                icon: "drum-steelpan"
+            },
+            { 
+                name: "Rupak", 
+                beats: 7,
+                description: "A smooth flowing 7-beat taal with a unique structure of 3+2+2. Unlike most taals, it begins with a khali (empty) beat, creating a distinctive rhythmic experience.",
+                usage: "Used in lighter classical compositions and instrumental pieces",
+                icon: "drum"
+            },
+            { 
+                name: "Chautal", 
+                beats: 12,
+                description: "A traditional 12-beat taal associated with the ancient Dhrupad style. Its structure of 2+2+2+2+2+2 provides a solid foundation for elaborate compositions.",
+                usage: "Primarily used in Dhrupad and Dhamar genres",
+                icon: "music"
+            },
+            { 
+                name: "Khemta", 
+                beats: 6,
+                description: "An energetic and upbeat 6-beat taal that maintains a lively character throughout. Its vibrant nature makes it particularly well-suited for dance accompaniment.",
+                usage: "Popular in Kathak dance performances and light compositions",
+                icon: "drum-steelpan"
+            },
+        ];
+    
+        // Populate taal cards
+        const taalList = document.getElementById("taalList");
+        taals.forEach(taal => {
+            const taalCard = document.createElement("div");
+            taalCard.className = "taal-card";
+            taalCard.onclick = function(e) {
+                if (!e.target.classList.contains('btn')) {
+                    window.location.href = `taal-${taal.name.toLowerCase().replace(' ', '-')}.html`;
+                }
+            };
+            
+            taalCard.innerHTML = `
+                <div class="taal-header">
+                    <div class="taal-title">
+                        <h2>${taal.name}</h2>
+                        <div class="beats">${taal.beats} Beats</div>
+                    </div>
+<div class="taal-icon">
+                        <i class="fas fa-${taal.icon}"></i>
+                    </div>
+                </div>
+                <div class="taal-body">
+                    <p>${taal.description}</p>
+                </div>
+                <div class="taal-footer">
+                    <div class="usage"><i class="fas fa-info-circle"></i> ${taal.usage}</div>
+                    <button class="btn">Listen</button>
+                </div>
+            `;
+            
+            taalList.appendChild(taalCard);
+        });
+        
+        // Search functionality
+        function searchTaal() {
+            const searchText = document.getElementById("searchBar").value.toLowerCase();
+            const taalCards = document.querySelectorAll(".taal-card");
+            
+            taalCards.forEach(card => {
+                const taalName = card.querySelector("h2").textContent.toLowerCase();
+                const taalBeats = card.querySelector(".beats").textContent.toLowerCase();
+                const taalDesc = card.querySelector(".taal-body p").textContent.toLowerCase();
+                
+                if (taalName.includes(searchText) || taalBeats.includes(searchText) || taalDesc.includes(searchText)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+        
+        // Mobile menu toggle
+        function toggleMenu() {
+            const mobileMenu = document.getElementById("mobileMenu");
+            mobileMenu.classList.toggle("active");
+        }
+        
+        function closeMenu() {
+            const mobileMenu = document.getElementById("mobileMenu");
+            mobileMenu.classList.remove("active");
+        }
+        
+        // Back to top button
+        const backToTopButton = document.getElementById("backToTop");
+        
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add("visible");
+            } else {
+                backToTopButton.classList.remove("visible");
+            }
+        });
+        
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>

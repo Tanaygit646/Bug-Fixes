@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sargam AI | Revolutionizing Indian Classical Music with AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-amber: #FFA500;
+            --accent-gold: #FFD700;
+            --dark-bg: #1a1a2e;
+            --mid-bg: #16213e;
+            --light-bg: #0f3460;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--mid-bg) 50%, var(--light-bg) 100%);
+            color: #e7e7e7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 165, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 165, 0, 0.1);
+            border-color: var(--primary-amber);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff4444, #cc3333);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 68, 68, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--primary-amber), var(--accent-gold));
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 165, 0, 0.3);
+        }
+        
+        .sound-wave {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .sound-bar {
+            width: 4px;
+            background: var(--primary-amber);
+            border-radius: 2px;
+            animation: soundWave 1.5s ease-in-out infinite;
+        }
+        
+        .sound-bar:nth-child(2) { animation-delay: 0.1s; }
+        .sound-bar:nth-child(3) { animation-delay: 0.2s; }
+        .sound-bar:nth-child(4) { animation-delay: 0.3s; }
+        .sound-bar:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes soundWave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+        
+        .wavy-separator {
+            width: 100%;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 Q300,0 600,60 T1200,60 L1200,120 L0,120 Z' fill='%23FFA500' opacity='0.1'/%3E%3C/svg%3E") no-repeat;
+            background-size: cover;
+        }
+        
+        .floating-note {
+            position: absolute;
+            color: var(--primary-amber);
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .star-rating {
+            color: var(--accent-gold);
+        }
+        
+        .faq-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background: rgba(255, 165, 0, 0.05);
+        }
+        
+        .golden-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-amber), var(--accent-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 24px;
+            margin: 0 auto 1rem;
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-amber), var(--accent-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 32px;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .service-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary-amber), var(--accent-gold));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured::before {
+            opacity: 1;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-amber);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 165, 0, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-amber);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-lg border-b border-amber-500/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-music text-3xl text-amber-500"></i>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-amber-500 to-yellow-400 bg-clip-text text-transparent">
+                        Sargam AI
+                    </span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-300 hover:text-amber-500">Home</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-amber-500">About</a>
+                    <a href="#features" class="nav-link text-gray-300 hover:text-amber-500">Features</a>
+                    <a href="#pricing" class="nav-link text-gray-300 hover:text-amber-500">Pricing</a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-amber-500">Contact</a>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button class="text-amber-500 hover:text-amber-400 hidden md:block">Sign In</button>
+                    <button class="btn-primary">Get Started</button>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden text-amber-500">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative">
+        <!-- Floating notes -->
+        <div class="floating-note" style="top: 20%; left: 10%;"><i class="fas fa-music text-2xl"></i></div>
+        <div class="floating-note" style="top: 70%; right: 15%; animation-delay: 2s;"><i class="fas fa-music text-xl"></i></div>
+        <div class="floating-note" style="top: 40%; right: 8%; animation-delay: 4s;"><i class="fas fa-music text-lg"></i></div>
+        
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-amber-500 to-yellow-400 bg-clip-text text-transparent">
+                        Sargam AI
+                    </span>
+                    <br />
+                    <span class="text-white">Where Tradition Meets Innovation</span>
+                </h1>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="sound-wave">
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                    </div>
+                </div>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+                    Experience the magic of Indian classical music through advanced AI. 
+                    Compose, learn, and explore ragas like never before.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn-primary">
+                        <i class="fas fa-play mr-2"></i>
+                        Start Creating Now
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-book mr-2"></i>
+                        Browse Library
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+        <div class="wavy-separator"></div>
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-amber-500">What is</span> 
+                    <span class="text-white">Sargam AI?</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Sargam AI is a revolutionary platform that bridges the gap between ancient Indian classical music traditions 
+                    and cutting-edge artificial intelligence technology.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="golden-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-500 mb-2">AI-Powered Composition</h3>
+                            <p class="text-gray-300">
+                                Our advanced algorithms understand the intricate patterns and rules of ragas, 
+                                helping you create authentic compositions effortlessly.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="golden-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-500 mb-2">Interactive Learning</h3>
+                            <p class="text-gray-300">
+                                Learn from the masters with our comprehensive database of ragas, talas, 
+                                and traditional compositions with modern teaching methods.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="golden-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-amber-500 mb-2">Community of Artists</h3>
+                            <p class="text-gray-300">
+                                Connect with fellow musicians, share your creations, and collaborate 
+                                on projects that push the boundaries of traditional music.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-8">
+                    <img src="/api/placeholder/500/400" alt="Sargam AI Interface" class="w-full rounded-lg" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-gradient-to-r from-amber-500/5 to-yellow-400/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-white">How It</span> 
+                    <span class="text-amber-500">Works</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Four simple steps to unlock the power of AI in Indian classical music
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="glass-card p-6 text-center">
+                    <div class="golden-icon">
+                        <span class="font-bold text-2xl">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-500 mb-3">Choose Your Raga</h3>
+                    <p class="text-gray-300">Select from our extensive database of traditional ragas or let AI suggest based on your mood.</p>
+                </div>
+                
+                <div class="glass-card p-6 text-center">
+                    <div class="golden-icon">
+                        <span class="font-bold text-2xl">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-500 mb-3">Set Parameters</h3>
+                    <p class="text-gray-300">Define tempo, scale, instruments, and complexity to match your artistic vision.</p>
+                </div>
+                
+                <div class="glass-card p-6 text-center">
+                    <div class="golden-icon">
+                        <span class="font-bold text-2xl">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-500 mb-3">AI Generates</h3>
+                    <p class="text-gray-300">Our AI creates authentic compositions following traditional rules while adding creative variations.</p>
+                </div>
+                
+                <div class="glass-card p-6 text-center">
+                    <div class="golden-icon">
+                        <span class="font-bold text-2xl">4</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-500 mb-3">Refine & Share</h3>
+                    <p class="text-gray-300">Edit, enhance, and share your masterpiece with the global music community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features/Offerings Section -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-white">Our</span> 
+                    <span class="text-amber-500">Offerings</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Comprehensive tools and resources for every aspect of Indian classical music
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-compose"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">AI Composition</h3>
+                    <p class="text-gray-300 mb-6">Create original compositions with AI assistance, respecting traditional raga structures.</p>
+                    <button class="btn-secondary">Explore</button>
+                </div>
+                
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">Raga Database</h3>
+                    <p class="text-gray-300 mb-6">Comprehensive database of ragas with detailed analysis and audio examples.</p>
+                    <button class="btn-secondary">Browse</button>
+                </div>
+                
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">Music Analysis</h3>
+                    <p class="text-gray-300 mb-6">Advanced analysis tools to understand the structure and theory behind compositions.</p>
+                    <button class="btn-secondary">Analyze</button>
+                </div>
+                
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">Audio Synthesis</h3>
+                    <p class="text-gray-300 mb-6">High-quality audio synthesis with authentic Indian classical instruments.</p>
+                    <button class="btn-secondary">Listen</button>
+                </div>
+                
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">Collaboration Tools</h3>
+                    <p class="text-gray-300 mb-6">Work together with other musicians in real-time on musical projects.</p>
+                    <button class="btn-secondary">Collaborate</button>
+                </div>
+                
+                <div class="glass-card p-8 text-center group">
+                    <div class="service-icon group-hover:scale-110">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">Learning Platform</h3>
+                    <p class="text-gray-300 mb-6">Interactive lessons and tutorials for all skill levels.</p>
+                    <button class="btn-secondary">Learn</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gradient-to-r from-amber-500/5 to-yellow-400/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-white">What Our</span> 
+                    <span class="text-amber-500">Artists Say</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Hear from musicians who are already revolutionizing their craft with Sargam AI
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <img src="/api/placeholder/60/60" alt="Artist" class="w-12 h-12 rounded-full mr-4" />
+                        <div>
+                            <h4 class="font-bold text-amber-500">Ravi Shankar Jr.</h4>
+                            <p class="text-sm text-gray-400">Sitar Virtuoso</p>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300">
+                        "Sargam AI has transformed how I approach composition. It respects traditional boundaries while opening new creative possibilities."
+                    </p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <img src="/api/placeholder/60/60" alt="Artist" class="w-12 h-12 rounded-full mr-4" />
+                        <div>
+                            <h4 class="font-bold text-amber-500">Lakshmi Devi</h4>
+                            <p class="text-sm text-gray-400">Vocal Artist</p>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300">
+                        "The learning platform helped me master complex ragas in months instead of years. Absolutely revolutionary!"
+                    </p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-4">
+                        <img src="/api/placeholder/60/60" alt="Artist" class="w-12 h-12 rounded-full mr-4" />
+                        <div>
+                            <h4 class="font-bold text-amber-500">Arjun Krishnan</h4>
+                            <p class="text-sm text-gray-400">Music Producer</p>
+                        </div>
+                    </div>
+                    <div class="star-rating mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-300">
+                        "The collaboration tools have connected me with artists worldwide. We're creating fusion pieces that honor tradition."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20">
+        <div class="wavy-separator" style="transform: rotate(180deg);"></div>
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-white">Frequently Asked</span> 
+                    <span class="text-amber-500">Questions</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Everything you need to know about Sargam AI
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="faq-item glass-card p-6 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-amber-500">How does Sargam AI understand traditional ragas?</h3>
+                        <i class="fas fa-chevron-down transition-transform text-amber-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-300 hidden">
+                        Our AI has been trained on thousands of classical compositions and performances by master musicians. 
+                        It understands the intricate rules, patterns, and emotional nuances of each raga, ensuring authentic generations.
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-card p-6 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-amber-500">Can I use Sargam AI for commercial projects?</h3>
+                        <i class="fas fa-chevron-down transition-transform text-amber-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-300 hidden">
+                        Yes! Our Premium and Professional plans include commercial usage rights. 
+                        All compositions generated are royalty-free for your projects.
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-card p-6 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-amber-500">Do I need musical knowledge to use Sargam AI?</h3>
+                        <i class="fas fa-chevron-down transition-transform text-amber-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-300 hidden">
+                        Not at all! Our platform is designed for both beginners and experts. 
+                        Our guided interface and learning modules help anyone create beautiful music.
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-card p-6 cursor-pointer" onclick="toggleFAQ(this)">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-amber-500">What instruments are available for synthesis?</h3>
+                        <i class="fas fa-chevron-down transition-transform text-amber-500"></i>
+                    </div>
+                    <div class="faq-answer mt-4 text-gray-300 hidden">
+                        We offer a comprehensive library including sitar, tabla, tanpura, flute, violin, sarod, 
+                        and many other traditional Indian instruments with authentic sound modeling.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wavy-separator"></div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gradient-to-r from-amber-500/5 to-yellow-400/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-white">Choose Your</span> 
+                    <span class="text-amber-500">Plan</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    

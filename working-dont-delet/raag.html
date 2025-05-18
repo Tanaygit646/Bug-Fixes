@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raag Database | AI Music Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0D0D0D 0%, #2A1506 50%, #3D2207 100%);
+            color: #e7e7e7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .golden-text {
+            color: #FFA500;
+        }
+        
+        .wavy-decorator {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 C30,28 70,-8 100,10 C130,28 170,-8 200,10 C230,28 270,-8 300,10 C330,28 370,-8 400,10 C430,28 470,-8 500,10 C530,28 570,-8 600,10 C630,28 670,-8 700,10 C730,28 770,-8 800,10 C830,28 870,-8 900,10 C930,28 970,-8 1000,10 C1030,28 1070,-8 1100,10 L1100,50 L0,50 Z' fill='none' stroke='rgba(255, 165, 0, 0.15)' stroke-width='2'/%3E%3C/svg%3E") repeat-x;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .raag-card {
+            background: rgba(20, 10, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .raag-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.5), transparent);
+        }
+        
+        .raag-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+        }
+        
+        .search-bar {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 30px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 165, 0, 0.5);
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+        }
+        
+        .filter-btn {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            color: #FFA500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #FFA500;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            background: linear-gradient(135deg, #0D0D0D 0%, #2A1506 100%);
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease;
+            z-index: 40;
+        }
+        
+        .mobile-menu.open {
+            height: auto;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.2);
+        }
+        
+        .sound-wave {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+        }
+        
+        .sound-wave span {
+            background: #FFA500;
+            width: 3px;
+            height: 100%;
+            margin: 0 2px;
+            border-radius: 50px;
+            animation: sound-wave-animation 1.2s infinite ease-in-out;
+        }
+        
+        .sound-wave span:nth-child(1) { animation-delay: 0.1s; height: 10%; }
+        .sound-wave span:nth-child(2) { animation-delay: 0.2s; height: 30%; }
+        .sound-wave span:nth-child(3) { animation-delay: 0.3s; height: 70%; }
+        .sound-wave span:nth-child(4) { animation-delay: 0.4s; height: 90%; }
+        .sound-wave span:nth-child(5) { animation-delay: 0.5s; height: 60%; }
+        .sound-wave span:nth-child(6) { animation-delay: 0.6s; height: 20%; }
+        .sound-wave span:nth-child(7) { animation-delay: 0.7s; height: 40%; }
+        
+        @keyframes sound-wave-animation {
+            0%, 100% { transform: scaleY(0.6); opacity: 0.6; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+        
+        .floating-note {
+            position: absolute;
+            color: rgba(255, 165, 0, 0.2);
+            animation: float-animation 15s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        @keyframes float-animation {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .primary-cta {
+            background: linear-gradient(135deg, #FF3A44 0%, #C70039 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(199, 0, 57, 0.3);
+        }
+        
+        .secondary-cta {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.5);
+            color: #FFA500;
+            transition: all 0.3s ease;
+        }
+        
+        .secondary-cta:hover {
+            background: rgba(255, 165, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .golden-icon {
+            color: #FFA500;
+            background: rgba(255, 165, 0, 0.1);
+            border-radius: 50%;
+            padding: 0.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Music Notes -->
+    <div class="floating-note text-4xl" style="top: 20%; left: 5%;">♪</div>
+    <div class="floating-note text-5xl" style="top: 50%; right: 10%; animation-delay: 3s;">♫</div>
+    <div class="floating-note text-3xl" style="bottom: 30%; left: 15%; animation-delay: 6s;">♩</div>
+    <div class="floating-note text-6xl" style="top: 10%; right: 20%; animation-delay: 9s;">𝄞</div>
+
+    <!-- Navigation Bar -->
+    <nav class="w-full bg-opacity-90 bg-black py-4 px-6 fixed top-0 left-0 z-50 flex justify-between items-center border-b border-amber-800">
+        <h1 class="text-2xl text-amber-500 font-bold flex items-center">
+            <span class="mr-2">🎵</span> AI Music Tool
+        </h1>
+        <div class="md:hidden cursor-pointer text-amber-500 text-3xl" onclick="toggleMenu()">☰</div>
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="index.html" class="text-amber-500 hover:text-amber-300 nav-link">Home</a></li>
+            <li><a href="analysis.html" class="text-amber-500 hover:text-amber-300 nav-link">Analysis</a></li>
+            <li><a href="simulation.html" class="text-amber-500 hover:text-amber-300 nav-link">Simulation</a></li>
+            <li><a href="synthesis.html" class="text-amber-500 hover:text-amber-300 nav-link">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html" class="text-amber-500 hover:text-amber-300 nav-link">Instruments</a></li>
+            <li><a href="Library/library.html" class="text-amber-500 hover:text-amber-300 nav-link">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html" class="text-amber-500 hover:text-amber-300 nav-link">Artists</a></li>
+            <li><a href="Explore/explore.html" class="text-amber-500 hover:text-amber-300 nav-link">Explore</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden" id="mobileMenu">
+        <ul class="flex flex-col space-y-4 px-6">
+            <li><a href="index.html" class="text-amber-500 hover:text-amber-300 block py-2">Home</a></li>
+            <li><a href="analysis.html" class="text-amber-500 hover:text-amber-300 block py-2">Analysis</a></li>
+            <li><a href="simulation.html" class="text-amber-500 hover:text-amber-300 block py-2">Simulation</a></li>
+            <li><a href="synthesis.html" class="text-amber-500 hover:text-amber-300 block py-2">Synthesis</a></li>
+            <li><a href="Instruments_Data_Base/instruments.html" class="text-amber-500 hover:text-amber-300 block py-2">Instruments</a></li>
+            <li><a href="Library/library.html" class="text-amber-500 hover:text-amber-300 block py-2">Library</a></li>
+            <li><a href="Artists_Data_Base/profiles.html" class="text-amber-500 hover:text-amber-300 block py-2">Artists</a></li>
+            <li><a href="Explore/explore.html" class="text-amber-500 hover:text-amber-300 block py-2">Explore</a></li>
+        </ul>
+    </div>
+
+    <div class="container mx-auto px-4 pt-24 pb-10">
+        <div class="text-center mb-12 relative">
+            <div class="wavy-decorator" style="top: -20px;"></div>
+            <div class="flex justify-center mb-4">
+                <div class="golden-icon text-3xl">
+                    <i class="fas fa-music"></i>
+                </div>
+            </div>
+            <h1 class="text-4xl font-bold mb-2 text-amber-500">Indian Classical Raag Database</h1>
+            <p class="text-lg text-gray-300 max-w-2xl mx-auto">Explore the rich tradition of Indian classical music through our comprehensive collection of raags. Each raag has unique characteristics, emotional expressions, and time associations.</p>
+            
+            <!-- Sound Wave Visualization -->
+            <div class="sound-wave mt-6">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- Search Bar & Filters -->
+        <div class="mb-10">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
+                <div class="relative w-full max-w-md">
+                    <input type="text" id="searchBar" placeholder="Search by raag name or mood..." onkeyup="filterRaags()" class="search-bar">
+                    <svg class="w-5 h-5 absolute right-4 top-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-2">
+                <button class="filter-btn px-4 py-1 active" data-filter="all" onclick="filterByTime(this, 'all')">All Raags</button>
+                <button class="filter-btn px-4 py-1" data-filter="morning" onclick="filterByTime(this, 'morning')">Morning</button>
+                <button class="filter-btn px-4 py-1" data-filter="afternoon" onclick="filterByTime(this, 'afternoon')">Afternoon</button>
+                <button class="filter-btn px-4 py-1" data-filter="evening" onclick="filterByTime(this, 'evening')">Evening</button>
+                <button class="filter-btn px-4 py-1" data-filter="night" onclick="filterByTime(this, 'night')">Night</button>
+            </div>
+        </div>
+
+        <!-- Raag Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="raagList"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 relative">
+        <div class="wavy-decorator" style="top: 0; transform: rotate(180deg);"></div>
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-amber-500 hover:text-amber-300 transition-colors">
+                    <div class="golden-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </a>
+                <a href="#" class="text-amber-500 hover:text-amber-300 transition-colors">
+                    <div class="golden-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </a>
+                <a href="#" class="text-amber-500 hover:text-amber-300 transition-colors">
+                    <div class="golden-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </a>
+            </div>
+            <p class="text-amber-500">Made with ❤️ by Bugs & Fixes</p>
+            <p class="text-gray-400 text-sm mt-2">&copy; 2025 AI Music Tool. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const raags = [
+            { 
+                name: "Yaman", 
+                description: "One of the most prominent raags in Indian classical music, Yaman creates a mood of devotion and peace. It is characterized by its serene and majestic quality.",
+                time: "evening",
+                aroha: "Ni Re Ga Ma# Pa Dha Ni Sa'",
+                avaroha: "Sa' Ni Dha Pa Ma# Ga Re Sa",
+                vadi: "Ga",
+                samvadi: "Ni",
+                pakad: "Ni Re Ga, Ma# Pa, Dha Pa, Ma# Ga, Re Sa",
+                rasa: "Devotion, Peace, Serenity",
+                thaat: "Kalyan"
+            },
+            { 
+                name: "Bhairav", 
+                description: "A profound and ancient raag, Bhairav is characterized by its serious and meditative mood. It has a distinctive use of komal Re and komal Dha.",
+                time: "morning",
+                aroha: "Sa Re♭ Ga Ma Pa Dha♭ Ni Sa'",
+                avaroha: "Sa' Ni Dha♭ Pa Ma Ga Re♭ Sa",
+                vadi: "Dha♭",
+                samvadi: "Re♭",
+                pakad: "Re♭ Ga Re♭ Sa, Dha♭ Ma Pa, Ma Ga Re♭ Sa",
+                rasa: "Seriousness, Devotion, Meditation",
+                thaat: "Bhairav"
+            },
+            { 
+                name: "Bhairavi", 
+                description: "Often referred to as the 'queen of raags', Bhairavi has a profound emotional impact. All notes are komal (flat) except Sa and Pa, giving it a distinctive melancholic texture.",
+                time: "morning",
+                aroha: "Sa Re♭ Ga♭ Ma Pa Dha♭ Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha♭ Pa Ma Ga♭ Re♭ Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Ma Ga♭ Re♭ Sa, Ni♭ Dha♭ Pa Ma, Pa Dha♭ Ma Ga♭",
+                rasa: "Tranquility, Devotion, Romance",
+                thaat: "Bhairavi"
+            },
+            { 
+                name: "Darbari Kanada", 
+                description: "A profound raag created by Mian Tansen for Emperor Akbar. It's known for its distinctive meend (gliding) between notes that creates a deeply emotional atmosphere.",
+                time: "night",
+                aroha: "Sa Re Ga♭ Ma Pa Dha♭ Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha♭ Pa Ma Ga♭ Re Sa",
+                vadi: "Re",
+                samvadi: "Pa",
+                pakad: "Dha♭ Ni♭ Re' Sa' Ni♭ Dha♭ Pa, Ma Pa Ga♭ Ma Re Sa",
+                rasa: "Seriousness, Pathos, Deep emotion",
+                thaat: "Asavari"
+            },
+            { 
+                name: "Malkauns", 
+                description: "One of the oldest raags in Indian classical music, Malkauns has a profound, mystical quality. It uses only five notes (Sa, Ga♭, Ma, Dha♭, Ni♭), creating a powerful pentatonic structure.",
+                time: "night",
+                aroha: "Sa Ga♭ Ma Dha♭ Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha♭ Ma Ga♭ Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Ni♭ Dha♭ Ma, Ma Ga♭ Sa, Ni♭ Sa Ga♭ Ma",
+                rasa: "Mystery, Power, Tranquility",
+                thaat: "Bhairavi"
+            },
+            { 
+                name: "Kaafi", 
+                description: "A romantic and expressive raag that blends elements of folk music. Kaafi has a unique flexibility and is popular in both classical and light classical genres.",
+                time: "evening",
+                aroha: "Sa Re Ga Ma Pa Dha Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha Pa Ma Ga Re Sa",
+                vadi: "Pa",
+                samvadi: "Sa",
+                pakad: "Ma Pa Ni♭ Dha Pa, Ma Ga, Re Sa",
+                rasa: "Romance, Passion, Joy",
+                thaat: "Kafi"
+            },
+            { 
+                name: "Bageshree", 
+                description: "A raag that beautifully expresses the emotions of longing and love. Its melodic phrases create a romantic atmosphere, making it perfect for late night performances.",
+                time: "night",
+                aroha: "Sa Re Ga Ma Pa Dha Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha Pa Ma Ga Re Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Pa Ma Ga, Ma Re Sa, Ni♭ Dha Pa Ma Ga",
+                rasa: "Longing, Love, Separation",
+                thaat: "Kafi"
+            },
+            { 
+                name: "Bhimpalasi", 
+                description: "A melodious afternoon raag that creates a contemplative mood. It's known for its graceful and flowing phrases that evoke a sense of inner peace.",
+                time: "afternoon",
+                aroha: "Sa Ga Ma Pa Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha Pa Ma Ga Re Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Ma Pa Dha Pa, Ma Ga, Re Ni♭ Sa",
+                rasa: "Contemplation, Serenity, Introspection",
+                thaat: "Kafi"
+            },
+            { 
+                name: "Todi", 
+                description: "Considered one of the most complex raags, Todi has a profound, serious character. Its unique combination of notes creates a deeply introspective atmosphere.",
+                time: "morning",
+                aroha: "Sa Re♭ Ga♭ Ma# Pa Dha♭ Ni Sa'",
+                avaroha: "Sa' Ni Dha♭ Pa Ma# Ga♭ Re♭ Sa",
+                vadi: "Dha♭",
+                samvadi: "Ga♭",
+                pakad: "Re♭ Ga♭ Ma# Ga♭, Re♭ Sa, Ni Re♭ Sa",
+                rasa: "Seriousness, Profundity, Devotion",
+                thaat: "Todi"
+            },
+            { 
+                name: "Desh", 
+                description: "A light and patriotic raag often associated with the monsoon season. Its melodic structure evokes feelings of joy and celebration of nature's beauty.",
+                time: "evening",
+                aroha: "Sa Re Ma Pa Ni Sa'",
+                avaroha: "Sa' Ni Pa Ma Ga Re Sa",
+                vadi: "Re",
+                samvadi: "Pa",
+                pakad: "Re Ma Pa, Ni Pa, Ma Ga Re Sa",
+                rasa: "Patriotism, Joy, Nature",
+                thaat: "Khamaj"
+            },
+            { 
+                name: "Bhoopali", 
+                description: "A serene pentatonic raag that creates a simple yet profound atmosphere. Its limited structure of five notes creates a uniquely uplifting quality.",
+                time: "evening",
+                aroha: "Sa Re Ga Pa Dha Sa'",
+                avaroha: "Sa' Dha Pa Ga Re Sa",
+                vadi: "Ga",
+                samvadi: "Dha",
+                pakad: "Pa Dha Pa, Ga Re Sa, Pa Ga Re Sa",
+                rasa: "Serenity, Simplicity, Peace",
+                thaat: "Kalyan"
+            },
+            { 
+                name: "Kedar", 
+                description: "A devotional raag with a peaceful character. It's often described as having a divine quality, evoking feelings of spirituality and transcendence.",
+                time: "night",
+                aroha: "Sa Re Ma Pa, Ma' Pa' Ni Dha Pa",
+                avaroha: "Pa' Ni Dha Pa, Ma Pa Ma Re Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Ma Re, Pa Ma Re Sa, Ni Dha Pa",
+                rasa: "Devotion, Peace, Spirituality",
+                thaat: "Kalyan"
+            },
+            { 
+                name: "Bilawal", 
+                description: "Considered the most natural raag, equivalent to the Western major scale. It has a bright and joyous quality, making it ideal for morning performances.",
+                time: "morning",
+                aroha: "Sa Re Ga Ma Pa Dha Ni Sa'",
+                avaroha: "Sa' Ni Dha Pa Ma Ga Re Sa",
+                vadi: "Dha",
+                samvadi: "Ga",
+                pakad: "Ga Ma Pa, Dha Pa, Ma Ga Re Sa",
+                rasa: "Joy, Brightness, Naturalness",
+                thaat: "Bilawal"
+            },
+            { 
+                name: "Khamaj", 
+                description: "A romantic raag with an aesthetic appeal. It beautifully expresses the emotions of love and longing, often evoking scenes of natural beauty.",
+                time: "night",
+                aroha: "Sa Re Ga Ma Pa Dha Ni♭ Sa'",
+                avaroha: "Sa' Ni♭ Dha Pa Ma Ga Re Sa",
+                vadi: "Ga",
+                samvadi: "Ni♭",
+                pakad: "Ga Ma Dha Ma, Pa Ga, Ma Re Sa",
+                rasa: "Romance, Nature, Aesthetics",
+                thaat: "Khamaj"
+            },
+            { 
+                name: "Bihag", 
+                description: "A melodious night raag associated with the rainy season. Its phrases create a mood of romantic melancholy, especially effective in the higher octave.",
+                time: "night",
+                aroha: "Ni Sa Ga Ma Pa Ni Sa'",
+                avaroha: "Sa' Ni Dha Pa Ma Ga Re Sa",
+                vadi: "Ma",
+                samvadi: "Sa",
+                pakad: "Ni Sa Ga, Ma Pa Ni Dha Pa, Ma Ga Re Sa",
+                rasa: "Romance, Melancholy, Rain",
+                thaat: "Bilawal"
+            }
+        ];
+
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        function loadRaags() {
+            const raagList = document.getElementById("raagList");
+            raagList.innerHTML = "";
+            
+            raags.forEach(raag => {
+                // Create mini sound wave for each card
+                let miniWave = '';
+                for (let i = 0; i < 5; i++) {
+                    miniWave += `<span style="height: ${Math.floor(Math.random() * 80) + 10}%"></span>`;
+                }
+
+                let raagCard = document.createElement("div");
+                raagCard.classList.add("raag-card");
+                raagCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-2xl font-bold text-amber-500">${raag.name}</h2>
+                        <span class="px-3 py-1 bg-amber-900 bg-opacity-30 text-amber-400 rounded-full text-xs border border-amber-800">
+                            ${capitalizeFirstLetter(raag.time)} Raag
+                        </span>
+                    </div>
+                    <p class="text-gray-300 mb-4">${raag.description}</p>
+                    
+                    <div class="sound-wave mb-4" style="height: 20px;">
+                        ${miniWave}
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3 text-sm mb-5">
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Aroha:</span>
+                            <span class="text-gray-300">${raag.aroha}</span>
+                        </div>
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Avaroha:</span>
+<span class="text-gray-300">${raag.avaroha}</span>
+                        </div>
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Vadi:</span>
+                            <span class="text-gray-300">${raag.vadi}</span>
+                        </div>
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Samvadi:</span>
+                            <span class="text-gray-300">${raag.samvadi}</span>
+                        </div>
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Pakad:</span>
+                            <span class="text-gray-300">${raag.pakad}</span>
+                        </div>
+                        <div class="border-l-2 border-amber-700 pl-2">
+                            <span class="text-amber-500 font-semibold">Rasa:</span>
+                            <span class="text-gray-300">${raag.rasa}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-gray-400">Thaat: ${raag.thaat}</span>
+                        <div class="flex space-x-2">
+                            <button class="secondary-cta px-3 py-1 text-sm rounded-full flex items-center">
+                                <i class="fas fa-play mr-1"></i> Listen
+                            </button>
+                            <button class="primary-cta px-3 py-1 text-sm rounded-full flex items-center">
+                                <i class="fas fa-info-circle mr-1"></i> Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add data attributes for filtering
+                raagCard.dataset.time = raag.time;
+                raagCard.dataset.name = raag.name.toLowerCase();
+                raagCard.dataset.rasa = raag.rasa.toLowerCase();
+                
+                // Check if card should be visible based on current filters
+                if ((currentFilter === 'all' || raag.time === currentFilter) && 
+                    (searchQuery === '' || 
+                     raag.name.toLowerCase().includes(searchQuery) || 
+                     raag.rasa.toLowerCase().includes(searchQuery))) {
+                    raagCard.style.display = "block";
+                } else {
+                    raagCard.style.display = "none";
+                }
+                
+                raagList.appendChild(raagCard);
+            });
+        }
+
+        function filterByTime(btn, filter) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+            btn.classList.add('active');
+            
+            currentFilter = filter;
+            applyFilters();
+        }
+
+        function filterRaags() {
+            searchQuery = document.getElementById('searchBar').value.toLowerCase();
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const raagCards = document.querySelectorAll('.raag-card');
+            
+            raagCards.forEach(card => {
+                const matchesTimeFilter = currentFilter === 'all' || card.dataset.time === currentFilter;
+                const matchesSearchQuery = searchQuery === '' || 
+                                          card.dataset.name.includes(searchQuery) || 
+                                          card.dataset.rasa.includes(searchQuery);
+                
+                if (matchesTimeFilter && matchesSearchQuery) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('open');
+        }
+
+        // Initialize raag list on page load
+        window.onload = loadRaags;
+    </script>
+</body>
+</html>
