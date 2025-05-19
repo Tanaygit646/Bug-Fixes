@@ -1,0 +1,1534 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoundSphere - Blog & News</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #121212 0%, #2d1a10 100%);
+        color: #f5e6c8;
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4, h5 {
+        font-family: "Playfair Display", serif;
+        letter-spacing: 0.5px;
+      }
+
+      .gold-text {
+        color: #FFA500;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(18, 18, 18, 0.95);
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0px 3px 15px rgba(255, 165, 0, 0.3);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+      }
+
+      .navbar .logo {
+        color: #FFA500;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        font-family: "Playfair Display", serif;
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar .logo i {
+        margin-right: 10px;
+      }
+
+      .menu {
+        list-style: none;
+        display: flex;
+      }
+
+      .menu li {
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .menu li a {
+        color: #f5e6c8;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.3s;
+        padding: 5px 0;
+      }
+
+      .menu li a:hover {
+        color: #FFA500;
+      }
+
+      .menu li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: #FFA500;
+        bottom: -4px;
+        left: 0;
+        transition: width 0.3s ease;
+      }
+
+      .menu li a:hover::after {
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #FFA500;
+      }
+
+      /* Content Section */
+      .content-section {
+        padding: 120px 20px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        width: 100%;
+      }
+
+      .section-header h1 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #FFA500;
+        font-weight: 700;
+      }
+
+      .section-header p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: #f5e6c8;
+      }
+
+      .wavy-decorator {
+        position: relative;
+        height: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      .wavy-decorator::before {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #FFA500, transparent);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .wavy-decorator::after {
+        content: "♪";
+        position: absolute;
+        color: #FFA500;
+        font-size: 24px;
+        background: linear-gradient(135deg, #121212 0%, #2d1a10 100%);
+        padding: 0 10px;
+      }
+
+      /* Tab Navigation */
+      .tab-container {
+        width: 100%;
+        max-width: 1200px;
+        margin-bottom: 30px;
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+        margin-bottom: 20px;
+      }
+
+      .tab {
+        padding: 12px 30px;
+        cursor: pointer;
+        position: relative;
+        font-size: 18px;
+        font-weight: 600;
+        color: #f5e6c8;
+        transition: all 0.3s;
+        text-align: center;
+      }
+
+      .tab.active {
+        color: #FFA500;
+      }
+
+      .tab::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 3px;
+        background: #FFA500;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+      }
+
+      .tab.active::after {
+        width: 80%;
+      }
+
+      .tab-content {
+        display: none;
+        width: 100%;
+      }
+
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 15px 20px;
+        background: rgba(30, 30, 30, 0.6);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+      }
+
+      .search-bar {
+        flex: 1;
+        min-width: 250px;
+        display: flex;
+        position: relative;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 12px 20px;
+        padding-left: 40px;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        background: rgba(0, 0, 0, 0.3);
+        color: #f5e6c8;
+        border-radius: 30px;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .search-bar i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #FFA500;
+      }
+
+      .filter-options {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-select {
+        padding: 10px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        color: #f5e6c8;
+        border-radius: 20px;
+        font-family: "Poppins", sans-serif;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .filter-select:focus {
+        border-color: #FFA500;
+      }
+
+      .filter-select option {
+        background: #121212;
+        color: #f5e6c8;
+      }
+
+      /* Content Cards */
+      .content-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        width: 100%;
+        max-width: 1200px;
+      }
+
+      .content-card {
+        background: rgba(30, 30, 30, 0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .content-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(255, 165, 0, 0.2);
+      }
+
+      .content-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(to bottom, #FFA500, transparent);
+      }
+
+      .card-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .content-card:hover .card-image img {
+        transform: scale(1.05);
+      }
+
+      .card-content {
+        padding: 25px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-content h3 {
+        color: #FFA500;
+        margin-bottom: 10px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+
+      .card-content p {
+        line-height: 1.6;
+        margin-bottom: 15px;
+        color: #f5e6c8;
+        font-size: 0.95rem;
+        flex: 1;
+      }
+
+      .card-meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        color: #aaa;
+        font-size: 0.85rem;
+      }
+
+      .card-meta span {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+      }
+
+      .card-meta i {
+        margin-right: 5px;
+        color: #FFA500;
+      }
+
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 15px;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(255, 165, 0, 0.2);
+        color: #FFA500;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+      }
+
+      .read-more {
+        display: inline-block;
+        padding: 8px 20px;
+        background: transparent;
+        color: #FFA500;
+        border: 1px solid #FFA500;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s;
+        margin-top: auto;
+        text-align: center;
+      }
+
+      .read-more:hover {
+        background: rgba(255, 165, 0, 0.1);
+        box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .featured-tag {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #c00;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        z-index: 10;
+      }
+
+      .breaking-tag {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #0066cc;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        z-index: 10;
+      }
+
+      /* Featured Content */
+      .featured-content {
+        width: 100%;
+        max-width: 1200px;
+        margin-bottom: 40px;
+      }
+
+      .featured-card {
+        display: flex;
+        background: rgba(30, 30, 30, 0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+      }
+
+      .featured-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(255, 165, 0, 0.2);
+      }
+
+      .featured-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, #FFA500, transparent);
+      }
+
+      .featured-image {
+        flex: 1;
+        max-width: 40%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .featured-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .featured-card:hover .featured-image img {
+        transform: scale(1.05);
+      }
+
+      .featured-content-text {
+        flex: 2;
+        padding: 30px;
+        position: relative;
+      }
+
+      .featured-content-text h2 {
+        color: #FFA500;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      .featured-content-text p {
+        line-height: 1.8;
+        margin-bottom: 20px;
+        color: #f5e6c8;
+        font-size: 1rem;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        gap: 5px;
+      }
+
+      .pagination-item {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        border-radius: 50%;
+        color: #f5e6c8;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .pagination-item:hover,
+      .pagination-item.active {
+        background: rgba(255, 165, 0, 0.2);
+        color: #FFA500;
+      }
+
+      .pagination-item.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Sound Wave Animation */
+      .sound-wave {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        height: 30px;
+        display: flex;
+        align-items: flex-end;
+        opacity: 0.6;
+      }
+
+      .sound-wave span {
+        display: block;
+        width: 3px;
+        background: #FFA500;
+        margin: 0 1px;
+        height: 100%;
+        border-radius: 3px;
+        animation: wave 1.2s infinite ease-in-out;
+      }
+
+      .sound-wave span:nth-child(2) {
+        animation-delay: 0.1s;
+        height: 10px;
+      }
+      .sound-wave span:nth-child(3) {
+        animation-delay: 0.2s;
+        height: 20px;
+      }
+      .sound-wave span:nth-child(4) {
+        animation-delay: 0.3s;
+        height: 12px;
+      }
+      .sound-wave span:nth-child(5) {
+        animation-delay: 0.4s;
+        height: 18px;
+      }
+
+      @keyframes wave {
+        0%, 100% {
+          height: 10px;
+        }
+        50% {
+          height: 25px;
+        }
+      }
+
+      /* Floating Music Notes */
+      .floating-notes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .note {
+        position: absolute;
+        color: rgba(255, 165, 0, 0.1);
+        font-size: 24px;
+        animation: float 30s linear infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.1;
+        }
+        90% {
+          opacity: 0.1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* No Results */
+      .no-results {
+        text-align: center;
+        padding: 40px;
+        width: 100%;
+        background: rgba(30, 30, 30, 0.6);
+        border-radius: 10px;
+        border: 1px dashed rgba(255, 165, 0, 0.3);
+      }
+
+      .no-results i {
+        font-size: 48px;
+        color: #FFA500;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      .no-results h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #FFA500;
+      }
+
+      /* Newsletter Section */
+      .newsletter {
+        background: rgba(18, 18, 18, 0.8);
+        padding: 50px 20px;
+        text-align: center;
+        position: relative;
+        margin-top: 50px;
+        border-top: 1px solid rgba(255, 165, 0, 0.2);
+      }
+
+      .newsletter h3 {
+        color: #FFA500;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      .newsletter p {
+        color: #f5e6c8;
+        max-width: 600px;
+        margin: 0 auto 30px;
+      }
+
+      .subscribe-form {
+        display: flex;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .subscribe-form input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        background: rgba(0, 0, 0, 0.3);
+        color: #f5e6c8;
+        border-radius: 30px 0 0 30px;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .subscribe-form button {
+        padding: 0 25px;
+        background: #c00;
+        color: white;
+        border: none;
+        border-radius: 0 30px 30px 0;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        transition: background 0.3s;
+      }
+
+      .subscribe-form button:hover {
+        background: #a00;
+      }
+
+      /* Footer */
+      .footer {
+        width: 100%;
+        background: rgba(10, 10, 10, 0.95);
+        padding: 40px 20px 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #aaa;
+        border-top: 1px solid rgba(255, 165, 0, 0.2);
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .footer-column {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 30px;
+        text-align: left;
+        padding: 0 20px;
+      }
+
+      .footer-column h4 {
+        color: #FFA500;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .footer-column h4::after {
+        content: '';
+        position: absolute;
+        width: 50%;
+        height: 2px;
+        background: #FFA500;
+        bottom: -10px;
+        left: 0;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: #f5e6c8;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: #FFA500;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        color: #FFA500;
+        transition: all 0.3s;
+      }
+
+      .social-links a:hover {
+        background: #FFA500;
+        color: #121212;
+        transform: translateY(-3px);
+      }
+
+      .copyright {
+        width: 100%;
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 992px) {
+        .featured-card {
+          flex-direction: column;
+        }
+        .featured-image {
+          max-width: 100%;
+          height: 300px;
+        }
+        .section-header h1 {
+          font-size: 2.5rem;
+        }
+        .content-container {
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          background: rgba(18, 18, 18, 0.95);
+          text-align: center;
+          padding: 20px 0;
+          z-index: 1000;
+          border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .menu.active {
+          display: flex;
+        }
+
+        .menu li {
+          margin: 15px 0;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .section-header h1 {
+          font-size: 2rem;
+        }
+        
+        .filter-bar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        
+        .filter-options {
+          justify-content: center;
+        }
+        
+        .content-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .featured-content-text {
+          padding: 20px;
+        }
+        .featured-content-text h2 {
+          font-size: 1.5rem;
+        }
+        .card-content {
+          padding: 20px;
+        }
+        .card-content h3 {
+          font-size: 1.3rem;
+        }
+        .subscribe-form {
+          flex-direction: column;
+        }
+        .subscribe-form input {
+          border-radius: 30px;
+          margin-bottom: 10px;
+        }
+        .subscribe-form button {
+          border-radius: 30px;
+          padding: 12px;
+        }
+        .tabs {
+          flex-direction: column;
+        }
+        .tab {
+          width: 100%;
+          border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+        }
+        .tab:last-child {
+          border-bottom: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating Music Notes Background -->
+    <div class="floating-notes" id="floatingNotes"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <a href="#" class="logo"><i class="fas fa-music"></i>SoundSphere</a>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <ul class="menu" id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
+        <li><a href="simulation.html">Simulation</a></li>
+        <li><a href="synthesis.html">Synthesis</a></li>
+        <li><a href="Instruments_Data_Base/instruments.html">Instruments</a></li>
+        <li><a href="Library/library.html">Library</a></li>
+        <li><a href="Artists_Data_Base/profiles.html">Artists</a></li>
+        <li><a href="blog.html" class="active">Blog & News</a></li>
+      </ul>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-section">
+      <div class="section-header">
+        <h1>Music Intelligence Hub</h1>
+        <p>Stay updated with the latest insights, research, and developments at the intersection of AI and music.</p>
+        <div class="wavy-decorator"></div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-container">
+        <div class="tabs">
+          <div class="tab active" data-tab="blog">Blog Articles</div>
+          <div class="tab" data-tab="news">Industry News</div>
+        </div>
+        
+        <!-- Blog Tab Content -->
+        <div id="blog-content" class="tab-content active">
+          <div class="filter-bar">
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="blog-search" placeholder="Search blog articles..." onkeyup="filterContent('blog')">
+            </div>
+            <div class="filter-options">
+              <select class="filter-select" id="blog-category" onchange="filterContent('blog')">
+                <option value="">All Categories</option>
+                <option value="AI Technology">AI Technology</option>
+                <option value="Production">Production</option>
+                <option value="Technology">Technology</option>
+                <option value="Composition">Composition</option>
+                <option value="Analysis">Analysis</option>
+                <option value="Industry">Industry</option>
+              </select>
+              <select class="filter-select" id="blog-date" onchange="filterContent('blog')">
+                <option value="">All Dates</option>
+                <option value="recent">Recent (Last 7 Days)</option>
+                <option value="month">This Month</option>
+                <option value="year">This Year</option>
+              </select>
+              <select class="filter-select" id="blog-sort" onchange="filterContent('blog')">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="popular">Most Popular</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Blog Content Grid -->
+          <div class="content-container" id="blog-container">
+            <!-- Blog Post 1 -->
+            <div class="content-card" data-category="AI Technology" data-date="2025-05-12">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Neural Networks in Music" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">AI Technology</span>
+                  <span class="tag">Research</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 12, 2025</span>
+                  <span><i class="far fa-user"></i> Alex Morgan</span>
+                </div>
+                <h3>Neural Networks That Understand Emotional Arcs in Music</h3>
+                <p>Exploring how deep learning models can now identify and generate emotional transitions in compositions with human-like understanding.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 2 -->
+            <div class="content-card" data-category="Production" data-date="2025-05-10">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Spatial Audio" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Production</span>
+                  <span class="tag">Technology</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 10, 2025</span>
+                  <span><i class="far fa-user"></i> Mia Johnson</span>
+                </div>
+                <h3>The Evolution of Spatial Audio: Beyond Surround Sound</h3>
+                <p>A deep dive into how spatial audio technologies are creating immersive musical experiences that adapt to listeners' environments.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 3 -->
+            <div class="content-card" data-category="Composition" data-date="2025-05-07">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Algorithmic Composition" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Composition</span>
+                  <span class="tag">AI Technology</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 7, 2025</span>
+                  <span><i class="far fa-user"></i> Prof. David Kim</span>
+                </div>
+                <h3>Algorithmic Composition: When Math Becomes Music</h3>
+                <p>Examining the mathematical principles behind algorithmic composition and how they're being used to create complex musical structures.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 4 -->
+            <div class="content-card" data-category="Analysis" data-date="2025-05-03">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Genre Evolution" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Analysis</span>
+                  <span class="tag">Research</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 3, 2025</span>
+                  <span><i class="far fa-user"></i> Laura Zhang</span>
+                </div>
+                <h3>Tracking Genre Evolution Through Data Visualization</h3>
+                <p>How data science is helping us understand the evolution and interconnections between musical genres over the past century.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 5 -->
+            <div class="content-card" data-category="Technology" data-date="2025-04-28">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Neural DSP" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Technology</span>
+                  <span class="tag">Production</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> April 28, 2025</span>
+                  <span><i class="far fa-user"></i> James Wilson</span>
+                </div>
+                <h3>Neural DSP: The Future of Audio Processing</h3>
+                <p>Exploring how neural network-based digital signal processing is revolutionizing sound design and audio engineering workflows.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- Blog Post 6 -->
+            <div class="content-card" data-category="Industry" data-date="2025-04-25">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="NFT Music Industry" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Industry</span>
+                  <span class="tag">Business</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> April 25, 2025</span>
+                  <span><i class="far fa-user"></i> Nina Rodriguez</span>
+                </div>
+                <h3>NFTs 2.0: How Dynamic Music Assets Are Changing Artist Revenue</h3>
+                <p>A look at the evolution of music NFTs and how new technologies are creating sustainable income streams for musicians.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Blog Pagination -->
+          <div class="pagination" id="blog-pagination">
+            <div class="pagination-item disabled"><i class="fas fa-chevron-left"></i></div>
+            <div class="pagination-item active">1</div>
+            <div class="pagination-item">2</div>
+            <div class="pagination-item">3</div>
+            <div class="pagination-item">4</div>
+            <div class="pagination-item"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+        
+        <!-- News Tab Content -->
+        <div id="news-content" class="tab-content">
+          <div class="filter-bar">
+            <div class="search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" id="news-search" placeholder="Search news articles..." onkeyup="filterContent('news')">
+            </div>
+            <div class="filter-options">
+              <select class="filter-select" id="news-category" onchange="filterContent('news')">
+                <option value="">All Categories</option>
+                <option value="Technology">Technology</option>
+                <option value="Industry">Industry</option>
+                <option value="Artists">Artists</option>
+                <option value="Research">Research</option>
+                <option value="Events">Events</option>
+              </select>
+              <select class="filter-select" id="news-date" onchange="filterContent('news')">
+                <option value="">All Dates</option>
+                <option value="recent">Recent (Last 7 Days)</option>
+                <option value="month">This Month</option>
+                <option value="year">This Year</option>
+              </select>
+            </div>
+          </div>
+          
+
+          
+          <!-- News Content Grid -->
+          <div class="content-container" id="news-container">
+            <!-- News Item 1 -->
+            <div class="content-card" data-category="Technology" data-date="2025-05-18">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="New AI Model" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Technology</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 18, 2025</span>
+                </div>
+                <h3>Leading Research Lab Releases Open-Source Music Generation Model</h3>
+                <p>A major AI research lab has released their state-of-the-art music generation model to the public, enabling developers worldwide to create advanced music applications.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- News Item 2 -->
+            <div class="content-card" data-category="Industry" data-date="2025-05-16">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Streaming Service" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Industry</span>
+                  <span class="tag">Business</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 16, 2025</span>
+                </div>
+                <h3>Major Streaming Platform Introduces Dynamic Mix Feature</h3>
+                <p>One of the world's largest music streaming services has launched a feature that allows listeners to adjust individual instrument levels in songs, revolutionizing the personal listening experience.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- News Item 3 -->
+            <div class="content-card" data-category="Artists" data-date="2025-05-14">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Virtual Concert" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Artists</span>
+                  <span class="tag">Events</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 14, 2025</span>
+                </div>
+                <h3>Record-Breaking Virtual Concert Uses Adaptive Environment Technology</h3>
+                <p>A pioneering artist's virtual concert drew 15 million concurrent viewers using new technology that adapts the virtual environment to match the emotional arc of each song.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- News Item 4 -->
+            <div class="content-card" data-category="Research" data-date="2025-05-11">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Brain Music Interface" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Research</span>
+                  <span class="tag">Technology</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 11, 2025</span>
+                </div>
+                <h3>Breakthrough in Direct Brain-to-MIDI Interface Shows Promise</h3>
+                <p>Researchers have demonstrated a non-invasive brain-computer interface that can translate musical imagination directly into MIDI data with significantly improved accuracy.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- News Item 5 -->
+            <div class="content-card" data-category="Events" data-date="2025-05-08">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="Music Conference" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Events</span>
+                  <span class="tag">Industry</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 8, 2025</span>
+                </div>
+                <h3>Global Music-AI Summit Announces Speaker Lineup</h3>
+                <p>The upcoming International Music-AI Summit has revealed its impressive speaker lineup featuring industry pioneers, leading researchers, and renowned artists exploring the future of music.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+            
+            <!-- News Item 6 -->
+            <div class="content-card" data-category="Technology" data-date="2025-05-06">
+              <div class="card-image">
+                <img src="/api/placeholder/400/250" alt="New AI Hardware" />
+              </div>
+              <div class="card-content">
+                <div class="card-tags">
+                  <span class="tag">Technology</span>
+                  <span class="tag">Hardware</span>
+                </div>
+                <div class="card-meta">
+                  <span><i class="far fa-calendar"></i> May 6, 2025</span>
+                </div>
+                <h3>New Hardware Accelerator Makes Real-Time AI Music Processing Accessible</h3>
+                <p>A startup has launched an affordable hardware device that enables complex AI-powered music processing in real-time, even on basic computer setups.</p>
+                <a href="#" class="read-more">Read More</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- News Pagination -->
+          <div class="pagination" id="news-pagination">
+            <div class="pagination-item disabled"><i class="fas fa-chevron-left"></i></div>
+            <div class="pagination-item active">1</div>
+            <div class="pagination-item">2</div>
+            <div class="pagination-item">3</div>
+            <div class="pagination-item"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Empty Results Message (Initially Hidden) -->
+      <div class="no-results" id="no-results" style="display: none;">
+        <i class="fas fa-search"></i>
+        <h3>No Results Found</h3>
+        <p>We couldn't find any content matching your search criteria. Try adjusting your filters or search terms.</p>
+      </div>
+    </section>
+
+
+<!-- Unique Sargam AI Footer with Layered Design -->
+    <footer class="bg-gradient-to-b from-black to-amber-950 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-900 via-amber-500 to-amber-900"></div>
+        <div class="absolute top-0 right-0 w-12 h-12 rounded-full bg-amber-600 opacity-10 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-1/4 w-24 h-24 rounded-full bg-amber-600 opacity-5 translate-y-1/2"></div>
+        
+        <!-- Musical Note Pattern (Subtle Background) -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute top-10 left-10 rotate-12"></div>
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute top-40 right-20 -rotate-6"></div>
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute bottom-10 left-1/3 rotate-45"></div>
+        </div>
+        
+        <div class="w-[90%] mx-auto py-8 relative z-10">
+            <!-- Top Split Content -->
+            <div class="flex flex-col md:flex-row justify-between mb-8">
+                <!-- Brand Section with Tagline -->
+                <div class="w-full md:w-1/3 pr-4 mb-6 md:mb-0">
+                    <div class="inline-block bg-black bg-opacity-50 p-3 rounded-lg mb-4 border-l-2 border-amber-600">
+                        <div class="flex items-center">
+                            <!-- Animated Sound Wave Logo -->
+                            <div class="flex items-end h-6 mr-2">
+                                <span class="w-1 h-3 bg-amber-400 mx-px animate-pulse"></span>
+                                <span class="w-1 h-5 bg-amber-400 mx-px animate-pulse delay-75"></span>
+                                <span class="w-1 h-4 bg-amber-400 mx-px animate-pulse delay-100"></span>
+                                <span class="w-1 h-6 bg-amber-400 mx-px animate-pulse delay-150"></span>
+                                <span class="w-1 h-3 bg-amber-400 mx-px animate-pulse delay-200"></span>
+                            </div>
+                            <h3 class="text-xl font-bold text-amber-300">Sargam AI</h3>
+                        </div>
+                    </div>
+                    <p class="text-amber-200 font-medium mb-2">Harmonizing Tradition & Technology</p>
+                    <p class="text-zinc-300 text-sm mb-4">
+                        Preserving the richness of Indian classical music through innovative AI solutions for musicians, scholars, and enthusiasts worldwide.
+                    </p>
+                </div>
+                
+                <!-- Contact & Connect -->
+                <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                    <h4 class="text-amber-200 text-sm font-semibold uppercase tracking-wider mb-4 border-b border-amber-900 pb-1">Connect With Us</h4>
+                    
+                    <div class="flex items-center mb-3 group">
+                        <div class="w-8 h-8 rounded bg-amber-900 bg-opacity-40 flex items-center justify-center group-hover:bg-amber-800 transition">
+                            <i class="fas fa-envelope text-amber-400"></i>
+                        </div>
+                        <a href="mailto:contact@sargamai.com" class="ml-3 text-zinc-300 text-sm group-hover:text-amber-300 transition">contact@sargamai.com</a>
+                    </div>
+                    
+                    <div class="flex items-center mb-3 group">
+                        <div class="w-8 h-8 rounded bg-amber-900 bg-opacity-40 flex items-center justify-center group-hover:bg-amber-800 transition">
+                            <i class="fas fa-map-marker-alt text-amber-400"></i>
+                        </div>
+                        <span class="ml-3 text-zinc-300 text-sm group-hover:text-amber-300 transition">Mumbai, India</span>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-instagram text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-linkedin-in text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-x-twitter text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-github text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-youtube text-amber-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Newsletter with Horizontal Design -->
+                <div class="w-full md:w-1/3">
+                    <h4 class="text-amber-200 text-sm font-semibold uppercase tracking-wider mb-4 border-b border-amber-900 pb-1">Subscribe to Updates</h4>
+                    <p class="text-zinc-300 text-xs mb-3">Join our community to receive the latest news on AI music innovations and events.</p>
+                    
+                    <div class="relative">
+                        <input type="email" placeholder="Your email address" class="w-full bg-black bg-opacity-40 border border-amber-900 rounded-md py-2 px-4 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                        <button class="absolute right-1 top-1 bottom-1 bg-amber-700 text-white px-3 rounded hover:bg-amber-600 transition text-xs font-medium">
+                            Subscribe
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center mt-3">
+                        <input type="checkbox" id="consent" class="w-4 h-4 bg-black border-amber-700 text-amber-600 focus:ring-amber-500">
+                        <label for="consent" class="ml-2 text-zinc-400 text-xs">I agree to receive emails about Sargam AI</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links Row -->
+            <div class="p-4 bg-black bg-opacity-30 rounded-lg mb-6">
+                <div class="flex flex-wrap justify-center gap-x-8 gap-y-2">
+                    <a href="analysis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Analysis</a>
+                    <a href="analysis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Analysis</a>
+                    <a href="synthesis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Synthesis</a>
+                    <a href="ragas.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Raga Library</a>
+                    <a href="about.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">About Us</a>
+                    <a href="blog.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Blog</a>
+                    <a href="community.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Community</a>
+                    <a href="support.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Support</a>
+                    <a href="contact.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Contact</a>
+                    <a href="careers.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Careers</a>
+                </div>
+            </div>
+            
+            <!-- Copyright and Legal -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-zinc-500 border-t border-amber-900 pt-4">
+                <div class="mb-2 md:mb-0">
+                    &copy; 2025 Sargam AI. All rights reserved.
+                </div>
+                <div class="flex gap-4">
+                    <a href="privacy.html" class="hover:text-amber-300 transition">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-amber-300 transition">Terms of Service</a>
+                    <a href="cookies.html" class="hover:text-amber-300 transition">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript -->
+    <script>
+      // Toggle Mobile Menu
+      function toggleMenu() {
+        document.getElementById('menu').classList.toggle('active');
+      }
+      
+      // Tab Switching
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
+        });
+      });
+      
+      // Filter Content
+      function filterContent(type) {
+        let container = document.getElementById(`${type}-container`);
+        let items = container.querySelectorAll('.content-card');
+        let searchText = document.getElementById(`${type}-search`).value.toLowerCase();
+        let categoryFilter = document.getElementById(`${type}-category`).value;
+        let dateFilter = document.getElementById(`${type}-date`).value;
+        let sortOption = type === 'blog' ? document.getElementById('blog-sort').value : 'newest';
+        
+        let visibleCount = 0;
+        
+        items.forEach(item => {
+          // Apply search filter
+          let title = item.querySelector('h3').textContent.toLowerCase();
+          let description = item.querySelector('p').textContent.toLowerCase();
+          let searchMatch = title.includes(searchText) || description.includes(searchText);
+          
+          // Apply category filter
+          let categoryMatch = !categoryFilter || item.dataset.category === categoryFilter;
+          
+          // Apply date filter
+          let dateMatch = true;
+          if (dateFilter) {
+            let itemDate = new Date(item.dataset.date);
+            let today = new Date();
+            
+            if (dateFilter === 'recent') {
+              let weekAgo = new Date();
+              weekAgo.setDate(today.getDate() - 7);
+              dateMatch = itemDate >= weekAgo;
+            } else if (dateFilter === 'month') {
+              dateMatch = itemDate.getMonth() === today.getMonth() && 
+                         itemDate.getFullYear() === today.getFullYear();
+            } else if (dateFilter === 'year') {
+              dateMatch = itemDate.getFullYear() === today.getFullYear();
+            }
+          }
+          
+          // Show/hide based on filters
+          if (searchMatch && categoryMatch && dateMatch) {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Show or hide "No Results" message
+        let noResults = document.getElementById('no-results');
+        if (visibleCount === 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+        
+        // Apply sorting
+        if (sortOption && visibleCount > 0) {
+          let sortedItems = Array.from(items).filter(item => item.style.display !== 'none');
+          
+          if (sortOption === 'newest') {
+            sortedItems.sort((a, b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+          } else if (sortOption === 'oldest') {
+            sortedItems.sort((a, b) => new Date(a.dataset.date) - new Date(b.dataset.date));
+          } else if (sortOption === 'popular') {
+            // This would ideally use actual popularity data; for demo just use a random factor
+            sortedItems.sort(() => Math.random() - 0.5);
+          }
+          
+          // Reorder in DOM
+          sortedItems.forEach(item => {
+            container.appendChild(item);
+          });
+        }
+      }
+      
+      // Generate floating notes
+      function generateFloatingNotes() {
+        const notes = ['♪', '♫', '♩', '♬', '♭', '♮', '♯'];
+        const notesContainer = document.getElementById('floatingNotes');
+        
+        for (let i = 0; i < 20; i++) {
+          const note = document.createElement('div');
+          note.className = 'note';
+          note.textContent = notes[Math.floor(Math.random() * notes.length)];
+          
+          // Random starting position and timing
+          const left = Math.random() * 100;
+          const delay = Math.random() * 30;
+          const duration = 15 + Math.random() * 30;
+          
+          note.style.left = `${left}%`;
+          note.style.animationDuration = `${duration}s`;
+          note.style.animationDelay = `${delay}s`;
+          note.style.fontSize = `${Math.random() * 14 + 16}px`;
+          
+          notesContainer.appendChild(note);
+        }
+      }
+      
+      // Initialize on load
+      document.addEventListener('DOMContentLoaded', () => {
+        generateFloatingNotes();
+      });
+    </script>
+  </body>
+</html>
