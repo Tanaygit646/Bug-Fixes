@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000, #1e1109, #2a1609);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative music notes */
+        body::before {
+            content: "♪";
+            position: absolute;
+            top: 15%;
+            left: 10%;
+            font-size: 3rem;
+            color: rgba(255, 165, 0, 0.1);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: "♫";
+            position: absolute;
+            bottom: 20%;
+            right: 15%;
+            font-size: 4rem;
+            color: rgba(255, 165, 0, 0.1);
+            animation: float 10s ease-in-out infinite 1s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        /* Sound wave decoration */
+        .sound-wave {
+            position: absolute;
+            bottom: 5%;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .wave-bar {
+            width: 6px;
+            margin: 0 2px;
+            background: linear-gradient(to top, #000, #FFA500);
+            border-radius: 2px;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                height: 10px;
+            }
+            50% {
+                height: 30px;
+            }
+        }
+
+        .container {
+            background-color: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(255, 165, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 95%;
+            min-height: 520px;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .container h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #FFA500;
+        }
+
+        .container p {
+            font-size: 14px;
+            line-height: 22px;
+            letter-spacing: 0.5px;
+            margin: 20px 0;
+            color: #e0e0e0;
+        }
+
+        .container span {
+            font-size: 13px;
+            color: #cccccc;
+        }
+
+        .container a {
+            color: #FFA500;
+            font-size: 13px;
+            text-decoration: none;
+            margin: 15px 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .container a:hover {
+            text-decoration: underline;
+        }
+
+        .container button {
+            background-color: #d20000;
+            color: #fff;
+            font-size: 12px;
+            padding: 12px 45px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(210, 0, 0, 0.3);
+        }
+
+        .container button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(210, 0, 0, 0.4);
+        }
+
+        .container button.hidden {
+            background-color: transparent;
+            border: 2px solid #FFA500;
+            color: #FFA500;
+            box-shadow: 0 4px 10px rgba(255, 165, 0, 0.2);
+        }
+
+        .container button.hidden:hover {
+            background-color: rgba(255, 165, 0, 0.1);
+            box-shadow: 0 6px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        .container form {
+            background-color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            height: 100%;
+        }
+
+        .container input {
+            background-color: #222;
+            border: 1px solid #333;
+            margin: 10px 0;
+            padding: 12px 15px;
+            font-size: 13px;
+            border-radius: 25px;
+            width: 100%;
+            outline: none;
+            color: #eee;
+            transition: all 0.3s ease;
+        }
+
+        .container input:focus {
+            border-color: #FFA500;
+            box-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.active .sign-in {
+            transform: translateX(100%);
+        }
+
+        .sign-up {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.active .sign-up {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .social-icons {
+            margin: 20px 0;
+        }
+
+        .social-icons a {
+            border: 1px solid #FFA500;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            width: 40px;
+            height: 40px;
+            color: #FFA500;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background: rgba(255, 165, 0, 0.05);
+        }
+
+        .social-icons a:hover {
+            background: rgba(255, 165, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            border-radius: 20px 0 0 20px;
+            z-index: 1000;
+        }
+
+        .container.active .toggle-container {
+            transform: translateX(-100%);
+            border-radius: 0 20px 20px 0;
+        }
+
+        .toggle {
+            background: linear-gradient(45deg, #1a1a1a, #2c1609);
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+            overflow: hidden;
+        }
+
+        /* Wavy line decorators */
+        .toggle::before {
+            content: "";
+            position: absolute;
+            top: 15%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, #FFA500, transparent);
+            opacity: 0.3;
+        }
+
+        .toggle::after {
+            content: "";
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, #FFA500, transparent);
+            opacity: 0.3;
+        }
+
+        .container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .toggle-panel h1 {
+            color: #FFA500;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        /* Logo styling */
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFA500;
+            margin-bottom: 30px;
+            position: relative;
+            text-transform: none;
+        }
+
+        .logo::after {
+            content: "AI";
+            font-size: 1.5rem;
+            position: absolute;
+            bottom: 0;
+            color: #d20000;
+        }
+    </style>
+    <title>SargamAI - Music Learning Platform</title>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <div class="logo">sargam<span></span></div>
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icons"><i class='bx bxl-google'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-github'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
+                </div>
+                <span>Register with E-mail</span>
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Enter E-mail">
+                <input type="password" placeholder="Enter Password">
+                <button>Sign Up</button>
+            </form>
+        </div>
+
+        <div class="form-container sign-in">
+            <form>
+                <div class="logo">sargam<span></span></div>
+                <h1>Welcome Back</h1>
+                <div class="social-icons">
+                    <a href="#" class="icons"><i class='bx bxl-google'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-github'></i></a>
+                    <a href="#" class="icons"><i class='bx bxl-linkedin'></i></a>
+                </div>
+                <span>Login With Email & Password</span>
+                <input type="email" placeholder="Enter E-mail">
+                <input type="password" placeholder="Enter Password">
+                <a href="error.html">Forgot Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome To SargamAI</h1>
+                    <p>Sign in with your account to access your personalized music learning journey</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Musician!</h1>
+                    <p>Join SargamAI to enhance your musical skills with AI-powered guidance and personalized lessons</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound wave animation -->
+    <div class="sound-wave">
+        <div class="wave-bar" style="animation-delay: 0s; height: 20px;"></div>
+        <div class="wave-bar" style="animation-delay: 0.2s; height: 15px;"></div>
+        <div class="wave-bar" style="animation-delay: 0.4s; height: 25px;"></div>
+        <div class="wave-bar" style="animation-delay: 0.6s; height: 30px;"></div>
+        <div class="wave-bar" style="animation-delay: 0.8s; height: 20px;"></div>
+        <div class="wave-bar" style="animation-delay: 1s; height: 15px;"></div>
+        <div class="wave-bar" style="animation-delay: 1.2s; height: 25px;"></div>
+        <div class="wave-bar" style="animation-delay: 1.4s; height: 30px;"></div>
+        <div class="wave-bar" style="animation-delay: 1.6s; height: 20px;"></div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+    </script>
+</body>
+
+</html>
