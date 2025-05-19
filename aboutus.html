@@ -3,174 +3,643 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>About Us - Sargam AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-        <!-- Font Awesome for icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            background: linear-gradient(to bottom, #0a0a0a, #2d1b08);
+            color: #f3f3f3;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .ornamental-border {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ornamental-border::before, .ornamental-border::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            width: 40%;
+            background: linear-gradient(to right, transparent, #e8c07d, transparent);
+        }
+        
+        .ornamental-border::before {
+            top: 0;
+            left: 30%;
+        }
+        
+        .ornamental-border::after {
+            bottom: 0;
+            right: 30%;
+        }
+        
+        .wavy-decorator {
+            position: absolute;
+            height: 40px;
+            width: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 C 30 20, 70 0, 100 10 L 100 0 L 0 0 Z' fill='%23e8c07d' fill-opacity='0.07'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+        
+        .wavy-top {
+            top: 0;
+        }
+        
+        .wavy-bottom {
+            bottom: 0;
+            transform: rotate(180deg);
+        }
+        
+        .floating-note {
+            position: absolute;
+            opacity: 0.07;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .card {
+            background: linear-gradient(145deg, rgba(40, 30, 20, 0.8), rgba(20, 15, 10, 0.95));
+            border: 1px solid rgba(232, 192, 125, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e8c07d, transparent);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            border-color: rgba(232, 192, 125, 0.4);
+        }
+        
+        .card-img {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-img img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .card:hover .card-img img {
+            transform: scale(1.05);
+        }
+        
+        .social-links {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .social-links {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(232, 192, 125, 0.15);
+            color: #e8c07d !important;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: rgba(232, 192, 125, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            position: relative;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e8c07d;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .card-content h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, #e8c07d, transparent);
+        }
+        
+        .role {
+            color: #ccc;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .description {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(232, 192, 125, 0.1);
+            color: #e8c07d;
+            border: 1px solid #e8c07d;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: rgba(232, 192, 125, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #d63031;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(214, 48, 49, 0.3);
+        }
+        
+        .cta-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(214, 48, 49, 0.4);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #e8c07d, transparent);
+        }
+        
+        .sound-wave {
+            display: flex;
+            align-items: flex-end;
+            height: 30px;
+            gap: 3px;
+        }
+        
+        .sound-wave .bar {
+            width: 3px;
+            background: #e8c07d;
+            border-radius: 3px 3px 0 0;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+        
+        .sound-wave .bar:nth-child(2n) {
+            animation-delay: 0.2s;
+        }
+        
+        .sound-wave .bar:nth-child(3n) {
+            animation-delay: 0.4s;
+        }
+        
+        .sound-wave .bar:nth-child(4n) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 25px; }
+        }
+        
+        /* Team Grid Styles */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        
+        /* Achievement Badge */
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            background: rgba(232, 192, 125, 0.1);
+            border: 1px solid rgba(232, 192, 125, 0.2);
+            border-radius: 20px;
+            margin: 5px;
+        }
+        
+        .achievement-badge i {
+            color: #e8c07d;
+            margin-right: 8px;
+        }
+    </style>
 </head>
-<body>
-    <br>
-    <div id="about-us" class="py-16 bg-[#1b1b1b] text-white text-center ornamental-border transition-transform duration-300 hover:scale-105">
-        <br>
-        <div class="max-w-6xl mx-auto">
-            <!-- Section Title -->
-            <h1 class="text-4xl font-bold text-[#e8c07d] mb-6">About Us</h1>
-            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-                Welcome to <span class="text-[#e8c07d] font-semibold">Sargam AI</span> – a revolutionary project born from passion, innovation, and a shared love for Indian Classical Music. 
-                Developed during a high-stakes <strong>hackathon</strong>, our team of four talented developers combined <strong>AI, deep learning, and music theory</strong> to craft a unique AI-driven platform that redefines raga synthesis, analysis, and simulation.
-            </p>
-    <br>
-            <!-- Mission & Vision -->
-            <div class="mt-16">
-                <h2 class="text-3xl font-semibold text-[#e8c07d] mb-4">Our Mission</h2>
-                <br>
-                <p class="text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                    Our mission is to <strong>bridge the gap between AI and Indian Classical Music</strong>, enabling musicians, researchers, and enthusiasts to explore music through the lens of technology. 
-                    We strive to <strong>enhance musical creativity, foster learning, and preserve the rich heritage of ragas</strong> through AI.
+<body class="min-h-screen">
+    <!-- Background Music Notes Decoration -->
+    <div class="fixed w-full h-full pointer-events-none z-0">
+        <i class="floating-note fa fa-music text-6xl text-amber-500 absolute top-20 left-1/4"></i>
+        <i class="floating-note fa fa-music text-5xl text-amber-500 absolute top-60 right-1/5" style="animation-delay: 2s;"></i>
+        <i class="floating-note fa fa-music text-4xl text-amber-500 absolute bottom-40 left-1/3" style="animation-delay: 4s;"></i>
+        <i class="floating-note fas fa-compact-disc text-5xl text-amber-500 absolute top-1/3 right-1/4" style="animation-delay: 3s;"></i>
+    </div>
+
+    <!-- About Us Section -->
+    <div id="about-us" class="relative py-20 bg-gradient-to-b from-black to-amber-950 text-white text-center ornamental-border z-10">
+        <!-- Wavy Decorators -->
+        <div class="wavy-decorator wavy-top"></div>
+        <div class="wavy-decorator wavy-bottom"></div>
+        
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Section Title with Sound Wave -->
+            <div class="mb-16 relative">
+                <div class="sound-wave mx-auto mb-4">
+                    <div class="bar h-3"></div>
+                    <div class="bar h-5"></div>
+                    <div class="bar h-8"></div>
+                    <div class="bar h-12"></div>
+                    <div class="bar h-16"></div>
+                    <div class="bar h-12"></div>
+                    <div class="bar h-8"></div>
+                    <div class="bar h-5"></div>
+                    <div class="bar h-3"></div>
+                </div>
+                <h1 class="text-5xl font-bold text-amber-400 mb-6 section-title">About Us</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+                    Welcome to <span class="text-amber-400 font-semibold">Sargam AI</span> – a revolutionary project born from passion, innovation, and a shared love for Indian Classical Music. 
+                    Developed during a high-stakes <strong>hackathon</strong>, our team of four talented developers combined <strong>AI, deep learning, and music theory</strong> to craft a unique AI-driven platform that redefines raga synthesis, analysis, and simulation.
                 </p>
+                
+                <!-- Decorative Circular Element -->
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-amber-500 to-yellow-700 opacity-10 absolute -top-10 right-10"></div>
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-yellow-700 opacity-10 absolute bottom-10 left-10"></div>
             </div>
 
+            <!-- Mission & Vision with elegant borders -->
+            <div class="mt-16 mb-20 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-5">
+                    <div class="w-full h-full bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23e8c07d\" fill-opacity=\"0.4\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-black via-transparent to-black py-1 mb-6">
+                    <h2 class="text-3xl font-semibold text-amber-400 mb-6">Our Mission</h2>
+                </div>
+                
+                <p class="text-gray-300 max-w-3xl mx-auto leading-relaxed text-lg relative z-10">
+                    Our mission is to <strong class="text-amber-300">bridge the gap between AI and Indian Classical Music</strong>, enabling musicians, researchers, and enthusiasts to explore music through the lens of technology. 
+                    We strive to <strong class="text-amber-300">enhance musical creativity, foster learning, and preserve the rich heritage of ragas</strong> through AI.
+                </p>
+                
+                <!-- Achievements/Stats Section -->
+                <div class="flex flex-wrap justify-center gap-4 mt-12">
+                    <div class="achievement-badge">
+                        <i class="fas fa-trophy"></i>
+                        <span>Hackathon Winner 2024</span>
+                    </div>
+                    <div class="achievement-badge">
+                        <i class="fas fa-database"></i>
+                        <span>500+ Ragas Analyzed</span>
+                    </div>
+                    <div class="achievement-badge">
+                        <i class="fas fa-users"></i>
+                        <span>10,000+ Community Members</span>
+                    </div>
+                    <div class="achievement-badge">
+                        <i class="fas fa-award"></i>
+                        <span>Excellence in Music Tech</span>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Developer Card -->
-            <div class="container">
-                <h2 class="text-3xl font-semibold text-[#e8c07d] mb-4">Our Team</h2>
-                <div class="grid">
+            <!-- Team Section -->
+            <div class="my-20">
+                <div class="bg-gradient-to-r from-black via-transparent to-black py-1 mb-10">
+                    <h2 class="text-3xl font-semibold text-amber-400 mb-6">Our Team</h2>
+                </div>
+                
+                <div class="team-grid">
+                    <!-- Team Member 1 -->
                     <div class="card">
-                        <!-- Developer Image -->
                         <div class="card-img">
-                            <img src="assets/prob.jpeg" alt="John Doe">
-                            <!-- Social Icons -->
+                            <img src="/api/placeholder/300/300" alt="Debangsu Das">
                             <div class="social-links">
-                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                                    <i class="fab fa-linkedin"></i>
+                                <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
+                                <a href="https://x.com/" target="_blank" title="X (Twitter)">
                                     <i class="fa-brands fa-x-twitter"></i>
                                 </a>
-                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
+                                <a href="https://github.com/" target="_blank" title="GitHub">
                                     <i class="fa-brands fa-github"></i>
                                 </a>
                             </div>
                         </div>
-                        <!-- Card Content -->
                         <div class="card-content">
                             <h3>Debangsu Das</h3>
-                            <br>
                             <p class="role">Backend Developer</p>
                             <p class="description">
                                 Building scalable, secure, and efficient backend systems to power seamless digital experiences.
                             </p>
-                            <!-- Action Buttons -->
-                            <div class="card-buttons">
+                            <div class="flex justify-center">
                                 <a href="#" class="btn">Portfolio</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid">
+                    
+                    <!-- Team Member 2 -->
                     <div class="card">
-                        <!-- Developer Image -->
                         <div class="card-img">
-                            <img src="assets/prob.jpeg" alt="John Doe">
-                            <!-- Social Icons -->
+                            <img src="/api/placeholder/300/300" alt="Tanay Saha">
                             <div class="social-links">
-                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                                    <i class="fab fa-linkedin"></i>
+                                <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
+                                <a href="https://x.com/" target="_blank" title="X (Twitter)">
                                     <i class="fa-brands fa-x-twitter"></i>
                                 </a>
-                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
+                                <a href="https://github.com/" target="_blank" title="GitHub">
                                     <i class="fa-brands fa-github"></i>
                                 </a>
                             </div>
                         </div>
-                        <!-- Card Content -->
                         <div class="card-content">
                             <h3>Tanay Saha</h3>
-                            <br>
                             <p class="role">Full Stack Developer</p>
                             <p class="description">
                                 Bridging frontend and backend to create dynamic, end-to-end web solutions.
                             </p>
-                            <!-- Action Buttons -->
-                            <div class="card-buttons">
+                            <div class="flex justify-center">
                                 <a href="#" class="btn">Portfolio</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid">
+                    
+                    <!-- Team Member 3 -->
                     <div class="card">
-                        <!-- Developer Image -->
                         <div class="card-img">
-                            <img src="assets/prob.jpeg" alt="John Doe">
-                            <!-- Social Icons -->
+                            <img src="/api/placeholder/300/300" alt="Prolayjit Biswas">
                             <div class="social-links">
-                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                                    <i class="fab fa-linkedin"></i>
+                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
+                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)">
                                     <i class="fa-brands fa-x-twitter"></i>
                                 </a>
-                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
+                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub">
                                     <i class="fa-brands fa-github"></i>
                                 </a>
                             </div>
                         </div>
-                        <!-- Card Content -->
                         <div class="card-content">
-                            <h3>Prolayjit  Biswas</h3>
-                            <br>
+                            <h3>Prolayjit Biswas</h3>
                             <p class="role">Data Researcher</p>
                             <p class="description">
-                                Designing intuitive and visually compelling user experiences that captivate and engage.
+                                Analyzing complex music patterns and implementing machine learning algorithms for raga analysis.
                             </p>
-                            <!-- Action Buttons -->
-                            <div class="card-buttons">
+                            <div class="flex justify-center">
                                 <a href="#" class="btn">Portfolio</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid">
+                    
+                    <!-- Team Member 4 -->
                     <div class="card">
-                        <!-- Developer Image -->
                         <div class="card-img">
-                            <img src="assets/prob.jpeg" alt="John Doe">
-                            <!-- Social Icons -->
+                            <img src="/api/placeholder/300/300" alt="Arnav Sharma">
                             <div class="social-links">
-                                <a href="https://www.linkedin.com/in/prolayjit-biswas-030024275/" target="_blank" title="LinkedIn" class="text-blue-600 hover:text-blue-800 text-2xl">
-                                    <i class="fab fa-linkedin"></i>
+                                <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://x.com/Pro_layjit14" target="_blank" title="X (Twitter)" class="text-black hover:text-gray-700 text-2xl">
+                                <a href="https://x.com/" target="_blank" title="X (Twitter)">
                                     <i class="fa-brands fa-x-twitter"></i>
                                 </a>
-                                <a href="https://github.com/Prolayjit-B14" target="_blank" title="GitHub" class="text-gray-800 hover:text-gray-900 text-2xl">
+                                <a href="https://github.com/" target="_blank" title="GitHub">
                                     <i class="fa-brands fa-github"></i>
                                 </a>
                             </div>
                         </div>
-                        <!-- Card Content -->
                         <div class="card-content">
-                            <h3>Prolayjit  Biswas</h3>
-                            <br>
+                            <h3>Arnav Sharma</h3>
                             <p class="role">UI/UX Designer</p>
                             <p class="description">
                                 Designing intuitive and visually compelling user experiences that captivate and engage.
                             </p>
-                            <!-- Action Buttons -->
-                            <div class="card-buttons">
+                            <div class="flex justify-center">
                                 <a href="#" class="btn">Portfolio</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Join Us CTA Section -->
+            <div class="my-20 relative py-12">
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-900 to-yellow-800 opacity-10 rounded-lg"></div>
+                <h2 class="text-3xl font-semibold text-amber-400 mb-6">Join Our Journey</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                    Become part of our musical revolution as we blend ancient traditions with cutting-edge AI technology.
+                    Together, we can preserve and evolve the rich heritage of Indian classical music.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="careers.html" class="cta-btn">Join Our Team</a>
+                    <a href="community.html" class="btn">Explore Community</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+    <!-- Unique Sargam AI Footer with Layered Design -->
+    <footer class="bg-gradient-to-b from-black to-amber-950 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-900 via-amber-500 to-amber-900"></div>
+        <div class="absolute top-0 right-0 w-12 h-12 rounded-full bg-amber-600 opacity-10 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-1/4 w-24 h-24 rounded-full bg-amber-600 opacity-5 translate-y-1/2"></div>
+        
+        <!-- Musical Note Pattern (Subtle Background) -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute top-10 left-10 rotate-12"></div>
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute top-40 right-20 -rotate-6"></div>
+            <div class="w-4 h-8 border-r-2 border-b-2 border-amber-500 absolute bottom-10 left-1/3 rotate-45"></div>
+        </div>
+        
+        <div class="w-[90%] mx-auto py-8 relative z-10">
+            <!-- Top Split Content -->
+            <div class="flex flex-col md:flex-row justify-between mb-8">
+                <!-- Brand Section with Tagline -->
+                <div class="w-full md:w-1/3 pr-4 mb-6 md:mb-0">
+                    <div class="inline-block bg-black bg-opacity-50 p-3 rounded-lg mb-4 border-l-2 border-amber-600">
+                        <div class="flex items-center">
+                            <!-- Animated Sound Wave Logo -->
+                            <div class="flex items-end h-6 mr-2">
+                                <span class="w-1 h-3 bg-amber-400 mx-px animate-pulse"></span>
+                                <span class="w-1 h-5 bg-amber-400 mx-px animate-pulse delay-75"></span>
+                                <span class="w-1 h-4 bg-amber-400 mx-px animate-pulse delay-100"></span>
+                                <span class="w-1 h-6 bg-amber-400 mx-px animate-pulse delay-150"></span>
+                                <span class="w-1 h-3 bg-amber-400 mx-px animate-pulse delay-200"></span>
+                            </div>
+                            <h3 class="text-xl font-bold text-amber-300">Sargam AI</h3>
+                        </div>
+                    </div>
+                    <p class="text-amber-200 font-medium mb-2">Harmonizing Tradition & Technology</p>
+                    <p class="text-zinc-300 text-sm mb-4">
+                        Preserving the richness of Indian classical music through innovative AI solutions for musicians, scholars, and enthusiasts worldwide.
+                    </p>
+                </div>
+                
+                <!-- Contact & Connect -->
+                <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                    <h4 class="text-amber-200 text-sm font-semibold uppercase tracking-wider mb-4 border-b border-amber-900 pb-1">Connect With Us</h4>
+                    
+                    <div class="flex items-center mb-3 group">
+                        <div class="w-8 h-8 rounded bg-amber-900 bg-opacity-40 flex items-center justify-center group-hover:bg-amber-800 transition">
+                            <i class="fas fa-envelope text-amber-400"></i>
+                        </div>
+                        <a href="mailto:contact@sargamai.com" class="ml-3 text-zinc-300 text-sm group-hover:text-amber-300 transition">contact@sargamai.com</a>
+                    </div>
+                    
+                    <div class="flex items-center mb-3 group">
+                        <div class="w-8 h-8 rounded bg-amber-900 bg-opacity-40 flex items-center justify-center group-hover:bg-amber-800 transition">
+                            <i class="fas fa-map-marker-alt text-amber-400"></i>
+                        </div>
+                        <span class="ml-3 text-zinc-300 text-sm group-hover:text-amber-300 transition">Mumbai, India</span>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-instagram text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-linkedin-in text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-x-twitter text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-github text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-8 h-8 rounded bg-black bg-opacity-40 flex items-center justify-center hover:bg-amber-800 transition border border-amber-900">
+                                <i class="fab fa-youtube text-amber-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Newsletter with Horizontal Design -->
+                <div class="w-full md:w-1/3">
+                    <h4 class="text-amber-200 text-sm font-semibold uppercase tracking-wider mb-4 border-b border-amber-900 pb-1">Subscribe to Updates</h4>
+                    <p class="text-zinc-300 text-xs mb-3">Join our community to receive the latest news on AI music innovations and events.</p>
+                    
+                    <div class="relative">
+                        <input type="email" placeholder="Your email address" class="w-full bg-black bg-opacity-40 border border-amber-900 rounded-md py-2 px-4 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                        <button class="absolute right-1 top-1 bottom-1 bg-amber-700 text-white px-3 rounded hover:bg-amber-600 transition text-xs font-medium">
+                            Subscribe
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center mt-3">
+                        <input type="checkbox" id="consent" class="w-4 h-4 bg-black border-amber-700 text-amber-600 focus:ring-amber-500">
+                        <label for="consent" class="ml-2 text-zinc-400 text-xs">I agree to receive emails about Sargam AI</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links Row -->
+            <div class="p-4 bg-black bg-opacity-30 rounded-lg mb-6">
+                <div class="flex flex-wrap justify-center gap-x-8 gap-y-2">
+                    <a href="analysis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Analysis</a>
+                    <a href="analysis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Analysis</a>
+                    <a href="synthesis.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Synthesis</a>
+                    <a href="ragas.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Raga Library</a>
+                    <a href="about.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">About Us</a>
+                    <a href="blog.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Blog</a>
+                    <a href="community.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Community</a>
+                    <a href="support.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Support</a>
+                    <a href="contact.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Contact</a>
+                    <a href="careers.html" class="text-zinc-300 text-sm hover:text-amber-300 transition">Careers</a>
+                </div>
+            </div>
+            
+            <!-- Copyright and Legal -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-zinc-500 border-t border-amber-900 pt-4">
+                <div class="mb-2 md:mb-0">
+                    &copy; 2025 Sargam AI. All rights reserved.
+                </div>
+                <div class="flex gap-4">
+                    <a href="privacy.html" class="hover:text-amber-300 transition">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-amber-300 transition">Terms of Service</a>
+                    <a href="cookies.html" class="hover:text-amber-300 transition">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <script>
+        // Animation for sound wave
+        document.addEventListener('DOMContentLoaded', function() {
+            const bars = document.querySelectorAll('.sound-wave .bar');
+            
+            bars.forEach((bar, index) => {
+                const randomHeight = Math.floor(Math.random() * 20) + 5;
+                bar.style.height = randomHeight + 'px';
+                
+                // Set different animation delays
+                bar.style.animationDelay = (index * 0.1) + 's';
+            });
+        });
+    </script>
 </body>
 </html>
