@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI-Powered Music Analysis</title>
+    <title>Sargam AI - Indian Classical Music Analysis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari&family=Poppins:wght@300;400;600&display=swap"
-      rel="google-fonts"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cormorant+Garamond:wght@400;600&display=swap"
+      rel="stylesheet"
     />
     <link
       rel="stylesheet"
@@ -17,7 +17,20 @@
       type="module"
       src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js"></script>
     <style>
+      :root {
+        --primary-color: #FFA500;
+        --secondary-color: #FF5733;
+        --accent-color: #8A6642;
+        --text-light: #F5E6C8;
+        --text-dark: #222;
+        --bg-gradient-1: #000000;
+        --bg-gradient-2: #251A13;
+        --card-bg: rgba(18, 12, 8, 0.85);
+        --transition: all 0.3s ease;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -26,26 +39,42 @@
       }
 
       body {
-        background: url("assets/bg.jpg") no-repeat center center fixed;
-        background-size: cover;
-        color: #f5e6c8;
+            background: linear-gradient(135deg, #0D0D0D 0%, #2A1506 50%, #3D2207 100%);
+        color: var(--text-light);
         text-align: center;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
+        flex-direction: column;
+        min-height: 100vh;
         position: relative;
+        overflow-x: hidden;
       }
 
+      /* Decorative Music Notes */
       body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
+        content: "♪";
+        position: absolute;
+        top: 15%;
+        left: 5%;
+        font-size: 80px;
+        color: rgba(255, 165, 0, 0.05);
         z-index: -1;
+        animation: float 8s ease-in-out infinite;
+      }
+
+      body::after {
+        content: "♫";
+        position: absolute;
+        bottom: 20%;
+        right: 7%;
+        font-size: 120px;
+        color: rgba(255, 165, 0, 0.05);
+        z-index: -1;
+        animation: float 12s ease-in-out infinite 2s;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(5deg); }
       }
 
       .navbar {
@@ -53,21 +82,45 @@
         top: 0;
         left: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.9);
+        background: linear-gradient(90deg, rgba(0,0,0,0.95), rgba(30,20,10,0.95));
         padding: 12px 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        box-shadow: 0px 3px 10px rgba(212, 175, 55, 0.4);
+        box-shadow: 0 5px 20px rgba(255, 165, 0, 0.3);
         z-index: 1000;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 165, 0, 0.3);
       }
 
       .navbar .logo {
-        color: #d4af37;
-        font-size: 22px;
+        color: var(--primary-color);
+        font-size: 28px;
         font-weight: bold;
         text-decoration: none;
+        font-family: "Cormorant Garamond", serif;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      }
+
+      .logo-icon {
+        margin-right: 8px;
+        font-size: 32px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .menu {
@@ -77,24 +130,661 @@
 
       .menu li {
         margin: 0 15px;
+        position: relative;
       }
 
       .menu li a {
-        color: #f5e6c8;
+        color: var(--text-light);
         text-decoration: none;
         font-size: 16px;
-        transition: 0.3s;
+        transition: var(--transition);
+        padding: 5px 0;
       }
 
       .menu li a:hover {
-        color: #d4af37;
+        color: var(--primary-color);
+      }
+
+      .menu li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        transition: var(--transition);
+      }
+
+      .menu li a:hover::after {
+        width: 100%;
       }
 
       .menu-toggle {
         display: none;
         cursor: pointer;
         font-size: 24px;
-        color: #d4af37;
+        color: var(--primary-color);
+      }
+
+      .main-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 90px 20px 60px;
+        position: relative;
+      }
+
+      /* Wavy line decorators */
+      .wave-decorator {
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        bottom: -20px;
+        left: 0;
+        overflow: hidden;
+        opacity: 0.2;
+      }
+
+      .wave-decorator svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .container {
+        max-width: 800px;
+        padding: 35px;
+        background: var(--card-bg);
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        animation: fadeIn 0.5s ease-in-out;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Glowing border effect */
+      .container::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, var(--primary-color), transparent, var(--primary-color));
+        z-index: -1;
+        border-radius: 22px;
+        animation: glowing 3s linear infinite;
+      }
+
+      @keyframes glowing {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
+      }
+
+      h1 {
+        font-size: 34px;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        letter-spacing: 1px;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        width: 60%;
+        height: 3px;
+        bottom: -10px;
+        left: 20%;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      }
+
+      .sub-heading {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 30px;
+        line-height: 1.8;
+        position: relative;
+      }
+
+      .features {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin: 30px 0;
+      }
+
+      .feature {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        width: 30%;
+        min-width: 200px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(rgba(255, 165, 0, 0.1), transparent 70%);
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(255, 165, 0, 0.15);
+        border-color: rgba(255, 165, 0, 0.4);
+      }
+
+      .feature:hover::before {
+        opacity: 1;
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, rgba(255, 165, 0, 0.2), rgba(255, 87, 51, 0.2));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        font-size: 24px;
+        color: var(--primary-color);
+      }
+
+      .feature-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+        font-size: 18px;
+      }
+
+      .upload-section {
+        margin: 40px 0;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .upload-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      }
+
+      .file-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+      }
+
+      #musicFile {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      .custom-file-upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 2px dashed var(--primary-color);
+        border-radius: 12px;
+        width: 100%;
+        color: var(--text-light);
+        font-size: 16px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .custom-file-upload:hover {
+        background: rgba(255, 165, 0, 0.1);
+        border-color: var(--secondary-color);
+      }
+
+      .file-name {
+        margin-top: 10px;
+        font-size: 14px;
+        color: var(--primary-color);
+        word-break: break-all;
+        max-width: 400px;
+      }
+
+      #analyzeBtn {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+        padding: 14px;
+        border-radius: 50px;
+        border: none;
+        font-size: 18px;
+        background: linear-gradient(90deg, var(--secondary-color), #FF2D00);
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #analyzeBtn::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 100%;
+        top: 0;
+        left: -100px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: shine 3s infinite linear;
+      }
+
+      @keyframes shine {
+        0% { left: -100px; }
+        20% { left: 100%; }
+        100% { left: 100%; }
+      }
+
+      #analyzeBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 87, 51, 0.5);
+      }
+
+      #analyzeBtn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: scale(1);
+        box-shadow: none;
+      }
+
+      .btn-icon {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      #analyzing {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px 0;
+        padding: 25px;
+        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        flex-direction: column;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+      }
+
+      #loading {
+        margin-bottom: 15px;
+        font-size: 22px;
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      .waveform-container {
+        margin: 40px 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .waveform-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--primary-color), transparent);
+      }
+
+      #waveform {
+        width: 100%;
+        height: 120px;
+        margin-top: 10px;
+      }
+
+      .audio-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .audio-btn {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--primary-color);
+        color: var(--text-light);
+        padding: 10px 20px;
+        margin: 0 8px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+      }
+
+      .audio-btn:hover {
+        background: rgba(255, 165, 0, 0.2);
+        box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+      }
+
+      .result {
+        margin-top: 40px;
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        transition: var(--transition);
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .result::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--primary-color), transparent);
+      }
+
+      .result > h2 {
+        font-size: 30px;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: var(--primary-color);
+        font-family: "Cormorant Garamond", serif;
+        position: relative;
+        display: inline-block;
+      }
+
+      .result > h2::after {
+        content: "";
+        position: absolute;
+        width: 50%;
+        height: 2px;
+        bottom: -8px;
+        left: 25%;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      }
+
+      .result-item {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 3px solid var(--primary-color);
+        text-align: left;
+        transition: var(--transition);
+      }
+
+      .result-item:hover {
+        box-shadow: 0 5px 15px rgba(255, 165, 0, 0.1);
+        transform: translateX(3px);
+      }
+
+      .result-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+        display: block;
+        font-size: 18px;
+      }
+
+      .result-value {
+        font-size: 16px;
+        line-height: 1.7;
+        color: rgba(245, 230, 200, 0.9);
+      }
+
+      .raga-info {
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(255, 165, 0, 0.05);
+        border-radius: 10px;
+        text-align: left;
+        border: 1px solid rgba(255, 165, 0, 0.1);
+      }
+
+      .raga-description {
+        margin-bottom: 15px;
+        line-height: 1.7;
+      }
+
+      .notes-section {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .note {
+        padding: 6px 14px;
+        margin: 4px;
+        border-radius: 20px;
+        background: rgba(255, 165, 0, 0.1);
+        border: 1px solid var(--primary-color);
+        font-size: 14px;
+        color: var(--primary-color);
+        transition: var(--transition);
+      }
+
+      .note:hover {
+        background: rgba(255, 165, 0, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 30px;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+        transition: var(--transition);
+        padding: 10px 20px;
+        border: 1px solid var(--primary-color);
+        border-radius: 50px;
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .back-link:hover {
+        background: rgba(255, 165, 0, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 165, 0, 0.2);
+      }
+
+      .footer {
+        background: linear-gradient(90deg, rgba(0,0,0,0.95), rgba(30,20,10,0.95));
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: var(--primary-color);
+        box-shadow: 0px -5px 20px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 165, 0, 0.2);
+        position: relative;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      }
+
+      .footer a {
+        color: var(--text-light);
+        text-decoration: none;
+        margin: 0 8px;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .footer a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--primary-color);
+        transition: var(--transition);
+      }
+
+      .footer a:hover {
+        color: var(--primary-color);
+      }
+
+      .footer a:hover::after {
+        width: 100%;
+      }
+
+      .social-links {
+        margin-top: 15px;
+      }
+
+      .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin: 0 8px;
+        color: var(--text-light);
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        border-radius: 50%;
+        transition: var(--transition);
+        font-size: 16px;
+      }
+
+      .social-icon:hover {
+        color: var(--primary-color);
+        transform: translateY(-3px);
+        background: rgba(0, 0, 0, 0.5);
+        border-color: var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        margin-left: 5px;
+        color: var(--primary-color);
+        font-size: 16px;
+        cursor: help;
+      }
+
+      .tooltip .tooltip-text {
+        visibility: hidden;
+        width: 200px;
+        background: rgba(0, 0, 0, 0.9);
+        color: var(--text-light);
+        text-align: center;
+        border-radius: 10px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -100px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+        font-weight: normal;
+        border: 1px solid var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.7;
+        }
+      }
+
+      .pulse {
+        animation: pulse 1.5s infinite ease-in-out;
       }
 
       @media (max-width: 768px) {
@@ -103,10 +793,11 @@
           flex-direction: column;
           width: 100%;
           position: absolute;
-          top: 50px;
+          top: 60px;
           left: 0;
-          background: rgba(0, 0, 0, 0.9);
+          background: rgba(0, 0, 0, 0.95);
           text-align: center;
+          border-bottom: 1px solid rgba(255, 165, 0, 0.2);
         }
 
         .menu.active {
@@ -120,216 +811,346 @@
         .menu-toggle {
           display: block;
         }
-      }
-      .container {
-        max-width: 600px;
-        padding: 25px;
-        background: rgba(0, 0, 0, 0.85);
-        border-radius: 15px;
-        text-align: center;
-        box-shadow: 0px 5px 20px rgba(212, 175, 55, 0.5);
-        border: 3px solid #d4af37;
-        animation: fadeIn 0.5s ease-in-out;
-      }
 
-      h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-        background: -webkit-linear-gradient(45deg, #d4af37, #ff5733);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      p {
-        font-size: 18px;
-        opacity: 0.9;
-        margin-bottom: 10px;
-      }
-
-      input {
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid #d4af37;
-        border-radius: 8px;
-        width: 100%;
-        color: #fff;
-        font-size: 16px;
-        outline: none;
-      }
-
-      button {
-        width: 100%;
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        font-size: 18px;
-        background: linear-gradient(90deg, #ff5733, #d4af37);
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.3s ease-in-out;
-      }
-
-      button:hover {
-        transform: scale(1.05);
-        opacity: 0.9;
-      }
-
-      .result {
-        margin-top: 20px;
-        padding: 15px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        transition: all 0.3s ease-in-out;
-        border: 1px solid #313131;
-        box-shadow: 0 0 3px #d4af37;
-      }
-
-      .result > h2 {
-        font-size: 25px;
-        margin-bottom: 10px;
-        font-weight: 700;
-      }
-
-      .result > p {
-        font-size: 16px;
-      }
-
-      .back-link {
-        display: inline-block;
-        margin-top: 15px;
-        color: #d4af37;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.3s;
-      }
-
-      .back-link:hover {
-        text-decoration: underline;
-        color: #ff5733;
-      }
-      /* Blurred Background */
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("assets/bg.jpg") no-repeat center center fixed;
-        background-size: cover;
-        filter: blur(8px) brightness(50%);
-        z-index: -1;
-      }
-
-      /* Footer */
-      .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 10px;
-        text-align: center;
-        font-size: 14px;
-        color: #d4af37;
-        box-shadow: 0px -3px 10px rgba(212, 175, 55, 0.4);
-      }
-
-      .footer a {
-        color: #f5e6c8;
-        text-decoration: none;
-        margin: 0 8px;
-        transition: 0.3s;
-      }
-
-      .footer a:hover {
-        color: #d4af37;
-      }
-
-      /* Smooth fade-in effect */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
+        .feature {
+          width: 100%;
+          margin-bottom: 20px;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        .container {
+          padding: 25px 15px;
         }
-      }
 
-      #analyzing {
-        display: flex;
-        align-items: center;
-        margin: 5px 10px 0 10px;
-        justify-content: space-between;
-        border-top: #d4af37 1px solid;
-        padding-top: 15px;
-      }
+        h1 {
+          font-size: 28px;
+        }
 
-      .hidden {
-        display: none;
+        .sub-heading {
+          font-size: 16px;
+        }
       }
     </style>
   </head>
   <body>
     <nav class="navbar">
-      <a href="#" class="logo">Sargam AI</a>
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">🎵</span>Sargam AI
+      </a>
       <div class="menu-toggle" onclick="toggleMenu()">☰</div>
       <ul class="menu" id="menu">
         <li><a href="../index.html">Home</a></li>
         <li><a href="../analysis.html">Analysis</a></li>
         <li><a href="../simulation.html">Simulation</a></li>
         <li><a href="../synthesis.html">Synthesis</a></li>
-        <li>
-          <a href="../Instruments_Data_Base/instruments.html">Instruments</a>
-        </li>
+        <li><a href="../Instruments_Data_Base/instruments.html">Instruments</a></li>
         <li><a href="../Library/library.html">Library</a></li>
         <li><a href="../Artists_Data_Base/profiles.html">Artists</a></li>
       </ul>
     </nav>
 
-    <div class="container">
-      <h1>🎵 AI-Powered Music Analysis</h1>
-      <p>
-        Upload an Indian classical music file to analyze its Raaga, Taal, and
-        emotional expression.
-      </p>
-      <input type="file" id="musicFile" accept="audio/*" />
-      <button id="analyzeBtn">🎶 Start the Analysis</button>
+    <div class="main-content">
+      <div class="container">
+        <h1>Indian Classical Music Analyzer</h1>
+        <p class="sub-heading">
+          Experience the power of AI to analyze and understand the intricate elements of Indian classical music.
+          Upload your audio file to discover its Raaga, Taal, and emotional expression.
+        </p>
+        
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">🎵</div>
+            <div class="feature-title">Raaga Detection</div>
+            <p>Identify the melodic framework of your music</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🥁</div>
+            <div class="feature-title">Taal Analysis</div>
+            <p>Discover rhythmic patterns and cycles</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">💖</div>
+            <div class="feature-title">Emotion Mapping</div>
+            <p>Understand the emotional essence</p>
+          </div>
+        </div>
+        
+        <div class="upload-section">
+          <div class="file-upload">
+            <div class="file-input-wrapper">
+              <label class="custom-file-upload">
+                <span id="file-upload-label">📁 Choose a music file</span>
+                <input type="file" id="musicFile" accept="audio/*" />
+              </label>
+            </div>
+            <div class="file-name" id="fileName"></div>
+            <button id="analyzeBtn" disabled>
+              <span class="btn-icon">🔍</span>Analyze Music
+            </button>
+          </div>
+        </div>
 
-      <div style="display: none" id="analyzing">
-        <h2 id="loading">Uploading...</h2>
-        <sl-spinner
-          style="
-            font-size: 2rem;
-            --track-width: 5px;
-            --indicator-color: #ff5733;
-            --track-color: #d4af37;
-          "
-        ></sl-spinner>
-      </div>
+        <div class="hidden" id="analyzing">
+          <h2 id="loading">Analyzing your music...</h2>
+          <sl-spinner
+            style="
+              font-size: 3rem;
+              --track-width: 5px;
+              --indicator-color: #FF5733;
+              --track-color: rgba(255, 165, 0, 0.2);
+            "
+          ></sl-spinner>
+          <p style="margin-top: 15px;">Please wait while our AI analyzes the melodic and rhythmic patterns</p>
+        </div>
 
-      <div class="result hidden" id="analysisResult">
-        <h2>🔍 Analysis Results</h2>
-        <p id="ragaResult"></p>
-        <p id="emotionResult"></p>
-        <p id="taalResult"></p>
+        <div class="waveform-container hidden" id="waveformContainer">
+          <h3 style="margin-bottom: 15px; color: var(--primary-color); font-weight: 600;">Audio Visualization</h3>
+          <div id="waveform"></div>
+          <div class="audio-controls">
+            <button class="audio-btn" id="playBtn">▶ Play</button>
+            <button class="audio-btn" id="pauseBtn">❚❚ Pause</button>
+            <button class="audio-btn" id="stopBtn">■ Stop</button>
+          </div>
+        </div>
+
+        <div class="result hidden" id="analysisResult">
+          <h2>Analysis Results</h2>
+          
+          <div class="result-item">
+            <span class="result-label">Raaga Identified 
+              <span class="tooltip">ⓘ
+                <span class="tooltip-text">Raaga is the melodic framework of Indian classical music that evokes specific emotions.</span>
+              </span>
+            </span>
+            <div class="result-value" id="ragaResult">Yaman</div>
+<div class="raga-info">
+              <div class="raga-description" id="ragaDescription">
+                Raag Yaman is one of the most fundamental ragas in Hindustani classical music, known for its serene and peaceful mood. It is performed during the early evening hours.
+              </div>
+              <div>
+                <span class="result-label">Key Notes:</span>
+                <div class="notes-section" id="ragaNotes">
+                  <span class="note">Sa</span>
+                  <span class="note">Re</span>
+                  <span class="note">Ga</span>
+                  <span class="note">Ma</span>
+                  <span class="note">Pa</span>
+                  <span class="note">Dha</span>
+                  <span class="note">Ni</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">Taal Identified
+              <span class="tooltip">ⓘ
+                <span class="tooltip-text">Taal refers to the rhythmic cycle in Indian classical music that organizes time and beats.</span>
+              </span>
+            </span>
+            <div class="result-value" id="taalResult">Teentaal (16 beats)</div>
+            <div class="raga-info">
+              <div class="raga-description" id="taalDescription">
+                Teentaal is the most common taal in Hindustani classical music. It consists of 16 beats divided into four groups of four beats each.
+              </div>
+              <div>
+                <span class="result-label">Beat Pattern:</span>
+                <div class="notes-section" id="taalPattern">
+                  <span class="note">Dha</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dha</span>
+                  <span class="note">Dha</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dha</span>
+                  <span class="note">Na</span>
+                  <span class="note">Tin</span>
+                  <span class="note">Tin</span>
+                  <span class="note">Na</span>
+                  <span class="note">Ta</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dhin</span>
+                  <span class="note">Dha</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">Emotional Essence
+              <span class="tooltip">ⓘ
+                <span class="tooltip-text">Each raag is associated with specific emotions or moods called 'rasa' in Indian aesthetics.</span>
+              </span>
+            </span>
+            <div class="result-value" id="emotionResult">Shringara (Love) & Shanta (Peace)</div>
+            <div class="raga-description" id="emotionDescription">
+              This performance primarily evokes feelings of tranquility and divine love. The serene progression of notes creates an atmosphere of peace while the melodic ornamentations suggest romantic devotion.
+            </div>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">Technical Analysis
+              <span class="tooltip">ⓘ
+                <span class="tooltip-text">Detailed analysis of the musical techniques and structures used in the performance.</span>
+              </span>
+            </span>
+            <div class="result-value" id="technicalResult">
+              <ul style="list-style-type: disc; padding-left: 20px;">
+                <li>Predominant use of meend (glides) between Ga and Re</li>
+                <li>Strong emphasis on tivra Ma (sharp 4th)</li>
+                <li>Madhya laya (medium tempo) with occasional drut (fast) passages</li>
+                <li>Complex taans (fast melodic sequences) in the latter sections</li>
+                <li>Characteristic phrases of Raag Yaman clearly established</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">Recommendations</span>
+            <div class="result-value" id="recommendationsResult">
+              <p>Based on your interest in this style, you might enjoy:</p>
+              <ul style="list-style-type: disc; padding-left: 20px;">
+                <li>Raag Bhimpalasi - Similar peaceful quality but with different tonal structure</li>
+                <li>Performances by Pt. Bhimsen Joshi who is renowned for Raag Yaman interpretations</li>
+                <li>Evening ragas such as Puriya Dhanashree and Marwa that share the time association</li>
+              </ul>
+            </div>
+          </div>
+          
+          <a href="analysis.html" class="back-link">Analyze Another Recording</a>
+        </div>
       </div>
-      <a href="index.html" class="back-link">⬅ Back to Home</a>
+      
+      <div class="wave-decorator">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path fill="#FFA500" fill-opacity="0.5" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,181.3C960,181,1056,203,1152,202.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+      </div>
     </div>
 
-    <div class="footer">
-      © 2025 Sargam AI | <a href="privacy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms & Conditions</a>
-    </div>
+    <footer class="footer">
+      <div>Sargam AI - Indian Classical Music Analysis Platform</div>
+      <div style="margin-top: 10px;">
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../privacy.html">Privacy Policy</a>
+        <a href="../terms.html">Terms of Service</a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-icon">f</a>
+        <a href="#" class="social-icon">in</a>
+        <a href="#" class="social-icon">t</a>
+        <a href="#" class="social-icon">ig</a>
+      </div>
+      <div style="margin-top: 15px; font-size: 12px; opacity: 0.8;">
+        © 2025 Sargam AI. All rights reserved.
+      </div>
+    </footer>
 
     <script>
+      // Toggle mobile menu
       function toggleMenu() {
         document.getElementById("menu").classList.toggle("active");
       }
+
+      // File upload handling
+      const fileInput = document.getElementById("musicFile");
+      const fileLabel = document.getElementById("file-upload-label");
+      const fileName = document.getElementById("fileName");
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      const analyzing = document.getElementById("analyzing");
+      const waveformContainer = document.getElementById("waveformContainer");
+      const analysisResult = document.getElementById("analysisResult");
+      
+      let wavesurfer = null;
+      
+      fileInput.addEventListener("change", function() {
+        if (this.files && this.files.length > 0) {
+          const file = this.files[0];
+          fileName.textContent = file.name;
+          fileLabel.textContent = "File selected ✓";
+          analyzeBtn.disabled = false;
+          
+          // Create waveform visualization
+          if (wavesurfer) {
+            wavesurfer.destroy();
+          }
+          
+          wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: 'rgba(255, 165, 0, 0.3)',
+            progressColor: '#FF5733',
+            cursorColor: '#FFA500',
+            barWidth: 2,
+            barRadius: 3,
+            cursorWidth: 1,
+            height: 120,
+            barGap: 2
+          });
+          
+          wavesurfer.loadBlob(file);
+          waveformContainer.classList.remove("hidden");
+        }
+      });
+      
+      // Audio controls
+      document.getElementById("playBtn").addEventListener("click", function() {
+        wavesurfer.play();
+      });
+      
+      document.getElementById("pauseBtn").addEventListener("click", function() {
+        wavesurfer.pause();
+      });
+      
+      document.getElementById("stopBtn").addEventListener("click", function() {
+        wavesurfer.stop();
+      });
+      
+      // Analysis process simulation
+      analyzeBtn.addEventListener("click", function() {
+        analyzing.classList.remove("hidden");
+        waveformContainer.classList.add("hidden");
+        this.disabled = true;
+        
+        // Simulate analysis process
+        setTimeout(function() {
+          analyzing.classList.add("hidden");
+          analysisResult.classList.remove("hidden");
+          waveformContainer.classList.remove("hidden");
+        }, 3500);
+      });
+      
+      // Dynamic raga information - this would normally be populated by AI analysis
+      const ragas = {
+        "Yaman": {
+          description: "Raag Yaman is one of the most fundamental ragas in Hindustani classical music, known for its serene and peaceful mood. It is performed during the early evening hours.",
+          notes: ["Sa", "Re", "Ga", "Ma", "Pa", "Dha", "Ni"]
+        },
+        "Bhairav": {
+          description: "Raag Bhairav is a morning raga that evokes a serious, profound and devotional mood. It is one of the oldest and most fundamental ragas in Hindustani classical music.",
+          notes: ["Sa", "re", "Ga", "Ma", "Pa", "dha", "Ni"]
+        },
+        "Darbari": {
+          description: "Raag Darbari is a profound night raga known for its serious, majestic and meditative quality. It was brought to India by Tansen from the court of Emperor Akbar.",
+          notes: ["Sa", "Re", "ga", "Ma", "Pa", "dha", "ni"]
+        }
+      };
+      
+      // For a real application, this would be connected to AI analysis
+      function updateAnalysisResults(raga) {
+        document.getElementById("ragaResult").textContent = raga;
+        document.getElementById("ragaDescription").textContent = ragas[raga].description;
+        
+        const notesContainer = document.getElementById("ragaNotes");
+        notesContainer.innerHTML = "";
+        ragas[raga].notes.forEach(note => {
+          const noteSpan = document.createElement("span");
+          noteSpan.className = "note";
+          noteSpan.textContent = note;
+          notesContainer.appendChild(noteSpan);
+        });
+      }
+      
     </script>
   </body>
 </html>

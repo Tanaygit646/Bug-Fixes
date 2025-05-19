@@ -3,191 +3,953 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Indian Classical Instruments</title>
-    <link rel="stylesheet" href="ins-style.css" />
+    <title>Indian Classical Instruments - Sargam AI</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #0D0D0D 0%, #2A1506 50%, #3D2207 100%);
+        color: #FFF;
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      /* Floating music notes animation */
+      .floating-notes {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      .note {
+        position: absolute;
+        color: #FFA500;
+        opacity: 0.1;
+        animation: float 15s infinite linear;
+        font-size: 24px;
+      }
+      
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.1;
+        }
+        90% {
+          opacity: 0.1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      
+      .navbar {
+        background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(45,27,18,0.95) 100%);
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid #FFA500;
+        box-shadow: 0 4px 20px rgba(255, 165, 0, 0.2);
+      }
+      
+      .logo {
+        color: #FFA500;
+        font-size: 28px;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Dancing Script', cursive;
+      }
+      
+      .logo::before {
+        content: "🎵";
+        font-size: 32px;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      
+      .menu {
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+      
+      .menu li {
+        margin-left: 30px;
+      }
+      
+      .menu li a {
+        color: #FFF;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 10px 16px;
+        border-radius: 25px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .menu li a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,165,0,0.2), transparent);
+        transition: left 0.5s;
+      }
+      
+      .menu li a:hover::before {
+        left: 100%;
+      }
+      
+      .menu li a:hover {
+        color: #FFA500;
+        background: rgba(255, 165, 0, 0.1);
+        box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+      }
+      
+      .menu-toggle {
+        display: none;
+        color: #FFA500;
+        font-size: 28px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      
+      .menu-toggle:hover {
+        transform: rotate(90deg);
+      }
+      
+      main {
+        padding: 140px 5% 60px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      /* Wavy decorators */
+      .wave-decorator {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #FFA500, transparent);
+        opacity: 0.6;
+      }
+      
+      .wave-decorator.top {
+        top: 120px;
+        animation: wave 3s ease-in-out infinite;
+      }
+      
+      .wave-decorator.bottom {
+        bottom: 0;
+        animation: wave 3s ease-in-out infinite reverse;
+      }
+      
+      @keyframes wave {
+        0%, 100% { transform: translateX(-100px); }
+        50% { transform: translateX(100px); }
+      }
+      
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 3.5rem;
+        background: linear-gradient(45deg, #FFA500, #FFD700, #FFA500);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-family: 'Dancing Script', cursive;
+        position: relative;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+      }
+      
+      @keyframes titleGlow {
+        from { text-shadow: 0 0 20px rgba(255, 165, 0, 0.5); }
+        to { text-shadow: 0 0 30px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6); }
+      }
+      
+      .intro {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        text-align: center;
+        line-height: 1.8;
+        font-size: 1.2rem;
+        color: #E0E0E0;
+        padding: 30px;
+        background: rgba(255, 165, 0, 0.05);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 165, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(255, 165, 0, 0.1);
+        backdrop-filter: blur(10px);
+      }
+      
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto 50px;
+        position: relative;
+      }
+      
+      .search-box {
+        position: relative;
+        overflow: hidden;
+        border-radius: 50px;
+        background: rgba(255, 165, 0, 0.1);
+        border: 2px solid #FFA500;
+        box-shadow: 0 8px 32px rgba(255, 165, 0, 0.2);
+      }
+      
+      #searchBar {
+        width: 100%;
+        padding: 18px 25px;
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        color: #FFF;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+      
+      #searchBar::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      
+      #searchBar:focus {
+        background: rgba(255, 165, 0, 0.05);
+      }
+      
+      .search-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #FFA500;
+        font-size: 20px;
+        pointer-events: none;
+      }
+      
+      .filter-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 20px;
+      }
+      
+      .filter-btn {
+        background: rgba(255, 165, 0, 0.1);
+        border: 2px solid #FFA500;
+        color: #FFF;
+        padding: 12px 24px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        min-width: 100px;
+      }
+      
+      .filter-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.3), transparent);
+        transition: left 0.6s;
+      }
+      
+      .filter-btn:hover::before {
+        left: 100%;
+      }
+      
+      .filter-btn.active {
+        background: linear-gradient(45deg, #FFA500, #FFD700);
+        color: #000;
+        box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+        transform: translateY(-3px);
+      }
+      
+      .filter-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+        background: rgba(255, 165, 0, 0.2);
+      }
+      
+      .instrument-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+      
+      .instrument-card {
+        background: linear-gradient(145deg, rgba(255, 165, 0, 0.05), rgba(0, 0, 0, 0.3));
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid rgba(255, 165, 0, 0.3);
+        transition: all 0.4s ease;
+        position: relative;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      
+      .instrument-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(255, 165, 0, 0.1), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+      }
+      
+      .instrument-card:hover::before {
+        opacity: 1;
+      }
+      
+      .instrument-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        border-color: #FFA500;
+        box-shadow: 0 20px 60px rgba(255, 165, 0, 0.3), 0 0 50px rgba(255, 165, 0, 0.2);
+      }
+      
+      .instrument-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .instrument-card:hover img {
+        transform: scale(1.05);
+      }
+      
+      .card-content {
+        padding: 25px;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .instrument-card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: #FFA500;
+        font-weight: 600;
+        text-shadow: 0 2px 10px rgba(255, 165, 0, 0.3);
+      }
+      
+      .instrument-card p {
+        color: #E0E0E0;
+        line-height: 1.8;
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+      
+      .category {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(45deg, #FFA500, #FFD700);
+        color: #000;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+        z-index: 3;
+      }
+      
+      .learn-more {
+        display: inline-block;
+        background: linear-gradient(45deg, #FF4444, #FF6666);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+      }
+      
+      .learn-more::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s;
+      }
+      
+      .learn-more:hover::before {
+        left: 100%;
+      }
+      
+      .learn-more:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 68, 68, 0.5);
+        background: linear-gradient(45deg, #FF6666, #FF4444);
+      }
+      
+      /* Sound wave visualization */
+      .sound-waves {
+        position: absolute;
+        bottom: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 3px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      
+      .instrument-card:hover .sound-waves {
+        opacity: 0.6;
+      }
+      
+      .wave-bar {
+        width: 4px;
+        background: #FFA500;
+        border-radius: 2px;
+        animation: wave-pulse 1.5s ease-in-out infinite;
+      }
+      
+      .wave-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+      .wave-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
+      .wave-bar:nth-child(3) { height: 25px; animation-delay: 0.2s; }
+      .wave-bar:nth-child(4) { height: 40px; animation-delay: 0.3s; }
+      .wave-bar:nth-child(5) { height: 30px; animation-delay: 0.4s; }
+      .wave-bar:nth-child(6) { height: 20px; animation-delay: 0.5s; }
+      .wave-bar:nth-child(7) { height: 35px; animation-delay: 0.6s; }
+      
+      @keyframes wave-pulse {
+        0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+        50% { transform: scaleY(1); opacity: 1; }
+      }
+      
+      footer {
+        background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(45,27,18,0.95) 100%);
+        color: #FFF;
+        text-align: center;
+        padding: 40px 20px;
+        margin-top: 60px;
+        border-top: 3px solid #FFA500;
+        backdrop-filter: blur(10px);
+      }
+      
+      footer p {
+        margin: 5px 0;
+        color: #E0E0E0;
+      }
+      
+      footer p:first-child {
+        color: #FFA500;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+      
+      .no-results {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 30px;
+        font-size: 1.4rem;
+        color: #FFA500;
+        background: rgba(255, 165, 0, 0.05);
+        border-radius: 20px;
+        border: 2px dashed rgba(255, 165, 0, 0.3);
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: linear-gradient(90deg, rgba(0,0,0,0.98) 0%, rgba(45,27,18,0.98) 100%);
+          padding: 20px 0;
+          border-bottom: 2px solid #FFA500;
+          backdrop-filter: blur(10px);
+        }
+        
+        .menu.active {
+          display: flex;
+        }
+        
+        .menu li {
+          margin: 15px 0;
+          text-align: center;
+        }
+        
+        .menu-toggle {
+          display: block;
+        }
+        
+        h1 {
+          font-size: 2.5rem;
+        }
+        
+        .instrument-container {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+        }
+        
+        .intro {
+          font-size: 1rem;
+          padding: 20px;
+        }
+        
+        .filter-container {
+          padding: 10px;
+          gap: 10px;
+        }
+        
+        .filter-btn {
+          padding: 10px 18px;
+          font-size: 0.9rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        main {
+          padding: 120px 3% 40px;
+        }
+        
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .instrument-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Floating musical notes -->
+    <div class="floating-notes">
+      <div class="note" style="left: 10%; animation-delay: 0s;">♪</div>
+      <div class="note" style="left: 20%; animation-delay: 3s;">♫</div>
+      <div class="note" style="left: 30%; animation-delay: 6s;">♪</div>
+      <div class="note" style="left: 40%; animation-delay: 9s;">♬</div>
+      <div class="note" style="left: 50%; animation-delay: 12s;">♪</div>
+      <div class="note" style="left: 60%; animation-delay: 15s;">♫</div>
+      <div class="note" style="left: 70%; animation-delay: 18s;">♪</div>
+      <div class="note" style="left: 80%; animation-delay: 21s;">♬</div>
+      <div class="note" style="left: 90%; animation-delay: 24s;">♪</div>
+    </div>
+
+    <!-- Wavy decorators -->
+    <div class="wave-decorator top"></div>
+    <div class="wave-decorator bottom"></div>
+
     <nav class="navbar">
       <a href="#" class="logo">Sargam AI</a>
-      <div class="menu-toggle" onclick="toggleMenu()"></div>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
       <ul class="menu" id="menu">
         <li><a href="../index.html">Home</a></li>
         <li><a href="../analysis.html">Analysis</a></li>
         <li><a href="../simulation.html">Simulation</a></li>
         <li><a href="../synthesis.html">Synthesis</a></li>
-        <li>
-          <a href="../Instruments_Data_Base/instruments.html">Instruments</a>
-        </li>
+        <li><a href="../Instruments_Data_Base/instruments.html">Instruments</a></li>
         <li><a href="../Library/library.html">Library</a></li>
-        <li>
-          <a href="../Artists_Data_Base/profiles.html">Artists</a>
-        </li>
+        <li><a href="../Artists_Data_Base/profiles.html">Artists</a></li>
       </ul>
     </nav>
 
-    <br /><br />
-    <h1>🎵 Indian Classical Instruments</h1>
+    <main>
+      <h1>Indian Classical Instruments</h1>
+      
+      <p class="intro">
+        🎼 Discover the mystical world of Indian classical music through its sacred instruments. From the divine melodies of the bansuri that echoed through Krishna's flute, to the thunderous rhythms of the tabla that dance with the heartbeat of the universe - each instrument tells a story spanning millennia of spiritual and artistic evolution. 🎼
+      </p>
 
-    <!-- Search Box -->
-    <div class="search-box">
-      <input
-        type="text"
-        id="searchBar"
-        placeholder="Search for an Instrument..."
-        onkeyup="searchInstrument()"
-      />
-    </div>
+      <!-- Search Container -->
+      <div class="search-container">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchBar"
+            placeholder="Search for the perfect instrument..."
+            onkeyup="filterInstruments()"
+          />
+          <div class="search-icon">🔍</div>
+        </div>
+      </div>
 
-    <!-- Instrument List -->
-    <div class="instrument-container" id="instrumentList">
-      <!--Visible Instruments -->
-      <a href="description/bansuri.html"
-        ><div class="instrument-card">
-          <img src="Images/bansuri.jpg" alt="Bansuri" />
-          <h2>Bansuri</h2>
-          <p>A bamboo flute associated with Lord Krishna.</p>
-        </div></a
-      >
+      <!-- Filter Buttons -->
+      <div class="filter-container">
+        <button class="filter-btn active" data-category="all">🎼 All</button>
+        <button class="filter-btn" data-category="string">🎸 String</button>
+        <button class="filter-btn" data-category="percussion">🥁 Percussion</button>
+        <button class="filter-btn" data-category="wind">🎷 Wind</button>
+        <button class="filter-btn" data-category="drone">🎵 Drone</button>
+      </div>
 
-      <a href="description/tanpura.html"
-        ><div class="instrument-card">
-          <img src="Images/tanpura2.jpg" alt="Tanpura" />
-          <h2>Tanpura</h2>
-          <p>A long-necked plucked string instrument for drone sounds.</p>
-        </div></a
-      >
+      <!-- Instrument Grid -->
+      <div class="instrument-container" id="instrumentList">
+        <div class="instrument-card" data-category="wind">
+          <span class="category">Wind</span>
+          <img src="tansen2.jpg" alt="Bansuri" />
+          <div class="card-content">
+            <h2>Bansuri</h2>
+            <p>A sacred bamboo flute associated with Lord Krishna, the bansuri produces a divine, mellow tone that transcends the boundaries between earth and heaven, central to classical Hindustani music.</p>
+            <a href="description/bansuri.html" class="learn-more">Explore Melodies</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <!-- 50 Hidden Instruments -->
-      <a href="description/pakhwaj.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/pakhawaj2.jpg" alt="Pakhawaj" />
-          <h2>Pakhawaj</h2>
-          <p>A barrel-shaped drum for additional instrument for song.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Santoor" />
+          <div class="card-content">
+            <h2>Santoor</h2>
+            <p>A trapezoid-shaped string instrument played with mallets, originating from the paradise valleys of Kashmir. Its 100 strings create cascading, bell-like sounds that mirror the flowing waters of mountain streams.</p>
+            <a href="description/santoor.html" class="learn-more">Discover Kashmir's Voice</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/tabla.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/tabla2.webp" alt="Tabla" />
-          <h2>Tabla</h2>
-          <p>A pair of hand drums for give the taal in any song.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="wind">
+          <span class="category">Wind</span>
+          <img src="/api/placeholder/350/240" alt="Shehnai" />
+          <div class="card-content">
+            <h2>Shehnai</h2>
+            <p>A double-reed wind instrument with a hauntingly beautiful tone that has blessed countless weddings and temple ceremonies. Its voice carries prayers to the divine and celebrates life's most sacred moments.</p>
+            <a href="description/shenai.html" class="learn-more">Feel the Sacred</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/sitar.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/sitar2.webp" alt="Sitar" />
-          <h2>Sitar</h2>
-          <p>A plucked string instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="drone">
+          <span class="category">Drone</span>
+          <img src="/api/placeholder/350/240" alt="Tanpura" />
+          <div class="card-content">
+            <h2>Tanpura</h2>
+            <p>A long-necked plucked string instrument that provides the harmonic drone accompaniment, creating the cosmic om that underlies all classical performances. It establishes the tonal foundation for musical meditation.</p>
+            <a href="description/tanpura.html" class="learn-more">Enter the Om</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/sarod.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/sarod2.jpg" alt="Sarod" />
-          <h2>Sarod</h2>
-          <p>A fretless string instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="percussion">
+          <span class="category">Percussion</span>
+          <img src="/api/placeholder/350/240" alt="Pakhawaj" />
+          <div class="card-content">
+            <h2>Pakhawaj</h2>
+            <p>A barrel-shaped two-headed drum that predates the tabla, serving as the rhythmic heartbeat of Dhrupad - the most ancient and meditative form of Hindustani classical music. Its deep resonance awakens the soul.</p>
+            <a href="description/pakhwaj.html" class="learn-more">Feel the Ancient Beat</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/veena.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/veena2.jpeg" alt="Veena" />
-          <h2>Veena</h2>
-          <p>A South Indian classical instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="percussion">
+          <span class="category">Percussion</span>
+          <img src="/api/placeholder/350/240" alt="Tabla" />
+          <div class="card-content">
+            <h2>Tabla</h2>
+            <p>A pair of hand drums consisting of the treble dayan and bass bayan, forming the rhythmic soul of North Indian classical music. Its language of beats speaks to the dancing cosmos within every performance.</p>
+            <a href="description/tabla.html" class="learn-more">Dance with Rhythm</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/mridangam.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/mridangona.webp" alt="Mridangam" />
-          <h2>Mridangam</h2>
-          <p>A Carnatic percussion instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Sitar" />
+          <div class="card-content">
+            <h2>Sitar</h2>
+            <p>The crown jewel of Indian string instruments, made famous worldwide by Pandit Ravi Shankar. Its distinctive buzzing tone and sympathetic strings create a universe of sound that bridges Eastern mysticism with global consciousness.</p>
+            <a href="description/sitar.html" class="learn-more">Journey to India</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/dhol.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/dhool2.jpg" alt="Dhol" />
-          <h2>Dhol</h2>
-          <p>A double-sided drum.used in puja.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Sarod" />
+          <div class="card-content">
+            <h2>Sarod</h2>
+            <p>A fretless string instrument with a metal fingerboard, known for its deep, introspective voice. The sarod's ability to produce seamless gliding notes (meend) makes it the perfect vessel for expressing the soul's deepest emotions.</p>
+            <a href="description/sarod.html" class="learn-more">Touch the Soul</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
+<div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Sarod" />
+          <div class="card-content">
+            <h2>Sarod</h2>
+            <p>A fretless string instrument with a metal fingerboard, known for its deep, introspective voice. The sarod's ability to produce seamless gliding notes (meend) makes it the perfect vessel for expressing the soul's deepest emotions.</p>
+            <a href="description/sarod.html" class="learn-more">Touch the Soul</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/harmonium.html"
-        ><div class="instrument-card hidden">
-          <img src="Images/harmoniumm2.jpg" alt="Harmonium" />
-          <h2>Harmonium</h2>
-          <p>A free-reed keyboard instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Sarangi" />
+          <div class="card-content">
+            <h2>Sarangi</h2>
+            <p>A bowed string instrument whose voice is said to most closely resemble the human vocal cords. Its hauntingly emotional timbre has accompanied generations of classical vocalists in their quest for the divine.</p>
+            <a href="description/sarangi.html" class="learn-more">Hear the Voice Within</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/ghatam.html"
-        ><div class="instrument-card hidden">
-          <img src="images/ghatam.webp" alt="Ghatam" />
-          <h2>Ghatam</h2>
-          <p>A clay pot percussion instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="percussion">
+          <span class="category">Percussion</span>
+          <img src="/api/placeholder/350/240" alt="Mridangam" />
+          <div class="card-content">
+            <h2>Mridangam</h2>
+            <p>The primary rhythmic instrument in Carnatic (South Indian) classical music. Its barrel-shaped body generates complex tones that weave mathematical precision with spiritual devotion in the ancient musical traditions of South India.</p>
+            <a href="description/mridangam.html" class="learn-more">Discover Southern Rhythms</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/esraj.html"
-        ><div class="instrument-card hidden">
-          <img src="images/esraj.jpeg" alt="Esraj" />
-          <h2>Esraj</h2>
-          <p>A bowed string instrument.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="wind">
+          <span class="category">Wind</span>
+          <img src="/api/placeholder/350/240" alt="Nagaswaram" />
+          <div class="card-content">
+            <h2>Nagaswaram</h2>
+            <p>The loudest non-brass acoustic instrument, this double reed pipe from South India is considered highly auspicious. Its powerful, penetrating sound fills temple courtyards and announces the presence of the divine during processions.</p>
+            <a href="description/nagaswaram.html" class="learn-more">Feel Divine Power</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
 
-      <a href="description/jal-tarang.html"
-        ><div class="instrument-card hidden">
-          <img src="images/jal-tarang.jpeg" alt="Jal Tarang" />
-          <h2>Jal Tarang</h2>
-          <p>A set of ceramic bowls filled with water.</p>
-        </div></a
-      >
+        <div class="instrument-card" data-category="string">
+          <span class="category">String</span>
+          <img src="/api/placeholder/350/240" alt="Veena" />
+          <div class="card-content">
+            <h2>Veena</h2>
+            <p>One of India's most ancient instruments, associated with Goddess Saraswati. Its plucked strings produce a profound, meditative tone that has been the voice of spiritual and classical expression for over two millennia.</p>
+            <a href="description/veena.html" class="learn-more">Touch the Divine</a>
+            <div class="sound-waves">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
-      <a href="description/ektara.html"
-        ><div class="instrument-card hidden">
-          <img src="images/ektara.webp" alt="Ektara" />
-          <h2>Ektara</h2>
-          <p>A single-stringed instrument.</p>
-        </div></a
-      >
-
-      <a href="description/surbahar.html"
-        ><div class="instrument-card hidden">
-          <img src="images/surbahar.jpeg" alt="Surbahar" />
-          <h2>Surbahar</h2>
-          <p>A bass sitar used for dhrupad music.</p>
-        </div></a
-      >
-    </div>
-    <!-- Footer -->
     <footer>
-      <p>Made with ❤️ by Bugs & Fixes</p>
-      &copy; 2025 Sargam AI. All rights reserved.
+      <p>Sargam AI - Embracing the Sacred Sounds of India</p>
+      <p>&copy; 2025 Sargam AI. All rights reserved.</p>
+      <p>A journey through time and sound - Connecting ancient wisdom with modern technology</p>
     </footer>
+
     <script>
-      function searchInstrument() {
-        let input = document.getElementById("searchBar").value.toLowerCase();
-        let cards = document.getElementsByClassName("instrument-card");
-
-        for (let i = 0; i < cards.length; i++) {
-          let title = cards[i]
-            .getElementsByTagName("h2")[0]
-            .innerText.toLowerCase();
-
-          if (title.includes(input) || input.length === 0) {
-            cards[i].style.display = "block";
+      // Toggle mobile menu
+      function toggleMenu() {
+        document.getElementById('menu').classList.toggle('active');
+      }
+      
+      // Filter instruments
+      function filterInstruments() {
+        const searchValue = document.getElementById('searchBar').value.toLowerCase();
+        const instruments = document.querySelectorAll('.instrument-card');
+        const activeCategory = document.querySelector('.filter-btn.active').getAttribute('data-category');
+        let foundCount = 0;
+        
+        instruments.forEach(instrument => {
+          const instrumentName = instrument.querySelector('h2').innerText.toLowerCase();
+          const instrumentDesc = instrument.querySelector('p').innerText.toLowerCase();
+          const category = instrument.getAttribute('data-category');
+          
+          const matchesSearch = instrumentName.includes(searchValue) || instrumentDesc.includes(searchValue);
+          const matchesCategory = activeCategory === 'all' || category === activeCategory;
+          
+          if (matchesSearch && matchesCategory) {
+            instrument.style.display = 'block';
+            foundCount++;
           } else {
-            cards[i].style.display = "none";
+            instrument.style.display = 'none';
           }
+        });
+        
+        // Show no results message if needed
+        const noResultsElement = document.querySelector('.no-results');
+        if (foundCount === 0) {
+          if (!noResultsElement) {
+            const noResults = document.createElement('div');
+            noResults.className = 'no-results';
+            noResults.innerHTML = 'No instruments found. Try a different search term or category.';
+            document.getElementById('instrumentList').appendChild(noResults);
+          }
+        } else if (noResultsElement) {
+          noResultsElement.remove();
         }
       }
-      function toggleMenu() {
-        let menu = document.getElementById("menu");
-        menu.classList.toggle("active");
-      }
+      
+      // Filter button click handler
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked button
+          button.classList.add('active');
+          
+          // Filter instruments
+          filterInstruments();
+        });
+      });
+      
+      // Generate random positions for the floating notes
+      document.querySelectorAll('.note').forEach(note => {
+        const randomLeft = Math.random() * 100;
+        const randomDelay = Math.random() * 30;
+        const randomDuration = 15 + Math.random() * 20;
+        
+        note.style.left = randomLeft + '%';
+        note.style.animationDelay = randomDelay + 's';
+        note.style.animationDuration = randomDuration + 's';
+      });
     </script>
   </body>
 </html>
