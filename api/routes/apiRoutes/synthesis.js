@@ -1,16 +1,13 @@
-import axios from "axios";
-import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+const axios = require("axios");
+const dotenv = require("dotenv");
+const fs = require("fs");
+const path = require("path");
 
 dotenv.config();
 
 const API_TOKEN = process.env.BEATOVEN_TOKEN;
 const URL = "https://public-api.beatoven.ai/api/v1";
-const __filename = fileURLToPath(import.meta.url); // Convert import.meta.url to file path
-const __dirname = path.dirname(__filename);
-const trackPath = path.join(__dirname, "../../assets/compositions");
+const trackPath = path.join(__dirname, "../../../public/assets/compositions");
 
 async function createTrack(requestData) {
     try {
@@ -51,7 +48,6 @@ async function getTrackStatus(task_id) {
         });
 
         if (response.status === 200) {
-            // console.log(response.data);
             return response.data;
         } else {
             throw new Error(JSON.stringify({ error: "Composition failed" }));
@@ -139,6 +135,7 @@ async function createAndCompose(trackMeta) {
         }
 
         const trackUrl = generationMeta.meta.track_url;
+        console.log(`Track URL: ${trackUrl}`);
         return trackUrl;
         // console.log("Downloading track file");
 
@@ -152,7 +149,7 @@ async function createAndCompose(trackMeta) {
         console.error(error);
     }
 }
-
+// Testing
 // const demoMeta = {
 //     prompt: { text: "Indian classical music, a beautiful and soothing melody" },
 //     duration: 30000,
@@ -161,5 +158,5 @@ async function createAndCompose(trackMeta) {
 //     tempo: "80 BPM",
 // }
 
-// const url = await createAndCompose(demoMeta);
+// let url = createAndCompose(demoMeta);
 // console.log(url);
