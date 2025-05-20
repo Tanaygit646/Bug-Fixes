@@ -1,6 +1,6 @@
 .env
-assets/music
-assets/result
-assets/compositions
-uploads
 node_modules
+public/media
+
+# Local Netlify folder
+.netlify

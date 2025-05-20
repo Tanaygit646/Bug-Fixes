@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sargam AI - AI-Powered Indian Classical Music Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styl.css" />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- AOS Animation Library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  </head>
+  <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator"></div>
+
+    <!-- Loading Animation -->
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Navigation Bar with Animation -->
+    <nav
+      class="w-full bg-black bg-opacity-90 py-4 px-6 fixed top-0 flex justify-between items-center z-50 backdrop-blur-md transition-all duration-300"
+      id="navbar"
+    >
+      <div class="flex items-center space-x-2">
+        <div class="sound-wave">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <h1 class="text-2xl text-yellow-300 font-bold">Sargam AI</h1>
+      </div>
+
+      <!-- Hamburger Icon -->
+      <div
+        class="md:hidden cursor-pointer text-yellow-300 text-3xl"
+        onclick="toggleMenu()"
+      >
+        <i class="fas fa-bars"></i>
+      </div>
+
+      <!-- Menu Items with Hover Animation -->
+      <ul class="hidden md:flex space-x-6" id="menu">
+        <li>
+          <a
+            href="analysis.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Analysis</a
+          >
+        </li>
+        <li>
+          <a
+            href="simulation.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Simulation</a
+          >
+        </li>
+        <li>
+          <a
+            href="synthesis.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Synthesis</a
+          >
+        </li>
+        <li>
+          <a
+            href="instruments.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Instruments</a
+          >
+        </li>
+        <li>
+          <a
+            href="library.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Library</a
+          >
+        </li>
+        <li>
+          <a
+            href="profiles.html"
+            class="text-yellow-300 hover:text-yellow-500 nav-link"
+            >Artists</a
+          >
+        </li>
+      </ul>
+
+      <!-- Mobile Menu (Hidden by Default) -->
+      <ul
+        class="hidden fixed top-16 left-0 w-full bg-black bg-opacity-95 flex flex-col items-center py-4 space-y-4"
+        id="mobile-menu"
+      >
+        <li>
+          <a href="../index.html" class="text-yellow-300 hover:text-yellow-500"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="../analysis.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Analysis</a
+          >
+        </li>
+        <li>
+          <a
+            href="../simulation.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Simulation</a
+          >
+        </li>
+        <li>
+          <a
+            href="../synthesis.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Synthesis</a
+          >
+        </li>
+        <li>
+          <a
+            href="../Instruments_Data_Base/instruments.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Instruments</a
+          >
+        </li>
+        <li>
+          <a
+            href="../Library/library.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Library</a
+          >
+        </li>
+        <li>
+          <a
+            href="../Artists_Data_Base/profiles.html"
+            class="text-yellow-300 hover:text-yellow-500"
+            >Artists</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Hero Section with Enhanced Animation -->
+    <section
+      class="min-h-screen flex flex-col items-center justify-center p-8 text-white relative overflow-hidden"
+    >
+      <!-- Background Gradient with SVG Pattern -->
+      <div class="absolute inset-0 bg-pattern opacity-20"></div>
+
+      <!-- Floating Musical Notes Animation -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="musical-note" style="top: 15%; left: 10%">♪</div>
+        <div class="musical-note delay-1" style="top: 25%; left: 85%">♫</div>
+        <div class="musical-note delay-2" style="top: 65%; left: 15%">𝄞</div>
+        <div class="musical-note delay-3" style="top: 45%; left: 90%">♩</div>
+        <div class="musical-note delay-4" style="top: 75%; left: 50%">♪</div>
+      </div>
+      <br />
+      <div
+        data-aos="fade-up"
+        data-aos-duration="1200"
+        class="z-10 max-w-4xl mx-auto"
+      >
+        <h1
+          class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-center text-yellow-300 ornamental-border p-4 glow-effect"
+        >
+          Revolutionizing
+          <span
+            class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-red-300 to-yellow-200"
+            >Indian Classical Music</span
+          >
+          with AI
+        </h1>
+
+        <!-- Enhanced Sound Wave Visualization -->
+        <div class="sound-wave mx-auto mt-8">
+          <span></span><span></span><span></span> <span></span><span></span
+          ><span></span> <span></span><span></span><span></span> <span></span
+          ><span></span><span></span>
+        </div>
+
+        <p
+          class="mt-8 text-xl md:text-2xl text-center max-w-3xl mx-auto text-yellow-100 font-light leading-relaxed"
+        >
+          Experience the divine rhythm and essence of
+          <em><span class="text-pink-400">Ragas</span></em> and
+          <em><span class="text-blue-400">Talas</span></em> through our
+          groundbreaking fusion of
+          <span class="text-green-300">tradition</span> and
+          <span class="text-purple-400">technology</span>
+        </p>
+
+        <!-- Feature Tags -->
+        <div class="flex flex-wrap justify-center gap-3 mt-6">
+          <span
+            class="px-3 py-1 bg-red-900 bg-opacity-60 rounded-full text-yellow-200 text-sm"
+            >Neural Networks</span
+          >
+          <span
+            class="px-3 py-1 bg-red-900 bg-opacity-60 rounded-full text-yellow-200 text-sm"
+            >Raga Recognition</span
+          >
+          <span
+            class="px-3 py-1 bg-red-900 bg-opacity-60 rounded-full text-yellow-200 text-sm"
+            >AI Composition</span
+          >
+          <span
+            class="px-3 py-1 bg-red-900 bg-opacity-60 rounded-full text-yellow-200 text-sm"
+            >Symbolic Processing</span
+          >
+        </div>
+
+        <!-- Buttons with Enhanced Animation -->
+        <div class="mt-10 flex flex-wrap justify-center gap-6">
+          <a
+            href="analysis.html"
+            class="group px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 rounded-lg shadow-lg text-lg font-semibold hover:from-red-700 hover:to-red-800 transition duration-300 transform hover:scale-105 hover:shadow-xl"
+          >
+            <i class="fas fa-music mr-2 group-hover:animate-pulse"></i>
+            <span>Analyze Compositions</span>
+          </a>
+
+          <a
+            href="synthesis.html"
+            class="group px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-lg shadow-lg text-lg font-semibold hover:from-yellow-700 hover:to-yellow-800 transition duration-300 transform hover:scale-105 hover:shadow-xl"
+          >
+            <i class="fas fa-microchip mr-2 group-hover:animate-pulse"></i>
+            <span>Generate New Ragas</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced What is Sargam AI Section with Advanced Canvas Animation -->
+    <section
+      id="what-is-sargam-ai"
+      class="py-24 bg-gradient-to-b from-black to-yellow-900 relative overflow-hidden"
+    >
+      <!-- Improved Canvas with better positioning -->
+      <canvas
+        id="musicVisualizer"
+        class="absolute top-0 left-0 w-full h-full opacity-20 z-0"
+      ></canvas>
+
+      <div
+        class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16 relative z-20"
+      >
+        <!-- Left Side: Enhanced Logo with Animation -->
+        <div
+          class="md:w-1/2 flex justify-center"
+          data-aos="fade-right"
+          data-aos-duration="1200"
+        >
+          <div class="relative group">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 rounded-lg blur opacity-30 group-hover:opacity-70 transition duration-1000 group-hover:duration-200"
+            ></div>
+            <div class="relative">
+              <img
+                src="assets/sargam.ai.webp"
+                alt="Sargam AI Logo"
+                class="w-full max-w-md rounded-lg shadow-2xl transform transition duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+
+              <!-- Audio Waves Overlay -->
+              <div
+                class="absolute bottom-4 left-0 right-0 flex justify-center gap-1 opacity-70"
+              >
+                <div
+                  class="h-8 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-12 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-6 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-10 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-4 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-8 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+                <div
+                  class="h-6 w-1 bg-yellow-400 rounded-full audio-wave"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Enhanced Content with Animation -->
+        <div
+          class="md:w-1/2"
+          data-aos="fade-left"
+          data-aos-duration="1200"
+          data-aos-delay="200"
+        >
+          <h2 class="text-5xl font-bold text-yellow-300 mb-8 relative">
+            <span class="relative z-10">What is Sargam AI?</span>
+            <span
+              class="absolute -bottom-3 left-0 h-1 w-32 bg-gradient-to-r from-yellow-500 to-transparent rounded-full"
+            ></span>
+          </h2>
+
+          <p class="text-xl text-yellow-100 mb-6 leading-relaxed">
+            <span
+              class="text-3xl font-semibold text-yellow-300 inline-block mb-2"
+              >Sargam AI</span
+            >
+            is an advanced AI-driven platform designed to
+            <strong class="text-yellow-200"
+              >redefine Indian Classical Music</strong
+            >
+            for the modern era.
+          </p>
+
+          <p class="text-lg text-yellow-100 mb-6 leading-relaxed">
+            By harnessing the power of deep learning and data-driven analysis,
+            we empower musicians, scholars, and enthusiasts to decode the
+            complexities of ragas, generate authentic compositions, and
+            visualize the rich heritage of classical melodies with AI-powered
+            precision.
+          </p>
+
+          <!-- Key Features List -->
+          <div class="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex items-center space-x-3">
+              <span class="text-yellow-400 flex-shrink-0"
+                ><i class="fas fa-music"></i
+              ></span>
+              <span class="text-yellow-100">Raga Analysis & Generation</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-yellow-400 flex-shrink-0"
+                ><i class="fas fa-microphone-alt"></i
+              ></span>
+              <span class="text-yellow-100">Voice Pattern Recognition</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-yellow-400 flex-shrink-0"
+                ><i class="fas fa-brain"></i
+              ></span>
+              <span class="text-yellow-100">Deep Learning Algorithms</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-yellow-400 flex-shrink-0"
+                ><i class="fas fa-chart-line"></i
+              ></span>
+              <span class="text-yellow-100">Performance Analytics</span>
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a
+              href="#features"
+              class="px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-md text-white hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg flex items-center group"
+              aria-label="Learn more about Sargam AI's features"
+            >
+              <i class="fas fa-info-circle mr-2 group-hover:animate-pulse"></i>
+              <span>Learn More</span>
+            </a>
+            <button
+              class="play-demo px-6 py-3 border-2 border-yellow-400 rounded-md text-yellow-300 hover:bg-yellow-800 hover:bg-opacity-50 transition duration-300 flex items-center group"
+              aria-label="Watch a demonstration of Sargam AI"
+            >
+              <i class="fas fa-play mr-2 group-hover:animate-bounce"></i>
+              <span>Watch Demo</span>
+            </button>
+          </div>
+
+          <!-- Trust Badge -->
+          <div
+            class="mt-8 inline-flex items-center bg-yellow-900 bg-opacity-50 px-4 py-2 rounded-full text-sm text-yellow-200"
+          >
+            <i class="fas fa-shield-alt mr-2"></i>
+            <span>Trusted by 1000+ musicians worldwide</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section
+      id="how-it-works"
+      class="py-20 bg-gradient-to-b from-yellow-900 to-black relative overflow-hidden"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-yellow-300 mb-12 text-center"
+          data-aos="fade-up"
+        >
+          How Sargam AI Works
+        </h2>
+
+        <div class="relative">
+          <!-- Steps -->
+          <div class="grid md:grid-cols-4 gap-8">
+            <div
+              class="relative p-6 border-2 border-yellow-700 rounded-lg bg-yellow-900 bg-opacity-10"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              <div
+                class="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-yellow-600 flex items-center justify-center text-white font-bold"
+              >
+                1
+              </div>
+              <h3 class="text-2xl font-semibold text-yellow-300 mb-4">
+                Upload
+              </h3>
+              <p class="text-yellow-100">
+                Upload your music recording or select a piece from our extensive
+                library of classical compositions.
+              </p>
+            </div>
+
+            <div
+              class="relative p-6 border-2 border-yellow-700 rounded-lg bg-yellow-900 bg-opacity-10"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <div
+                class="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-yellow-600 flex items-center justify-center text-white font-bold"
+              >
+                2
+              </div>
+              <h3 class="text-2xl font-semibold text-yellow-300 mb-4">
+                Analyze
+              </h3>
+              <p class="text-yellow-100">
+                Our AI models analyze the recording, identifying ragas, taals,
+                microtones, and melodic patterns.
+              </p>
+            </div>
+
+            <div
+              class="relative p-6 border-2 border-yellow-700 rounded-lg bg-yellow-900 bg-opacity-10"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              <div
+                class="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-yellow-600 flex items-center justify-center text-white font-bold"
+              >
+                3
+              </div>
+              <h3 class="text-2xl font-semibold text-yellow-300 mb-4">
+                Visualize
+              </h3>
+              <p class="text-yellow-100">
+                Experience detailed visualizations of melodic patterns,
+                frequency spectrums, and raga structures.
+              </p>
+            </div>
+
+            <div
+              class="relative p-6 border-2 border-yellow-700 rounded-lg bg-yellow-900 bg-opacity-10"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <div
+                class="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-yellow-600 flex items-center justify-center text-white font-bold"
+              >
+                4
+              </div>
+              <h3 class="text-2xl font-semibold text-yellow-300 mb-4">
+                Create
+              </h3>
+              <p class="text-yellow-100">
+                Use our tools to create variations, accompaniments, or entirely
+                new compositions based on classical principles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Offerings Section with Animation -->
+    <section
+      id="our-offerings"
+      class="py-20 bg-gradient-to-b from-black to-yellow-900 bg-opacity-30 text-white"
+    >
+      <div class="max-w-6xl mx-auto text-center px-4">
+        <h2
+          class="text-4xl font-bold text-yellow-300 mb-6"
+          data-aos="fade-up"
+          data-aos-duration="800"
+        >
+          Our Offerings
+        </h2>
+        <p
+          class="text-lg text-gray-300 mb-12"
+          data-aos="fade-up"
+          data-aos-duration="800"
+          data-aos-delay="200"
+        >
+          Explore AI-powered tools designed for Indian Classical Music – from
+          synthesis to deep analysis.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Feature Cards with Animation -->
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="100"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-music text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              Music Analysis
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Analyze and recognize classical raagas and compositions with AI.
+              Our advanced algorithms can identify raaga patterns, detect
+              microtones, and provide detailed insights.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="200"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-brain text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              AI-Powered Synthesis
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Generate and synthesize authentic Indian classical melodies using
+              our state-of-the-art transformer models, trained on thousands of
+              traditional compositions.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="300"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-chart-line text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              Deep Raga Analysis
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Analyze raga compositions, microtonal variations, and rhythm
+              patterns using advanced AI models that understand the subtle
+              nuances of Indian classical tradition.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="400"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-code text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              Symbolic Processing
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Experience real-time AI-driven raga improvisations, harmonics, and
+              melodic simulations that follow the rules and structures of
+              classical Indian music theory.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="500"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-vr-cardboard text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              AI-Based Simulation
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Create immersive simulations of music performances, with virtual
+              instruments that respond to your input and guidance, creating
+              authentic Indian classical experiences.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-800 bg-opacity-20 rounded-xl shadow-lg text-center ornamental-border feature-card"
+            data-aos="zoom-in"
+            data-aos-duration="800"
+            data-aos-delay="600"
+          >
+            <div
+              class="w-16 h-16 mx-auto bg-yellow-600 rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-graduation-cap text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-yellow-300">
+              Learning Assistant
+            </h2>
+            <p class="mt-2 text-yellow-200">
+              Personalized AI tutor to help you master Indian classical music
+              concepts, provide feedback on your practice, and guide your
+              learning journey.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section
+      id="testimonials"
+      class="py-20 bg-gradient-to-b from-yellow-900 to-black relative overflow-hidden"
+    >
+      <div class="max-w-6xl mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-yellow-300 mb-12 text-center"
+          data-aos="fade-up"
+        >
+          What Our Users Say
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-20 rounded-xl mb-8 border border-yellow-800 transform hover:-translate-y-2 transition duration-500"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 rounded-full bg-yellow-600 flex items-center justify-center mr-4"
+              >
+                <span class="text-white font-bold">PK</span>
+              </div>
+              <div>
+                <h4 class="text-yellow-300 font-semibold">
+                  Pt. Kumar Gandharva
+                </h4>
+                <p class="text-yellow-200 text-sm">Classical Vocalist</p>
+              </div>
+              <div class="ml-auto text-yellow-300">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <p class="text-yellow-100 italic">
+              "Sargam AI has transformed my teaching approach. The analysis
+              tools help my students understand complex ragas with visual
+              representations that were never possible before."
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-20 rounded-xl mb-8 border border-yellow-800 transform hover:-translate-y-2 transition duration-500"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 rounded-full bg-yellow-600 flex items-center justify-center mr-4"
+              >
+                <span class="text-white font-bold">AR</span>
+              </div>
+              <div>
+                <h4 class="text-yellow-300 font-semibold">Amaan Rahman</h4>
+                <p class="text-yellow-200 text-sm">Music Researcher</p>
+              </div>
+              <div class="ml-auto text-yellow-300">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+            <p class="text-yellow-100 italic">
+              "The depth of analysis Sargam AI provides is unprecedented. As a
+              researcher, I can now explore centuries of raaga evolution through
+              data-driven insights."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Blog Posts -->
+    <section
+      id="blog"
+      class="py-20 bg-gradient-to-b from-black to-yellow-900 relative overflow-hidden bg-opacity-30"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-yellow-300 mb-12 text-center"
+          data-aos="fade-up"
+        >
+          Latest from Our Blog
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="rounded-xl overflow-hidden shadow-lg bg-yellow-900 bg-opacity-20 border border-yellow-800 transform hover:scale-105 transition duration-500"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <img
+              src="/api/placeholder/600/400"
+              alt="Blog Post"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-yellow-300 mb-2">
+                The Evolution of Ragas in AI-based Analysis
+              </h3>
+              <p class="text-yellow-100 mb-4">
+                How artificial intelligence is helping us understand the subtle
+                nuances of classical ragas...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-200 text-sm">May 10, 2025</span>
+                <a href="#" class="text-yellow-400 hover:text-yellow-300"
+                  >Read More →</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="rounded-xl overflow-hidden shadow-lg bg-yellow-900 bg-opacity-20 border border-yellow-800 transform hover:scale-105 transition duration-500"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <img
+              src="/api/placeholder/600/400"
+              alt="Blog Post"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-yellow-300 mb-2">
+                AI and the Future of Classical Music Composition
+              </h3>
+              <p class="text-yellow-100 mb-4">
+                Exploring how neural networks are being trained to compose
+                authentic Indian classical music...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-200 text-sm">April 28, 2025</span>
+                <a href="#" class="text-yellow-400 hover:text-yellow-300"
+                  >Read More →</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="rounded-xl overflow-hidden shadow-lg bg-yellow-900 bg-opacity-20 border border-yellow-800 transform hover:scale-105 transition duration-500"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <img
+              src="/api/placeholder/600/400"
+              alt="Blog Post"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-yellow-300 mb-2">
+                Preserving Musical Heritage Through Digital Analysis
+              </h3>
+              <p class="text-yellow-100 mb-4">
+                How AI-powered tools are helping preserve and document
+                traditional Indian music forms...
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-yellow-200 text-sm">April 15, 2025</span>
+                <a href="#" class="text-yellow-400 hover:text-yellow-300"
+                  >Read More →</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a
+            href="#"
+            class="inline-block px-6 py-3 border-2 border-yellow-400 text-yellow-300 rounded-lg hover:bg-yellow-900 hover:bg-opacity-30 transition duration-300"
+          >
+            View All Articles
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section with Animation -->
+    <section
+      id="faq"
+      class="py-20 bg-gradient-to-b from-yellow-900 via-black to-yellow-900 relative overflow-hidden"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-yellow-300 mb-12 text-center"
+          data-aos="fade-up"
+        >
+          Frequently Asked Questions
+        </h2>
+
+        <div class="max-w-3xl mx-auto space-y-8">
+          <!-- FAQ Item with Animation -->
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-10 rounded-xl ornamental-border"
+            data-aos="fade-right"
+            data-aos-delay="100"
+          >
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3">
+              What is Indian Classical Music Analysis?
+            </h3>
+            <p class="text-yellow-100">
+              Our AI analysis system analyzes the complex patterns, microtones,
+              and melodic structures in Indian classical music, identifying
+              ragas, taals, and other musical elements with high precision.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-10 rounded-xl ornamental-border"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3">
+              How does AI Synthesis work for Indian Classical Music?
+            </h3>
+            <p class="text-yellow-100">
+              Our AI synthesis models generate authentic Indian classical
+              melodies using deep learning trained on thousands of traditional
+              compositions, respecting raaga rules, melodic patterns, and
+              traditional aesthetics.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-10 rounded-xl ornamental-border"
+            data-aos="fade-right"
+            data-aos-delay="300"
+          >
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3">
+              Can I use Sargam AI to learn Indian Classical Music?
+            </h3>
+            <p class="text-yellow-100">
+              Absolutely! Sargam AI offers educational tools, interactive
+              simulations, and personalized feedback to help students understand
+              ragas, improve technique, and deepen their appreciation of
+              classical traditions.
+            </p>
+          </div>
+
+          <div
+            class="p-6 bg-yellow-900 bg-opacity-10 rounded-xl ornamental-border"
+            data-aos="fade-left"
+            data-aos-delay="400"
+          >
+            <h3 class="text-xl font-semibold text-yellow-300 mb-3">
+              Is Sargam AI suitable for professional musicians?
+            </h3>
+            <p class="text-yellow-100">
+              Yes, many professional musicians use Sargam AI to explore new
+              musical ideas, analyze their performances, and deepen their
+              understanding of tradition. Our Professional tier includes
+              advanced tools specifically designed for performers and composers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section
+      id="cta"
+      class="py-20 bg-gradient-to-b from-yellow-900 to-black bg-opacity-80 relative overflow-hidden"
+    >
+      <!-- Decorative Background Elements -->
+      <div class="absolute inset-0 flex justify-around opacity-10">
+        <div class="tanpura-decoration"></div>
+        <div class="tabla-decoration"></div>
+        <div class="sitar-decoration"></div>
+      </div>
+
+      <div
+        class="container mx-auto px-4 text-center relative z-10"
+        data-aos="fade-up"
+      >
+        <div class="ornamental-border-top mx-auto w-32 mb-8"></div>
+        <h2 class="text-4xl md:text-5xl font-bold text-yellow-300 mb-6">
+          Begin Your Musical Journey with AI
+        </h2>
+        <p class="text-lg text-white max-w-2xl mx-auto mb-10">
+          Join thousands of musicians, researchers, and enthusiasts who are
+          exploring the rich tradition of Indian Classical Music with
+          cutting-edge AI tools.
+        </p>
+        <div class="flex flex-col md:flex-row justify-center gap-6">
+          <a
+            href="signup.html"
+            class="px-8 py-4 bg-red-600 rounded-lg shadow-lg text-white font-semibold text-xl hover:bg-red-700 transition duration-300 transform hover:scale-105 button-glow"
+          >
+            <i class="fas fa-user-plus mr-2"></i> Sign Up Free
+          </a>
+          <a
+            href="library.html"
+            class="px-8 py-4 border-2 border-yellow-400 rounded-lg shadow-lg text-yellow-300 font-semibold text-xl hover:bg-yellow-900 hover:bg-opacity-30 transition duration-300"
+          >
+            <i class="fas fa-book mr-2"></i> Browse Library
+          </a>
+        </div>
+        <div class="ornamental-border-bottom mx-auto w-32 mt-8"></div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section
+      id="pricing"
+      class="py-20 bg-gradient-to-b from-black to-yellow-900 bg-opacity-80"
+    >
+      <div class="absolute inset-0 bg-yellow-900 opacity-5 z-0"></div>
+      <div class="container mx-auto px-4 z-10 relative">
+        <h1
+          class="text-5xl font-extrabold text-yellow-300 mb-6 text-center"
+          data-aos="fade-up"
+        >
+          🎵 Choose Your Plan
+        </h1>
+        <p
+          class="text-lg text-yellow-200 mb-12 text-center max-w-2xl mx-auto"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          Unlock exclusive AI-powered features to enhance your Indian Classical
+          Music experience.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <!-- Basic Plan -->
+          <div
+            class="p-8 bg-yellow-900 bg-opacity-30 rounded-xl shadow-2xl text-center border-2 border-yellow-500 transform hover:scale-105 transition duration-500"
+            data-aos="flip-left"
+            data-aos-delay="100"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-red-500"
+            ></div>
+            <h2 class="text-3xl font-semibold text-yellow-300 mb-2">
+              🎶 Basic Plan
+            </h2>
+            <div class="w-16 h-1 bg-yellow-400 mx-auto mb-6"></div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Free
+                access to fundamental features
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Limited
+                AI Music Analysis
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                Community Support
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Access
+                to Raaga Library
+              </li>
+            </ul>
+            <p class="text-3xl font-bold text-yellow-400 mt-6">
+              ₹0<span class="text-lg font-normal text-yellow-300">
+                / month</span
+              >
+            </p>
+            <button
+              class="mt-6 w-full px-6 py-3 bg-green-600 rounded-lg hover:bg-green-700 transition flex items-center justify-center"
+            >
+              <i class="fas fa-arrow-right mr-2"></i> Get Started
+            </button>
+          </div>
+
+          <!-- Premium Plan -->
+          <div
+            class="p-8 bg-yellow-800 bg-opacity-50 rounded-xl shadow-2xl text-center border-2 border-yellow-400 transform hover:scale-105 transition duration-500 relative"
+            data-aos="flip-left"
+            data-aos-delay="200"
+          >
+            <div
+              class="absolute -top-4 -right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold"
+            >
+              POPULAR
+            </div>
+            <div
+              class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-red-500"
+            ></div>
+            <h2 class="text-3xl font-semibold text-yellow-300 mb-2">
+              🎼 Premium Plan
+            </h2>
+            <div class="w-16 h-1 bg-yellow-400 mx-auto mb-6"></div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Advanced
+                AI Music Analysis
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> AI Tabla
+                Accompaniment
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Raga
+                Visualization Tools
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Priority
+                Support
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                Unlimited Music Analysis
+              </li>
+            </ul>
+            <p class="text-3xl font-bold text-yellow-400 mt-6">
+              ₹999<span class="text-lg font-normal text-yellow-300">
+                / month</span
+              >
+            </p>
+            <button
+              class="mt-6 w-full px-6 py-3 bg-yellow-600 rounded-lg hover:bg-yellow-700 transition flex items-center justify-center"
+            >
+              <i class="fas fa-crown mr-2"></i> Upgrade Now
+            </button>
+          </div>
+
+          <!-- Professional Plan -->
+          <div
+            class="p-8 bg-yellow-900 bg-opacity-30 rounded-xl shadow-2xl text-center border-2 border-yellow-500 transform hover:scale-105 transition duration-500"
+            data-aos="flip-left"
+            data-aos-delay="300"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-red-500"
+            ></div>
+            <h2 class="text-3xl font-semibold text-yellow-300 mb-2">
+              🎻 Professional
+            </h2>
+            <div class="w-16 h-1 bg-yellow-400 mx-auto mb-6"></div>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                Everything in Premium
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> AI
+                Composition Generation
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i> Advanced
+                Synthesis Tools
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                Dedicated Support
+              </li>
+              <li class="flex items-center text-yellow-200">
+                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                Commercial Usage Rights
+              </li>
+            </ul>
+            <p class="text-3xl font-bold text-yellow-400 mt-6">
+              ₹2499<span class="text-lg font-normal text-yellow-300">
+                / month</span
+              >
+            </p>
+            <button
+              class="mt-6 w-full px-6 py-3 bg-purple-600 rounded-lg hover:bg-purple-700 transition flex items-center justify-center"
+            >
+              <i class="fas fa-gem mr-2"></i> Go Professional
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured In Section -->
+    <section
+      class="py-20 bg-gradient-to-b from-yellow-900 to-black bg-opacity-80"
+    >
+      <div class="container mx-auto px-4">
+        <h3
+          class="text-2xl font-semibold text-center text-yellow-300 mb-8"
+          data-aos="fade-up"
+        >
+          Featured In
+        </h3>
+        <div
+          class="flex flex-wrap justify-center items-center gap-12 opacity-70"
+        >
+          <div class="w-32" data-aos="fade-up" data-aos-delay="100">
+            <img
+              src="/api/placeholder/120/60"
+              alt="Music Magazine"
+              class="w-full grayscale hover:grayscale-0 transition duration-300"
+            />
+          </div>
+          <div class="w-32" data-aos="fade-up" data-aos-delay="200">
+            <img
+              src="/api/placeholder/120/60"
+              alt="Tech Journal"
+              class="w-full grayscale hover:grayscale-0 transition duration-300"
+            />
+          </div>
+          <div class="w-32" data-aos="fade-up" data-aos-delay="300">
+            <img
+              src="/api/placeholder/120/60"
+              alt="AI Today"
+              class="w-full grayscale hover:grayscale-0 transition duration-300"
+            />
+          </div>
+          <div class="w-32" data-aos="fade-up" data-aos-delay="400">
+            <img
+              src="/api/placeholder/120/60"
+              alt="Classical Arts"
+              class="w-full grayscale hover:grayscale-0 transition duration-300"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced Footer with Animations -->
+    <footer class="bg-black">
+      <div class="w-[90%] mx-auto pt-12 pb-8">
+        <!-- Top Footer Content -->
+        <div class="flex flex-wrap gap-6 justify-between items-start mb-12">
+          <!-- Logo and Description -->
+          <div class="w-full md:w-64">
+            <div class="flex items-center mb-4">
+              <div class="sound-wave mr-2">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <h3 class="text-2xl font-bold text-yellow-300">Sargam AI</h3>
+            </div>
+            <p class="text-zinc-300 text-sm mb-4">
+              Revolutionizing Indian Classical Music with cutting-edge AI
+              technology, preserving tradition while innovating for the future.
+            </p>
+            <div class="flex items-center gap-3">
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-yellow-800 flex items-center justify-center hover:bg-yellow-700 transition"
+              >
+                <i class="fab fa-instagram text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-yellow-800 flex items-center justify-center hover:bg-yellow-700 transition"
+              >
+                <i class="fab fa-linkedin-in text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-yellow-800 flex items-center justify-center hover:bg-yellow-700 transition"
+              >
+                <i class="fab fa-x-twitter text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 rounded-full bg-yellow-800 flex items-center justify-center hover:bg-yellow-700 transition"
+              >
+                <i class="fab fa-github text-white"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Footer Navigation -->
+          <div class="flex flex-wrap gap-12">
+            <!-- Product Section -->
+            <ul class="text-zinc-300">
+              <p class="text-white text-lg mb-4 font-semibold">Product</p>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Analysis
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Symbolic
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Synthesis
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Simulation
+              </li>
+            </ul>
+
+            <!-- Resources Section -->
+            <ul class="text-zinc-300">
+              <p class="text-white text-lg mb-4 font-semibold">Resources</p>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Raag Database
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Taal Database
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Key Notes
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Manuscripts
+              </li>
+              <li
+                class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+              >
+                <i
+                  class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                ></i>
+                Artists
+              </li>
+            </ul>
+
+            <!-- Community & Company Sections -->
+            <div>
+              <!-- Community Section -->
+              <ul class="text-zinc-300 mb-8">
+                <p class="text-white text-lg mb-4 font-semibold">Community</p>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  News
+                </li>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  Connect
+                </li>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  Events
+                </li>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  Blogs
+                </li>
+              </ul>
+
+              <!-- Company Section -->
+              <ul class="text-zinc-300">
+                <p class="text-white text-lg mb-4 font-semibold">Company</p>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  <a href="aboutus.html">About Us</a>
+                </li>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  <a href="legal.html">Legal</a>
+                </li>
+                <li
+                  class="cursor-pointer text-sm my-2 hover:text-yellow-300 transition duration-300 flex items-center"
+                >
+                  <i
+                    class="fas fa-chevron-right text-xs mr-2 text-yellow-600"
+                  ></i>
+                  <a href="careers.html">Careers</a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="w-full md:w-72">
+              <p class="text-white text-lg mb-4 font-semibold">Stay Updated</p>
+              <p class="text-zinc-300 text-sm mb-4">
+                Subscribe to our newsletter for the latest updates on AI music
+                technology.
+              </p>
+              <div class="flex">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-4 py-2 rounded-l-md w-full bg-yellow-900 bg-opacity-30 border border-yellow-700 text-white focus:outline-none focus:border-yellow-500"
+                />
+                <button
+                  class="px-4 py-2 bg-yellow-600 rounded-r-md hover:bg-yellow-500 transition"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="w-full h-px bg-yellow-900 mb-6"></div>
+
+        <!-- Bottom Footer -->
+        <div
+          class="flex flex-col md:flex-row justify-between text-white text-sm py-3"
+        >
+          <p>Made with ❤️ by Bugs & Fixes ┃ © 2025 All Rights Reserved</p>
+          <ul class="flex gap-6 mt-4 md:mt-0">
+            <li
+              class="cursor-pointer hover:text-yellow-300 transition duration-300"
+            >
+              <a href="terms.html">Terms</a>
+            </li>
+            <li
+              class="cursor-pointer hover:text-yellow-300 transition duration-300"
+            >
+              <a href="policy.html">Privacy Policy</a>
+            </li>
+            <li
+              class="cursor-pointer hover:text-yellow-300 transition duration-300"
+            >
+              <a href="cookies.html">Cookies</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+</html>
