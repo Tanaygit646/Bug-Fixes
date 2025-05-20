@@ -3,6 +3,7 @@
   functions = "api"
   
 [functions]
+  external_node_modules = ["express", "serverless-http", "body-parser", "cors", "axios", "dotenv"]
   node_bundler = "esbuild"
 
 [[redirects]]
