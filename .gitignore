@@ -3,3 +3,5 @@ assets/music
 assets/result
 assets/compositions
 uploads
+node_modules
+api
