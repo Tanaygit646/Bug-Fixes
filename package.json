@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./backend/index.js",
@@ -22,7 +22,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "multer": "^2.0.0",
     "node-fetch": "^3.3.2",
+    "os": "^0.1.2",
     "request": "^2.88.2",
     "requests": "^0.3.0",
     "serverless-http": "^3.2.0"

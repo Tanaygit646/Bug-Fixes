@@ -1,6 +1,7 @@
 .env
 node_modules
 public/media
+backend/*
 
 # Local Netlify folder
 .netlify
