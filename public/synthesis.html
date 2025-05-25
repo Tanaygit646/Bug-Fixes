@@ -1324,7 +1324,7 @@
           tempo: `${tempo.value || 80} BPM`,
         };
 
-        const baseUrl = `https://sargamai.netlify.app/.netlify/functions/api/synthesis`;
+        const baseUrl = `https://sargamai.netlify.app/api/synthesis`;
 
         try {
           warning.classList.add("hidden");
@@ -1346,7 +1346,7 @@
 
           // Fetch the base64 audio data
           const audioResponse = await fetch(
-            `https://sargamai.netlify.app/.netlify/functions${data.trackUrl}`
+            `https://sargamai.netlify.app${data.trackUrl}`
           );
           if (!audioResponse.ok) throw new Error("Failed to fetch audio");
 
