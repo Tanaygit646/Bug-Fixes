@@ -7,12 +7,7 @@ import { analyze } from './routes/analysis.js';
 const router = Router();
 const app = express();
 
-app.use(cors({
-    origin: ['http://localhost:8888', 'https://sargamai.netlify.app'],
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true
-}));
+app.use(cors());
 
 const storage = multer.memoryStorage();
 const upload = multer({
