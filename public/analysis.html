@@ -1445,15 +1445,11 @@
 
         xhr.onload = () => {
           try {
-            // Log raw response
             console.log("Raw response:", xhr.responseText);
+            const contentType = xhr.getResponseHeader("content-type");
 
-            // Check if response is JSON
-            if (
-              xhr
-                .getResponseHeader("content-type")
-                ?.includes("application/json")
-            ) {
+            // Handle both JSON and non-JSON responses
+            if (contentType && contentType.includes("application/json")) {
               const response = JSON.parse(xhr.responseText);
               if (xhr.status === 200) {
                 resolve(response);
@@ -1461,14 +1457,11 @@
                 reject(new Error(response.message || "Upload failed"));
               }
             } else {
-              // Handle non-JSON response
-              reject(new Error(xhr.responseText || "Server error occurred"));
+              reject(new Error("Server returned invalid response format"));
             }
           } catch (error) {
             console.error("Parse error:", error);
-            reject(
-              new Error(xhr.responseText || "Invalid response from server")
-            );
+            reject(new Error("Failed to process server response"));
           }
         };
 
@@ -1477,7 +1470,10 @@
           reject(new Error("Network error occurred"));
         };
 
-        xhr.open("POST", "/api/analysis", true);
+        // Use the correct endpoint for production
+        const endpoint = "/api/analysis";
+
+        xhr.open("POST", endpoint, true);
         xhr.send(formData);
       }
 
