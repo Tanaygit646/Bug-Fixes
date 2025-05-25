@@ -1445,6 +1445,9 @@
 
         xhr.onload = () => {
           try {
+            // Log the response for debugging
+            console.log("Response:", xhr.responseText);
+
             const response = JSON.parse(xhr.responseText);
             if (xhr.status === 200) {
               resolve(response);
@@ -1452,15 +1455,18 @@
               reject(new Error(response.message || "Upload failed"));
             }
           } catch (error) {
+            console.error("Parse error:", error);
+            console.log("Raw response:", xhr.responseText);
             reject(new Error("Invalid response from server"));
           }
         };
 
         xhr.onerror = () => {
+          console.error("Network error:", xhr.status, xhr.statusText);
           reject(new Error("Network error occurred"));
         };
 
-        // Send the request to the correct endpoint
+        // Use the correct Netlify Functions endpoint
         xhr.open("POST", "/api/analysis", true);
         xhr.send(formData);
       }

@@ -44,48 +44,30 @@ router.post('/analysis', upload.single('audio'), async (req, res) => {
             });
         }
 
-        // File successfully uploaded
-        console.log('File uploaded:', {
+        // Log for debugging
+        console.log('Processing file:', {
             filename: req.file.originalname,
             size: req.file.size,
             mimetype: req.file.mimetype
         });
 
-        try {
-            const analysisApiResponse = await analyze(req.file.buffer);
+        const analysisApiResponse = await analyze(req.file.buffer);
 
-            const analysisResult = {
-                raga: analysisApiResponse.raaga,
-                emotion: analysisApiResponse.emotions.length == 1 ?
-                    `${analysisApiResponse.emotions[0]}` :
-                    `${analysisApiResponse.emotions[0]} & ${analysisApiResponse.emotions[1]}`,
-                taal: analysisApiResponse.taal,
-            };
-
-            return res.status(200).json({
-                status: 200,
-                ok: true,
-                message: 'Audio file analyzed successfully',
-                file: {
-                    filename: req.file.originalname,
-                    mimetype: req.file.mimetype,
-                    size: req.file.size
-                },
-                result: analysisResult
-            });
-
-        } catch (analysisError) {
-            console.error('Analysis error:', analysisError);
-            return res.status(500).json({
-                status: 500,
-                ok: false,
-                message: 'Error analyzing audio file',
-                error: analysisError.message
-            });
-        }
+        return res.status(200).json({
+            status: 200,
+            ok: true,
+            message: 'Analysis complete',
+            result: {
+                raga: analysisApiResponse.raaga || 'Not detected',
+                taal: analysisApiResponse.taal || 'Not detected',
+                emotion: analysisApiResponse.emotions?.length > 0
+                    ? analysisApiResponse.emotions.join(' & ')
+                    : 'Not detected'
+            }
+        });
 
     } catch (error) {
-        console.error('Upload error:', error);
+        console.error('Server error:', error);
         return res.status(500).json({
             status: 500,
             ok: false,
