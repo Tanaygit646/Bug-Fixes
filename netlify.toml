@@ -6,6 +6,10 @@
   external_node_modules = ["express", "serverless-http", "body-parser", "cors", "axios", "dotenv"]
   node_bundler = "esbuild"
 
+[functions.api]
+  included_files = ["api/**"]
+  timeout = "60s"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"

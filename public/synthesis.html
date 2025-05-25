@@ -929,31 +929,13 @@
               <span slot="suffix">BPM</span>
             </sl-input>
 
-            <sl-select
-              id="mood"
-              class="label-on-left"
-              placeholder="Select mood"
-            >
+            <sl-input id="mood" class="label-on-left">
               <span slot="label">Mood</span>
-              <sl-option value="peaceful">Peaceful</sl-option>
-              <sl-option value="melancholic">Melancholic</sl-option>
-              <sl-option value="energetic">Energetic</sl-option>
-              <sl-option value="romantic">Romantic</sl-option>
-              <sl-option value="spiritual">Spiritual</sl-option>
-              <sl-option value="playful">Playful</sl-option>
-            </sl-select>
+            </sl-input>
 
-            <sl-select
-              id="time-of-day"
-              class="label-on-left"
-              placeholder="Select time"
-            >
-              <span slot="label">Time</span>
-              <sl-option value="morning">Morning</sl-option>
-              <sl-option value="afternoon">Afternoon</sl-option>
-              <sl-option value="evening">Evening</sl-option>
-              <sl-option value="night">Night</sl-option>
-            </sl-select>
+            <sl-input id="genre" class="label-on-left">
+              <span slot="label">Genre</span>
+            </sl-input>
           </div>
         </sl-details>
 
@@ -965,7 +947,7 @@
         <p id="warning" class="hidden"></p>
 
         <!-- Loading state -->
-        <div id="generating" class="hidden">
+        <div id="generating" style="display: none" class="hidden">
           <h2>Creating your composition...</h2>
           <sl-spinner
             style="
@@ -995,7 +977,7 @@
             </button>
           </div>
 
-          <div class="raaga-info">
+          <div class="raaga-info hidden">
             <h3>About Your Composition</h3>
             <p id="composition-info">
               This is a unique rendition of <strong>Raag Bhairav</strong>, a
@@ -1317,27 +1299,71 @@
       const generateBtn = document.getElementById("generate-btn");
       const generatingDiv = document.getElementById("generating");
       const resultDiv = document.getElementById("result");
-      const warning = document.getElementById("warning");
       const prompt = document.getElementById("prompt");
-      const compositionInfo = document.getElementById("composition-info");
+      const duration = document.getElementById("duration");
+      const genre = document.getElementById("genre");
+      const mood = document.getElementById("mood");
+      const tempo = document.getElementById("tempo");
+      const warning = document.getElementById("warning");
 
       let wavesurfer;
 
       generateBtn.addEventListener("click", async () => {
         // Validate input
-        if (!prompt.value && !raagaSelect.value) {
+        if (!prompt.value) {
           warning.textContent = "Please enter a prompt";
           warning.classList.remove("hidden");
           return;
         }
 
-        warning.classList.add("hidden");
-        generatingDiv.classList.remove("hidden");
-        resultDiv.classList.add("hidden");
+        const trackMeta = {
+          prompt: { text: prompt.value },
+          duration: parseInt(duration.value) * 1000 || 60000,
+          genre: genre.value || "indian classical music",
+          mood: mood.value || "spiritual",
+          tempo: `${tempo.value || 80} BPM`,
+        };
 
-        // Simulate API call with setTimeout
-        setTimeout(() => {
-          generatingDiv.classList.add("hidden");
+        const baseUrl = `http://localhost:8888/api/synthesis`;
+
+        try {
+          warning.classList.add("hidden");
+          show(generatingDiv);
+          resultDiv.classList.add("hidden");
+
+          const response = await fetch(`${baseUrl}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(trackMeta),
+          });
+
+          if (!response.ok) throw new Error("Failed to generate music");
+
+          const data = await response.json();
+          console.log("Music generated:", data);
+
+          // Fetch the base64 audio data
+          const audioResponse = await fetch(
+            `http://localhost:8888${data.trackUrl}`
+          );
+          if (!audioResponse.ok) throw new Error("Failed to fetch audio");
+
+          const audioData = await audioResponse.json();
+          console.log("Audio data size:", audioData.size);
+
+          // Convert base64 back to blob
+          const binaryString = atob(audioData.audio);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+
+          const blob = new Blob([bytes], { type: audioData.mimeType });
+          console.log("Blob type:", blob.type, "Blob size:", blob.size);
+
+          hide(generatingDiv);
           resultDiv.classList.remove("hidden");
 
           // Create wavesurfer instance
@@ -1357,37 +1383,75 @@
             barGap: 2,
           });
 
-          // Load sample audio
-          wavesurfer.load(
-            "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3"
-          );
+          wavesurfer.on("ready", () => {
+            console.log("Wavesurfer ready");
+          });
 
-          // Update composition info based on selections
-          const selectedRaaga = raagaSelect.value || "bhairav";
-          const raagaInfo = raagas[selectedRaaga] || raagas.bhairav;
-          const mainInstrument =
-            document.getElementById("main-instrument").value || "sitar";
-          const rhythmInstrument =
-            document.getElementById("rhythm-instrument").value || "tabla";
-          const mood = document.getElementById("mood").value || "peaceful";
+          wavesurfer.on("error", (error) => {
+            console.error("Wavesurfer error:", error);
+          });
 
-          compositionInfo.innerHTML = `
-            This is a unique rendition of <strong>${raagaInfo.name}</strong>, ${
-            raagaInfo.description.split(".")[0]
-          }. 
-            The composition features ${mainInstrument} as the main instrument supported by ${rhythmInstrument} rhythms. 
-            The ${mood} mood and moderate tempo create a ${
-            mood === "peaceful"
-              ? "serene"
-              : mood === "spiritual"
-              ? "divine"
-              : mood === "melancholic"
-              ? "reflective"
-              : "vibrant"
-          } 
-            atmosphere typical of ${raagaInfo.time.toLowerCase()} ragas.
-          `;
-        }, 3000);
+          wavesurfer.loadBlob(blob);
+
+          hide(generating);
+          resultDiv.classList.remove("hidden");
+        } catch (error) {
+          console.log(error);
+        }
+
+        // // Simulate API call with setTimeout
+        // setTimeout(() => {
+        //   hide(generatingDiv);
+        //   resultDiv.classList.remove("hidden");
+
+        //   // Create wavesurfer instance
+        //   if (wavesurfer) {
+        //     wavesurfer.destroy();
+        //   }
+
+        //   wavesurfer = WaveSurfer.create({
+        //     container: "#waveform",
+        //     waveColor: "#FFA50066",
+        //     progressColor: "#FFA500",
+        //     cursorColor: "#FFFFFF",
+        //     barWidth: 2,
+        //     barRadius: 3,
+        //     cursorWidth: 1,
+        //     height: 100,
+        //     barGap: 2,
+        //   });
+
+        //   // Load sample audio
+        //   wavesurfer.load(
+        //     "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3"
+        //   );
+
+        //   // Update composition info based on selections
+        //   const selectedRaaga = raagaSelect.value || "bhairav";
+        //   const raagaInfo = raagas[selectedRaaga] || raagas.bhairav;
+        //   const mainInstrument =
+        //     document.getElementById("main-instrument").value || "sitar";
+        //   const rhythmInstrument =
+        //     document.getElementById("rhythm-instrument").value || "tabla";
+        //   const mood = document.getElementById("mood").value || "peaceful";
+
+        //   compositionInfo.innerHTML = `
+        //     This is a unique rendition of <strong>${raagaInfo.name}</strong>, ${
+        //     raagaInfo.description.split(".")[0]
+        //   }.
+        //     The composition features ${mainInstrument} as the main instrument supported by ${rhythmInstrument} rhythms.
+        //     The ${mood} mood and moderate tempo create a ${
+        //     mood === "peaceful"
+        //       ? "serene"
+        //       : mood === "spiritual"
+        //       ? "divine"
+        //       : mood === "melancholic"
+        //       ? "reflective"
+        //       : "vibrant"
+        //   }
+        //     atmosphere typical of ${raagaInfo.time.toLowerCase()} ragas.
+        //   `;
+        // }, 3000);
       });
 
       // Audio controls
@@ -1418,6 +1482,14 @@
         .addEventListener("click", function () {
           alert("Share functionality would be implemented here.");
         });
+
+      function hide(element) {
+        if (element) element.style.display = "none";
+      }
+
+      function show(element) {
+        if (element) element.style.display = "block";
+      }
     </script>
   </body>
 </html>

@@ -3,6 +3,8 @@ import serverless from "serverless-http";
 import cors from 'cors';
 import multer from 'multer';
 import { analyze } from './routes/analysis.js';
+import fetch from 'node-fetch';
+import axios from 'axios';
 
 const router = Router();
 const app = express();
@@ -71,14 +73,51 @@ router.post('/analysis', upload.single('audio'), async (req, res) => {
     }
 });
 
-router.post('/synthesis', async (req, res) => {
-    res.json({
-        status: 200,
+// POST /synthesis → returns track URL
+router.post('/synthesis', express.json(), async (req, res) => {
+    const trackMeta = req.body;
+    if (!trackMeta) {
+        return res.status(400).json({ status: "failed", ok: false });
+    }
+
+    return res.json({
+        status: "received",
         ok: true,
-        message: 'Synthesis endpoint hit',
-        data: req.body
-    })
-})
+        trackMeta: trackMeta,
+        trackUrl: "/api/proxy-audio"
+    });
+});
+
+// GET /proxy-audio → streams the file
+
+
+router.get('/proxy-audio', async (req, res) => {
+    try {
+        const remoteUrl = "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3";
+
+        const response = await fetch(remoteUrl);
+        if (!response.ok) {
+            return res.status(500).json({ error: 'Failed to fetch audio' });
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        // Convert to base64
+        const base64Audio = buffer.toString('base64');
+
+        res.json({
+            audio: base64Audio,
+            mimeType: 'audio/mpeg',
+            size: buffer.length
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch audio' });
+    }
+});
+
 
 router.post('/test', (req, res) => {
     res.json({
