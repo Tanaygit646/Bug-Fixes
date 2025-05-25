@@ -1464,31 +1464,24 @@
         // Handle response
         xhr.onload = async () => {
           if (xhr.status === 200) {
-            // Parse and display response
-            try {
-              const response = JSON.parse(xhr.responseText);
-
-              document.getElementById(
-                "ragaResult"
-              ).innerHTML = `${response.result.raga}`;
-              document.getElementById(
-                "emotionResult"
-              ).innerHTML = `${response.result.emotion}`;
-              document.getElementById(
-                "taalResult"
-              ).innerHTML = `${response.result.taal}`;
-              analysisResult.classList.remove("hidden");
-            } catch (e) {
-              console.log(`Error parsing server response: ${e.message}`);
-            }
+            const response = JSON.parse(xhr.responseText);
+            // Handle success
+            hide(loadingText);
+            show(resultDiv);
+            // Update your UI with response.result
           } else {
-            console.log(`Upload failed with status: ${xhr.status}`);
+            const error = JSON.parse(xhr.responseText);
+            console.error("Upload failed:", error.message);
+            // Show error to user
+            hide(loadingText);
+            alert(error.message || "Upload failed. Please try again.");
           }
         };
 
-        // Handle errors
         xhr.onerror = function () {
-          console.log("Upload failed. Check your connection.");
+          console.error("Upload failed. Check your connection.");
+          hide(loadingText);
+          alert("Network error. Please check your connection and try again.");
         };
         // Send the request
         xhr.open("POST", "https://sargamai.netlify.app/api/analysis", true);

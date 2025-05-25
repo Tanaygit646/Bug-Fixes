@@ -42,7 +42,7 @@ router.get('/ping', (req, res) => {
 router.post('/analysis', upload.single('audio'), async (req, res) => {
     try {
         if (!req.file) {
-            return res.json({
+            return res.status(400).json({
                 status: 400,
                 ok: false,
                 message: 'No audio file uploaded'
@@ -50,38 +50,52 @@ router.post('/analysis', upload.single('audio'), async (req, res) => {
         }
 
         // File successfully uploaded
-        console.log('File uploaded:', req.file);
-
-        const analysisApiResponse = await analyze(req.file.buffer);
-
-
-        const analysisResult = {
-            raga: analysisApiResponse.raaga,
-            emotion: analysisApiResponse.emotions.length == 1 ? `${analysisApiResponse.emotions[0]}` : `${analysisApiResponse.emotions[0]} & ${analysisApiResponse.emotions[1]}`,
-            taal: analysisApiResponse.taal,
-        };
-
-        return res.json({
-            status: 200,
-            ok: true,
-            message: 'Audio file uploaded successfully',
-            file: {
-                filename: req.file.filename,
-                mimetype: req.file.mimetype,
-                size: req.file.size,
-                path: req.file.path
-            },
-            result: analysisResult
+        console.log('File uploaded:', {
+            filename: req.file.originalname,
+            size: req.file.size,
+            mimetype: req.file.mimetype
         });
 
+        try {
+            const analysisApiResponse = await analyze(req.file.buffer);
 
+            const analysisResult = {
+                raga: analysisApiResponse.raaga,
+                emotion: analysisApiResponse.emotions.length == 1 ?
+                    `${analysisApiResponse.emotions[0]}` :
+                    `${analysisApiResponse.emotions[0]} & ${analysisApiResponse.emotions[1]}`,
+                taal: analysisApiResponse.taal,
+            };
+
+            return res.status(200).json({
+                status: 200,
+                ok: true,
+                message: 'Audio file analyzed successfully',
+                file: {
+                    filename: req.file.originalname,
+                    mimetype: req.file.mimetype,
+                    size: req.file.size
+                },
+                result: analysisResult
+            });
+
+        } catch (analysisError) {
+            console.error('Analysis error:', analysisError);
+            return res.status(500).json({
+                status: 500,
+                ok: false,
+                message: 'Error analyzing audio file',
+                error: analysisError.message
+            });
+        }
 
     } catch (error) {
-        console.error('Error handling upload:', error);
-        return res.json({
+        console.error('Upload error:', error);
+        return res.status(500).json({
             status: 500,
             ok: false,
-            message: 'Server error while uploading file'
+            message: 'Server error while processing upload',
+            error: error.message
         });
     }
 });
