@@ -1410,11 +1410,11 @@
           // Update UI with results
           if (response && response.result) {
             document.getElementById("ragaResult").textContent =
-              response.result.raga || "Not detected";
+              response.result.raaga || "Not detected";
             document.getElementById("taalResult").textContent =
               response.result.taal || "Not detected";
             document.getElementById("emotionResult").textContent =
-              response.result.emotion || "Not detected";
+              response.result.emotions[0] || "Not detected";
 
             hide(analyzing);
             show(analysisResult);
@@ -1445,19 +1445,30 @@
 
         xhr.onload = () => {
           try {
-            // Log the response for debugging
-            console.log("Response:", xhr.responseText);
+            // Log raw response
+            console.log("Raw response:", xhr.responseText);
 
-            const response = JSON.parse(xhr.responseText);
-            if (xhr.status === 200) {
-              resolve(response);
+            // Check if response is JSON
+            if (
+              xhr
+                .getResponseHeader("content-type")
+                ?.includes("application/json")
+            ) {
+              const response = JSON.parse(xhr.responseText);
+              if (xhr.status === 200) {
+                resolve(response);
+              } else {
+                reject(new Error(response.message || "Upload failed"));
+              }
             } else {
-              reject(new Error(response.message || "Upload failed"));
+              // Handle non-JSON response
+              reject(new Error(xhr.responseText || "Server error occurred"));
             }
           } catch (error) {
             console.error("Parse error:", error);
-            console.log("Raw response:", xhr.responseText);
-            reject(new Error("Invalid response from server"));
+            reject(
+              new Error(xhr.responseText || "Invalid response from server")
+            );
           }
         };
 
@@ -1466,7 +1477,6 @@
           reject(new Error("Network error occurred"));
         };
 
-        // Use the correct Netlify Functions endpoint
         xhr.open("POST", "/api/analysis", true);
         xhr.send(formData);
       }

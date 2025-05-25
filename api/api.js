@@ -44,7 +44,6 @@ router.post('/analysis', upload.single('audio'), async (req, res) => {
             });
         }
 
-        // Log for debugging
         console.log('Processing file:', {
             filename: req.file.originalname,
             size: req.file.size,
@@ -57,17 +56,12 @@ router.post('/analysis', upload.single('audio'), async (req, res) => {
             status: 200,
             ok: true,
             message: 'Analysis complete',
-            result: {
-                raga: analysisApiResponse.raaga || 'Not detected',
-                taal: analysisApiResponse.taal || 'Not detected',
-                emotion: analysisApiResponse.emotions?.length > 0
-                    ? analysisApiResponse.emotions.join(' & ')
-                    : 'Not detected'
-            }
+            result: analysisApiResponse
         });
 
     } catch (error) {
         console.error('Server error:', error);
+        // Always return JSON, even for errors
         return res.status(500).json({
             status: 500,
             ok: false,
