@@ -1387,113 +1387,91 @@
 
       // Analysis process simulation
       analyzeBtn.addEventListener("click", async () => {
-        analyzing.classList.remove("hidden");
-        show(analyzing);
-        this.disabled = true;
+        try {
+          const file = fileInput.files[0];
+          if (!file) {
+            alert("Please select a music file first.");
+            return;
+          }
 
-        const file = fileInput.files[0];
-        if (!file) {
-          alert("Please select a music file first.");
-          return;
-        }
+          // Disable button and show loading state
+          analyzeBtn.disabled = true;
+          show(analyzing);
+          hide(analysisResult);
 
-        const formData = new FormData();
-        formData.append("audio", file);
-        uploadAudioData(formData);
+          const formData = new FormData();
+          formData.append("audio", file);
 
-        analyzing.classList.add("hidden");
-        setTimeout(() => {
+          // Wait for the upload to complete
+          const response = await new Promise((resolve, reject) => {
+            uploadAudioData(formData, resolve, reject);
+          });
+
+          // Update UI with results
+          if (response && response.result) {
+            document.getElementById("ragaResult").textContent =
+              response.result.raga || "Not detected";
+            document.getElementById("taalResult").textContent =
+              response.result.taal || "Not detected";
+            document.getElementById("emotionResult").textContent =
+              response.result.emotion || "Not detected";
+
+            hide(analyzing);
+            show(analysisResult);
+          }
+        } catch (error) {
+          console.error("Analysis failed:", error);
+          alert("Analysis failed: " + (error.message || "Please try again"));
           hide(analyzing);
-          analysisResult.classList.remove("hidden");
-        }, 15000);
+        } finally {
+          analyzeBtn.disabled = false;
+        }
       });
 
-      // Dynamic raga information - this would normally be populated by AI analysis
-      const ragas = {
-        Yaman: {
-          description:
-            "Raag Yaman is one of the most fundamental ragas in Hindustani classical music, known for its serene and peaceful mood. It is performed during the early evening hours.",
-          notes: ["Sa", "Re", "Ga", "Ma", "Pa", "Dha", "Ni"],
-        },
-        Bhairav: {
-          description:
-            "Raag Bhairav is a morning raga that evokes a serious, profound and devotional mood. It is one of the oldest and most fundamental ragas in Hindustani classical music.",
-          notes: ["Sa", "re", "Ga", "Ma", "Pa", "dha", "Ni"],
-        },
-        Darbari: {
-          description:
-            "Raag Darbari is a profound night raga known for its serious, majestic and meditative quality. It was brought to India by Tansen from the court of Emperor Akbar.",
-          notes: ["Sa", "Re", "ga", "Ma", "Pa", "dha", "ni"],
-        },
-      };
-
-      // For a real application, this would be connected to AI analysis
-      function updateAnalysisResults(raga) {
-        document.getElementById("ragaResult").textContent = raga;
-        document.getElementById("ragaDescription").textContent =
-          ragas[raga].description;
-
-        const notesContainer = document.getElementById("ragaNotes");
-        notesContainer.innerHTML = "";
-        ragas[raga].notes.forEach((note) => {
-          const noteSpan = document.createElement("span");
-          noteSpan.className = "note";
-          noteSpan.textContent = note;
-          notesContainer.appendChild(noteSpan);
-        });
-      }
-
-      // Common function to handle upload
-      function uploadAudioData(formData) {
+      // Update the upload function to use promises
+      function uploadAudioData(formData, resolve, reject) {
         const xhr = new XMLHttpRequest();
         const loadingText = document.getElementById("loading");
-        const resultDiv = document.getElementById("analysisResult");
-        const analyzing = document.getElementById("analyzing");
-        const analysisResult = document.getElementById("analysisResult");
 
-        // Track upload progress
         xhr.upload.addEventListener("progress", (event) => {
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
-            percentComplete < 100
-              ? (loadingText.innerHTML = `Uploading...`)
-              : (loadingText.innerHTML = "Analyzing...");
+            loadingText.innerHTML =
+              percentComplete < 100
+                ? `Uploading... ${Math.round(percentComplete)}%`
+                : "Analyzing...";
           }
         });
 
-        // Handle response
-        xhr.onload = async () => {
-          if (xhr.status === 200) {
+        xhr.onload = () => {
+          try {
             const response = JSON.parse(xhr.responseText);
-            // Handle success
-            hide(loadingText);
-            show(resultDiv);
-            // Update your UI with response.result
-          } else {
-            const error = JSON.parse(xhr.responseText);
-            console.error("Upload failed:", error.message);
-            // Show error to user
-            hide(loadingText);
-            alert(error.message || "Upload failed. Please try again.");
+            if (xhr.status === 200) {
+              resolve(response);
+            } else {
+              reject(new Error(response.message || "Upload failed"));
+            }
+          } catch (error) {
+            reject(new Error("Invalid response from server"));
           }
         };
 
-        xhr.onerror = function () {
-          console.error("Upload failed. Check your connection.");
-          hide(loadingText);
-          alert("Network error. Please check your connection and try again.");
+        xhr.onerror = () => {
+          reject(new Error("Network error occurred"));
         };
-        // Send the request
+
+        // Send the request to the correct endpoint
         xhr.open("POST", "/api/analysis", true);
         xhr.send(formData);
       }
 
+      // Helper functions
       function hide(element) {
-        element.setAttribute("style", "display: none");
+        if (element) element.style.display = "none";
       }
 
       function show(element) {
-        element.removeAttribute("style");
+        if (element) element.style.display = "block";
       }
     </script>
   </body>
