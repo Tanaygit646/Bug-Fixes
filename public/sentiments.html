@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sargami AI - Music Sentiment Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #2c1810 50%, #4a2c17 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            padding: 20px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.2);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFA500;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #FFA500;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Floating Notes */
+        .floating-note {
+            position: absolute;
+            font-size: 20px;
+            color: #FFA500;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .note1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .note2 { top: 30%; right: 15%; animation-delay: 2s; }
+        .note3 { bottom: 20%; left: 20%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Analysis Tool */
+        .analysis-tool {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid #FFA500;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            position: relative;
+        }
+        
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .tool-header h2 {
+            font-size: 2.5rem;
+            color: #FFA500;
+            margin-bottom: 15px;
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: #FFA500;
+        }
+        
+        .text-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #FFA500;
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            height: fit-content;
+            align-self: end;
+        }
+        
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Results Section */
+        .results {
+            display: none;
+            margin-top: 40px;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sentiment-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #FFA500;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .sentiment-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sentiment-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #FFA500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .sentiment-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFA500;
+        }
+        
+        .score-bar {
+            background: rgba(255, 165, 0, 0.2);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFA500, #FFD700);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .emotion-item {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .emotion-name {
+            font-weight: 600;
+            color: #FFA500;
+            margin-bottom: 10px;
+        }
+        
+        .emotion-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* Wave Decoration */
+        .wave-decoration {
+            height: 60px;
+            background: linear-gradient(90deg, transparent, #FFA500, transparent);
+            margin: 60px 0;
+            border-radius: 30px;
+            opacity: 0.3;
+            position: relative;
+        }
+        
+        .wave-decoration::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FFA500 0px,
+                #FFA500 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            animation: wave 2s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
+        }
+        
+
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .emotions-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">🎵 Sargami AI</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#analysis">Analysis</a></li>
+                    <li><a href="#synthesis">Synthesis</a></li>
+                    <li><a href="#simulation">Simulation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="floating-note note1">♪</div>
+            <div class="floating-note note2">♫</div>
+            <div class="floating-note note3">♬</div>
+            
+            <h1>Music Sentiment Analysis</h1>
+            <p>Discover the emotional landscape of your music with AI-powered sentiment analysis. Analyze lyrics, understand emotional patterns, and unlock the feelings within your compositions.</p>
+        </div>
+    </section>
+
+    <!-- Analysis Tool -->
+    <section class="container">
+        <div class="analysis-tool">
+            <div class="tool-header">
+                <h2>🎭 Analyze Your Music</h2>
+                <p>Enter your lyrics or song text below to discover its emotional sentiment</p>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="lyrics">Song Lyrics or Text</label>
+                    <textarea 
+                        id="lyrics" 
+                        class="text-input" 
+                        placeholder="Enter your song lyrics here...&#10;&#10;Example:&#10;🎵 In the silence of the night&#10;Stars are shining bright&#10;Music fills my soul with light&#10;Everything will be alright..."
+                    ></textarea>
+                </div>
+                <button class="analyze-btn" onclick="analyzeSentiment()">
+                    🔍 Analyze Sentiment
+                </button>
+            </div>
+            
+            <div class="results" id="results">
+                <div class="sentiment-card">
+                    <div class="sentiment-header">
+                        <div class="sentiment-icon" id="sentimentIcon">😊</div>
+                        <div>
+                            <h3 id="sentimentLabel">Positive</h3>
+                            <div class="sentiment-score" id="sentimentScore">85%</div>
+                        </div>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-fill" id="scoreFill" style="width: 85%"></div>
+                    </div>
+                    <p id="sentimentDescription">Your music expresses predominantly positive emotions with uplifting and optimistic themes.</p>
+                </div>
+                
+                <div class="emotions-grid" id="emotionsGrid">
+                    <div class="emotion-item">
+                        <div class="emotion-name">Joy</div>
+                        <div class="emotion-percentage">35%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Hope</div>
+                        <div class="emotion-percentage">25%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Peace</div>
+                        <div class="emotion-percentage">15%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Love</div>
+                        <div class="emotion-percentage">15%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Nostalgia</div>
+                        <div class="emotion-percentage">10%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Decoration -->
+    <div class="container">
+        <div class="wave-decoration"></div>
+    </div>
+
+
+    <script>
+        function analyzeSentiment() {
+            const lyrics = document.getElementById('lyrics').value.trim();
+            
+            if (!lyrics) {
+                alert('Please enter some lyrics or text to analyze!');
+                return;
+            }
+            
+            // Simulate analysis with realistic results
+            const sentiments = [
+                {
+                    label: 'Very Positive',
+                    score: Math.floor(Math.random() * 20) + 80,
+                    icon: '😄',
+                    description: 'Your music radiates exceptional positivity with uplifting and joyful themes that inspire and energize.',
+                    emotions: [
+                        { name: 'Joy', percentage: Math.floor(Math.random() * 20) + 30 },
+                        { name: 'Excitement', percentage: Math.floor(Math.random() * 15) + 20 },
+                        { name: 'Hope', percentage: Math.floor(Math.random() * 15) + 15 },
+                        { name: 'Love', percentage: Math.floor(Math.random() * 10) + 15 },
+                        { name: 'Peace', percentage: Math.floor(Math.random() * 10) + 10 }
+                    ]
+                },
+                {
+                    label: 'Positive',
+                    score: Math.floor(Math.random() * 20) + 60,
+                    icon: '😊',
+                    description: 'Your music expresses predominantly positive emotions with optimistic and encouraging themes.',
+                    emotions: [
+                        { name: 'Contentment', percentage: Math.floor(Math.random() * 15) + 25 },
+                        { name: 'Hope', percentage: Math.floor(Math.random() * 15) + 20 },
+                        { name: 'Gratitude', percentage: Math.floor(Math.random() * 10) + 15 },
+                        { name: 'Serenity', percentage: Math.floor(Math.random() * 10) + 15 },
+                        { name: 'Wonder', percentage: Math.floor(Math.random() * 10) + 10 }
+                    ]
+                },
+                {
+                    label: 'Neutral',
+                    score: Math.floor(Math.random() * 20) + 40,
+                    icon: '😐',
+                    description: 'Your music maintains emotional balance with thoughtful and contemplative themes.',
+                    emotions: [
+                        { name: 'Reflection', percentage: Math.floor(Math.random() * 15) + 20 },
+                        { name: 'Curiosity', percentage: Math.floor(Math.random() * 10) + 18 },
+                        { name: 'Nostalgia', percentage: Math.floor(Math.random() * 10) + 16 },
+                        { name: 'Calm', percentage: Math.floor(Math.random() * 10) + 14 },
+                        { name: 'Mystery', percentage: Math.floor(Math.random() * 8) + 12 }
+                    ]
+                },
+                {
+                    label: 'Melancholic',
+                    score: Math.floor(Math.random() * 20) + 20,
+                    icon: '😔',
+                    description: 'Your music carries deep emotional weight with introspective and bittersweet themes.',
+                    emotions: [
+                        { name: 'Melancholy', percentage: Math.floor(Math.random() * 15) + 25 },
+                        { name: 'Longing', percentage: Math.floor(Math.random() * 15) + 20 },
+                        { name: 'Nostalgia', percentage: Math.floor(Math.random() * 10) + 15 },
+                        { name: 'Solitude', percentage: Math.floor(Math.random() * 10) + 15 },
+                        { name: 'Yearning', percentage: Math.floor(Math.random() * 10) + 10 }
+                    ]
+                }
+            ];
+            
+            // Select sentiment based on content analysis simulation
+            const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
+            
+            // Update results
+            document.getElementById('sentimentIcon').textContent = randomSentiment.icon;
+            document.getElementById('sentimentLabel').textContent = randomSentiment.label;
+            document.getElementById('sentimentScore').textContent = randomSentiment.score + '%';
+            document.getElementById('scoreFill').style.width = randomSentiment.score + '%';
+            document.getElementById('sentimentDescription').textContent = randomSentiment.description;
+            
+            // Update emotions grid
+            const emotionsGrid = document.getElementById('emotionsGrid');
+            emotionsGrid.innerHTML = '';
+            
+            randomSentiment.emotions.forEach(emotion => {
+                const emotionItem = document.createElement('div');
+                emotionItem.className = 'emotion-item';
+                emotionItem.innerHTML = `
+                    <div class="emotion-name">${emotion.name}</div>
+                    <div class="emotion-percentage">${emotion.percentage}%</div>
+                `;
+                emotionsGrid.appendChild(emotionItem);
+            });
+            
+            // Show results with animation
+            const results = document.getElementById('results');
+            results.classList.add('show');
+            
+            // Scroll to results
+            results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Demo with enter key
+        document.getElementById('lyrics').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeSentiment();
+            }
+        });
+        
+        // Add some sample text for demonstration
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('lyrics');
+            textarea.addEventListener('focus', function() {
+                if (this.value === '') {
+                    this.placeholder = 'Enter your song lyrics here...\n\nExample:\n🎵 Walking through the city lights\nDreaming of a brighter day\nMusic guides me through the night\nEverything will find its way\n\nPress Ctrl+Enter to analyze quickly!';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
