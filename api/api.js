@@ -5,6 +5,7 @@ import multer from 'multer';
 import { analyze } from './routes/analysis.js';
 import fetch from 'node-fetch';
 import axios from 'axios';
+import { createAndCompose } from './routes/synthesis.js';
 
 const router = Router();
 const app = express();
@@ -80,11 +81,15 @@ router.post('/synthesis', express.json(), async (req, res) => {
         return res.status(400).json({ status: "failed", ok: false });
     }
 
+    const songUrl = await createAndCompose(trackMeta);
+    console.log('Song URL:', songUrl);
+
     return res.json({
         status: "received",
         ok: true,
         trackMeta: trackMeta,
-        trackUrl: "/api/proxy-audio"
+        trackUrl: `/api/proxy-audio?target=${encodeURIComponent(songUrl)}`,
+        songUrl: songUrl
     });
 });
 
@@ -93,9 +98,9 @@ router.post('/synthesis', express.json(), async (req, res) => {
 
 router.get('/proxy-audio', async (req, res) => {
     try {
-        const remoteUrl = "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3";
 
-        const response = await fetch(remoteUrl);
+        const url = req.query.target
+        const response = await fetch(url);
         if (!response.ok) {
             return res.status(500).json({ error: 'Failed to fetch audio' });
         }
