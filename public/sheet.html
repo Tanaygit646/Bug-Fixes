@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sargami AI - Music Analysis & Synthesis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 30%, #2d1810 70%, #8B4513 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFA500, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 165, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        /* Floating Music Notes */
+        .music-note {
+            position: absolute;
+            font-size: 2rem;
+            color: #FFA500;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Wave Decorator */
+        .wave-decorator {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #FFA500, transparent);
+            margin: 30px auto;
+            width: 200px;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-decorator::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            animation: wave 2s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border: 2px solid #FFA500;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 165, 0, 0.05), transparent);
+            transform: rotate(45deg) translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 165, 0, 0.3);
+            border-color: #FFD700;
+        }
+
+        .feature-card:hover::before {
+            animation: shimmer 2s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(45deg) translate(-50%, -50%); }
+            100% { transform: rotate(45deg) translate(50%, 50%); }
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 20px rgba(255, 165, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #FFA500;
+        }
+
+        .card-description {
+            text-align: center;
+            color: #cccccc;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        /* File Upload Areas */
+        .upload-area {
+            border: 2px dashed #FFA500;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(255, 165, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: #FFD700;
+        }
+
+        .upload-area.drag-over {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: #FFD700;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #FFA500;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: #999999;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+            color: #000000;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FFA500, #FFD700);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Sound Wave Visualization */
+        .sound-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            margin: 20px 0;
+            gap: 3px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, #FFA500, #FFD700);
+            border-radius: 2px;
+            animation: wave-animation 1.5s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .wave-bar:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes wave-animation {
+            0%, 100% { height: 10px; }
+            50% { height: 40px; }
+        }
+
+        /* Results Section */
+        .results-section {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(255, 165, 0, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid #FFA500;
+            display: none;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            color: #FFA500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Sheet Music Display */
+        .sheet-music-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .sheet-music-staff {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(to right, 
+                transparent 0%, 
+                transparent 49%, 
+                #000 49%, 
+                #000 51%, 
+                transparent 51%
+            );
+            background-size: 100% 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* Hidden Input */
+        .hidden-input {
+            display: none;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .status-info {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #FFA500;
+            color: #FFA500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Music Notes -->
+    <div class="music-note" style="top: 10%; left: 10%;">♪</div>
+    <div class="music-note" style="top: 20%; right: 15%; animation-delay: -2s;">♫</div>
+    <div class="music-note" style="top: 60%; left: 5%; animation-delay: -4s;">♪</div>
+    <div class="music-note" style="bottom: 20%; right: 10%; animation-delay: -1s;">♫</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Sargami AI</h1>
+            <p>Advanced Music Analysis, Synthesis & Simulation Platform</p>
+            <div class="wave-decorator"></div>
+        </div>
+
+        <!-- Feature Grid -->
+        <div class="feature-grid">
+            <!-- Audio to Sheet Music Converter -->
+            <div class="feature-card">
+                <div class="card-icon">🎵</div>
+                <h3 class="card-title">Audio to Sheet Music</h3>
+                <p class="card-description">Convert your audio files into professional sheet music notation with AI-powered transcription</p>
+                
+                <div class="upload-area" id="audioUpload">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Drop your audio file here</div>
+                    <div class="upload-subtext">Supports MP3, WAV, M4A, FLAC</div>
+                </div>
+                
+                <input type="file" id="audioFileInput" class="hidden-input" accept=".mp3,.wav,.m4a,.flac">
+                
+                <div class="progress-container" id="audioProgress">
+                    <div class="progress-bar" id="audioProgressBar"></div>
+                </div>
+                
+                <div class="sound-wave" id="audioWave" style="display: none;">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                
+                <button class="btn btn-primary" id="convertAudioBtn" disabled>
+                    Convert to Sheet Music
+                </button>
+            </div>
+
+            <div class="feature-card">
+                <div class="card-icon">🎵</div> 
+                <h3 class="card-title">MP3 to Lyric Sheet</h3> 
+                <p class="card-description">Extract lyrics from audio files and generate beautifully formatted lyric sheets</p> 
+                
+
+                <div class="upload-area" id="audioLyricsUpload"> 
+                    <div class="upload-icon">🎵</div> 
+                    <div class="upload-text">Drop your audio file here</div> 
+                    <div class="upload-subtext">Supports MP3, WAV, M4A, FLAC</div> 
+                </div>
+                
+
+                <input type="file" id="audioLyricsFileInput" class="hidden-input" accept=".mp3,.wav,.m4a,.flac"> 
+                
+
+                <div class="progress-container" id="audioLyricsProgress"> 
+                    <div class="progress-bar" id="audioLyricsProgressBar"></div> 
+                </div>
+                
+                <div class="sound-wave" id="audioLyricsWave" style="display: none;"> 
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                
+
+                <button class="btn btn-primary" id="extractLyricsFromAudioBtn" disabled> <!-- Changed ID -->
+                    Extract Lyrics 
+                </button>
+            </div>
+ </div>
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <h3 class="results-title">Analysis Results</h3>
+            <div id="resultsContent"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-secondary" id="downloadBtn" style="display: none;">
+                    Download PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessages"></div>
+    </div>
+
+    <script>
+class SargamiAI {
+    constructor() {
+        this.audioFile = null;
+        this.audioLyricsFile = null;
+        this.currentProcessing = null;
+        this.initializeEventListeners();
+    }
+
+    initializeEventListeners() {
+        // Audio upload for sheet music
+        const audioUpload = document.getElementById('audioUpload');
+        const audioFileInput = document.getElementById('audioFileInput');
+        const convertAudioBtn = document.getElementById('convertAudioBtn');
+
+        audioUpload.addEventListener('click', () => audioFileInput.click());
+        audioUpload.addEventListener('dragover', this.handleDragOver);
+        audioUpload.addEventListener('dragleave', this.handleDragLeave);
+        audioUpload.addEventListener('drop', (e) => this.handleDrop(e, 'audio'));
+        audioFileInput.addEventListener('change', (e) => this.handleFileSelect(e, 'audio'));
+        convertAudioBtn.addEventListener('click', () => this.convertAudioToSheet());
+
+        // Audio upload for lyrics extraction
+        const audioLyricsUpload = document.getElementById('audioLyricsUpload');
+        const audioLyricsFileInput = document.getElementById('audioLyricsFileInput');
+        const extractLyricsBtn = document.getElementById('extractLyricsFromAudioBtn');
+
+        audioLyricsUpload.addEventListener('click', () => audioLyricsFileInput.click());
+        audioLyricsUpload.addEventListener('dragover', this.handleDragOver);
+        audioLyricsUpload.addEventListener('dragleave', this.handleDragLeave);
+        audioLyricsUpload.addEventListener('drop', (e) => this.handleDrop(e, 'audioLyrics'));
+        audioLyricsFileInput.addEventListener('change', (e) => this.handleFileSelect(e, 'audioLyrics'));
+        extractLyricsBtn.addEventListener('click', () => this.extractLyricsFromAudio());
+
+        // Download button
+        document.getElementById('downloadBtn').addEventListener('click', () => this.downloadPDF());
+    }
+
+    handleDragOver(e) {
+        e.preventDefault();
+        e.currentTarget.classList.add('drag-over');
+    }
+
+    handleDragLeave(e) {
+        e.currentTarget.classList.remove('drag-over');
+    }
+
+    handleDrop(e, type) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            this.processFile(files[0], type);
+        }
+    }
+
+    handleFileSelect(e, type) {
+        const file = e.target.files[0];
+        if (file) {
+            this.processFile(file, type);
+        }
+    }
+
+    processFile(file, type) {
+        if (type === 'audio') {
+            this.audioFile = file;
+            document.getElementById('convertAudioBtn').disabled = false;
+            this.showStatus(`Audio file "${file.name}" loaded successfully for sheet music conversion`, 'success');
+        } else if (type === 'audioLyrics') {
+            this.audioLyricsFile = file;
+            document.getElementById('extractLyricsFromAudioBtn').disabled = false;
+            this.showStatus(`Audio file "${file.name}" loaded successfully for lyrics extraction`, 'success');
+        }
+    }
+
+    showStatus(message, type) {
+        const statusDiv = document.createElement('div');
+        statusDiv.className = `status-message status-${type}`;
+        statusDiv.textContent = message;
+        
+        const statusContainer = document.getElementById('statusMessages');
+        statusContainer.appendChild(statusDiv);
+        
+        setTimeout(() => {
+            statusDiv.remove();
+        }, 5000);
+    }
+
+    showProgress(type, percentage) {
+        const progressContainer = document.getElementById(`${type}Progress`);
+        const progressBar = document.getElementById(`${type}ProgressBar`);
+        progressContainer.style.display = 'block';
+        progressBar.style.width = `${percentage}%`;
+    }
+
+    showWaveAnimation(type, show = true) {
+        const waveElement = document.getElementById(`${type}Wave`);
+        waveElement.style.display = show ? 'flex' : 'none';
+    }
+
+    async convertAudioToSheet() {
+        if (!this.audioFile) {
+            this.showStatus('Please select an audio file first', 'error');
+            return;
+        }
+
+        this.showStatus('Converting audio to sheet music...', 'info');
+        this.showWaveAnimation('audio', true);
+        
+        try {
+            // Simulate AI processing
+            for (let i = 0; i <= 100; i += 10) {
+                this.showProgress('audio', i);
+                await this.delay(200);
+            }
+
+            // Generate sheet music data
+            const sheetMusicData = this.generateSheetMusicData();
+            this.displaySheetMusic(sheetMusicData);
+            this.currentProcessing = { type: 'sheet', data: sheetMusicData };
+            
+            this.showStatus('Sheet music generated successfully!', 'success');
+        } catch (error) {
+            this.showStatus('Error converting audio to sheet music', 'error');
+        } finally {
+            this.showWaveAnimation('audio', false);
+            document.getElementById('audioProgress').style.display = 'none';
+        }
+    }
+
+    async extractLyricsFromAudio() {
+        if (!this.audioLyricsFile) {
+            this.showStatus('Please select an audio file first', 'error');
+            return;
+        }
+
+        this.showStatus('Extracting lyrics from audio...', 'info');
+        this.showWaveAnimation('audioLyrics', true);
+        
+        try {
+            // Simulate AI processing
+            for (let i = 0; i <= 100; i += 10) {
+                this.showProgress('audioLyrics', i);
+                await this.delay(300);
+            }
+
+            // Generate lyrics data
+            const lyricsData = this.generateLyricsData();
+            this.displayLyrics(lyricsData);
+            this.currentProcessing = { type: 'lyrics', data: lyricsData };
+            
+            this.showStatus('Lyrics extracted successfully!', 'success');
+        } catch (error) {
+            this.showStatus('Error extracting lyrics from audio', 'error');
+        } finally {
+            this.showWaveAnimation('audioLyrics', false);
+            document.getElementById('audioLyricsProgress').style.display = 'none';
+        }
+    }
+
+    generateSheetMusicData() {
+        return {
+            title: this.audioFile.name.replace(/\.[^/.]+$/, ""),
+            tempo: 120,
+            key: 'C Major',
+            timeSignature: '4/4',
+            notes: [
+                { pitch: 'C4', duration: '1/4', position: 0 },
+                { pitch: 'D4', duration: '1/4', position: 1 },
+                { pitch: 'E4', duration: '1/4', position: 2 },
+                { pitch: 'F4', duration: '1/4', position: 3 },
+                { pitch: 'G4', duration: '1/2', position: 4 },
+                { pitch: 'A4', duration: '1/4', position: 6 },
+                { pitch: 'B4', duration: '1/4', position: 7 },
+                { pitch: 'C5', duration: '1/1', position: 8 }
+            ]
+        };
+    }
+
+    generateLyricsData() {
+        return {
+            title: this.audioLyricsFile.name.replace(/\.[^/.]+$/, ""),
+            artist: "Extracted from Audio",
+            verses: [
+                {
+                    title: "Verse 1",
+                    lines: [
+                        "In the silence of the night",
+                        "Stars are shining bright",
+                        "Whispers of the wind",
+                        "Tell stories that begin"
+                    ]
+                },
+                {
+                    title: "Chorus",
+                    lines: [
+                        "We are the dreamers",
+                        "Dancing in the light",
+                        "Nothing can stop us",
+                        "When we hold on tight"
+                    ]
+                },
+                {
+                    title: "Verse 2",
+                    lines: [
+                        "Mountains tall and steep",
+                        "Oceans wide and deep",
+                        "Every path we take",
+                        "Every choice we make"
+                    ]
+                },
+                {
+                    title: "Bridge",
+                    lines: [
+                        "Time keeps moving on",
+                        "Like a timeless song",
+                        "In our hearts we know",
+                        "This is where we grow"
+                    ]
+                }
+            ]
+        };
+    }
+
+    displaySheetMusic(data) {
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContent = document.getElementById('resultsContent');
+        
+        resultsContent.innerHTML = `
+            <div class="sheet-music-container">
+                <h4 style="color: #000; text-align: center; margin-bottom: 20px;">${data.title}</h4>
+                <div style="color: #000; text-align: center; margin-bottom: 15px;">
+                    <strong>Tempo:</strong> ${data.tempo} BPM | 
+                    <strong>Key:</strong> ${data.key} | 
+                    <strong>Time:</strong> ${data.timeSignature}
+                </div>
+                <div class="sheet-music-staff">
+                    <div style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; color: #000;">𝄞</div>
+                    ${data.notes.map((note, index) => `
+                        <div style="position: absolute; left: ${80 + (index * 40)}px; top: ${80 - (note.pitch.charCodeAt(0) - 65) * 5}px; font-size: 2rem; color: #000;">
+                            ${note.duration === '1/1' ? '𝅝' : note.duration === '1/2' ? '𝅗𝅥' : '𝅘𝅥'}
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="color: #000; text-align: center; margin-top: 20px;">
+                    <strong>Detected Notes:</strong> ${data.notes.map(n => n.pitch).join(', ')}
+                </div>
+            </div>
+        `;
+        
+        resultsSection.style.display = 'block';
+        document.getElementById('downloadBtn').style.display = 'inline-block';
+    }
+
+    displayLyrics(data) {
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContent = document.getElementById('resultsContent');
+        
+        resultsContent.innerHTML = `
+            <div style="background: white; color: #000; padding: 30px; border-radius: 15px;">
+                <h4 style="text-align: center; margin-bottom: 10px; font-size: 1.5rem;">${data.title}</h4>
+                <p style="text-align: center; margin-bottom: 30px; font-style: italic;">${data.artist}</p>
+                
+                ${data.verses.map(verse => `
+                    <div style="margin-bottom: 25px;">
+                        <h5 style="color: #FFA500; margin-bottom: 10px; font-weight: bold;">${verse.title}</h5>
+                        ${verse.lines.map(line => `<p style="margin-bottom: 5px; line-height: 1.6;">${line}</p>`).join('')}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        resultsSection.style.display = 'block';
+        document.getElementById('downloadBtn').style.display = 'inline-block';
+    }
+
+    async downloadPDF() {
+        if (!this.currentProcessing) {
+            this.showStatus('No content to download', 'error');
+            return;
+        }
+
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            if (this.currentProcessing.type === 'sheet') {
+                await this.generateSheetMusicPDF(doc, this.currentProcessing.data);
+            } else if (this.currentProcessing.type === 'lyrics') {
+                await this.generateLyricsPDF(doc, this.currentProcessing.data);
+            }
+
+            this.showStatus('PDF generated successfully!', 'success');
+        } catch (error) {
+            this.showStatus('Error generating PDF', 'error');
+        }
+    }
+
+    async generateSheetMusicPDF(doc, data) {
+        // Set title
+        doc.setFontSize(20);
+        doc.setTextColor(255, 165, 0);
+        doc.text(data.title, 105, 30, { align: 'center' });
+
+        // Add Sargami AI branding
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text('Generated by Sargami AI', 105, 280, { align: 'center' });
+
+        // Add music details
+        doc.setFontSize(12);
+        doc.text(`Tempo: ${data.tempo} BPM`, 20, 50);
+        doc.text(`Key: ${data.key}`, 20, 60);
+        doc.text(`Time Signature: ${data.timeSignature}`, 20, 70);
+
+        // Add notes information
+        doc.text('Detected Notes:', 20, 90);
+        const notesText = data.notes.map(n => `${n.pitch} (${n.duration})`).join(', ');
+        const splitNotes = doc.splitTextToSize(notesText, 170);
+        doc.text(splitNotes, 20, 100);
+
+        // Add staff lines (simplified representation)
+        doc.setLineWidth(0.5);
+        for (let i = 0; i < 5; i++) {
+            const y = 130 + (i * 8);
+            doc.line(20, y, 190, y);
+        }
+
+        // Add treble clef symbol (as text)
+        doc.setFontSize(24);
+        doc.text('𝄞', 25, 145);
+
+        // Add note symbols on staff
+        doc.setFontSize(16);
+        data.notes.forEach((note, index) => {
+            const x = 50 + (index * 15);
+            const y = 145 - ((note.pitch.charCodeAt(0) - 67) * 2); // Simple positioning
+            const noteSymbol = note.duration === '1/1' ? '𝅝' : 
+                             note.duration === '1/2' ? '𝅗𝅥' : '𝅘𝅥';
+            doc.text(noteSymbol, x, y);
+        });
+
+        // Save the PDF
+        doc.save(`${data.title}_sheet_music.pdf`);
+    }
+
+    async generateLyricsPDF(doc, data) {
+        // Set title
+        doc.setFontSize(20);
+        doc.setTextColor(255, 165, 0);
+        doc.text(data.title, 105, 30, { align: 'center' });
+
+        // Set artist
+        doc.setFontSize(14);
+        doc.setTextColor(100, 100, 100);
+        doc.text(data.artist, 105, 45, { align: 'center' });
+
+        // Add Sargami AI branding
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text('Generated by Sargami AI', 105, 280, { align: 'center' });
+
+        // Add verses
+        let currentY = 70;
+        doc.setTextColor(0, 0, 0);
+
+        data.verses.forEach(verse => {
+            // Check if we need a new page
+            if (currentY > 250) {
+                doc.addPage();
+                currentY = 30;
+            }
+
+            // Add verse title
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 165, 0);
+            doc.text(verse.title, 20, currentY);
+            currentY += 10;
+
+            // Add verse lines
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'normal');
+            doc.setTextColor(0, 0, 0);
+            
+            verse.lines.forEach(line => {
+                const splitLines = doc.splitTextToSize(line, 170);
+                doc.text(splitLines, 20, currentY);
+                currentY += (splitLines.length * 6);
+            });
+            
+            currentY += 10; // Space between verses
+        });
+
+        // Save the PDF
+        doc.save(`${data.title}_lyrics.pdf`);
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new SargamiAI();
+});
+
+// Add some dynamic background effects
+function createFloatingElements() {
+    const container = document.body;
+    
+    setInterval(() => {
+        const element = document.createElement('div');
+        element.innerHTML = Math.random() > 0.5 ? '♪' : '♫';
+        element.style.position = 'fixed';
+        element.style.left = Math.random() * 100 + 'vw';
+        element.style.top = '100vh';
+        element.style.color = '#FFA500';
+        element.style.fontSize = '1.5rem';
+        element.style.opacity = '0.3';
+        element.style.pointerEvents = 'none';
+        element.style.zIndex = '-1';
+        element.style.transition = 'all 10s linear';
+        
+        container.appendChild(element);
+        
+        // Animate upward
+        setTimeout(() => {
+            element.style.top = '-10vh';
+            element.style.opacity = '0';
+        }, 100);
+        
+        // Remove element after animation
+        setTimeout(() => {
+            element.remove();
+        }, 10000);
+    }, 3000);
+}
+
+// Start floating elements effect
+window.addEventListener('load', createFloatingElements);
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+            case 'o':
+                e.preventDefault();
+                document.getElementById('audioFileInput').click();
+                break;
+            case 'u':
+                e.preventDefault();
+                document.getElementById('audioLyricsFileInput').click();
+                break;
+            case 's':
+                e.preventDefault();
+                const downloadBtn = document.getElementById('downloadBtn');
+                if (downloadBtn.style.display !== 'none') {
+                    downloadBtn.click();
+                }
+                break;
+        }
+    }
+});
+
+// Add smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add intersection observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe feature cards for scroll animations
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.feature-card');
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+});
+
+// Add audio visualization (fake spectrum analyzer)
+function createAudioVisualization(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const bars = container.querySelectorAll('.wave-bar');
+    
+    const animate = () => {
+        bars.forEach(bar => {
+            const height = Math.random() * 40 + 10;
+            bar.style.height = height + 'px';
+        });
+    };
+
+    const interval = setInterval(animate, 150);
+    
+    // Stop animation after 3 seconds
+    setTimeout(() => {
+        clearInterval(interval);
+        bars.forEach(bar => {
+            bar.style.height = '10px';
+        });
+    }, 3000);
+}
+
+// Enhanced error handling
+window.addEventListener('error', (e) => {
+    console.error('Application error:', e.error);
+    const statusContainer = document.getElementById('statusMessages');
+    if (statusContainer) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'status-message status-error';
+        errorDiv.textContent = 'An unexpected error occurred. Please try again.';
+        statusContainer.appendChild(errorDiv);
+        
+        setTimeout(() => errorDiv.remove(), 5000);
+    }
+});
+
+// Add touch support for mobile devices
+let touchStartY = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartY - touchEndY;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe up - scroll to results if available
+            const results = document.getElementById('resultsSection');
+            if (results && results.style.display !== 'none') {
+                results.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            // Swipe down - scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+}
+
+// Performance optimization: Lazy load heavy animations
+function initializeLazyAnimations() {
+    const heavyAnimations = document.querySelectorAll('.wave-decorator');
+    
+    const lazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+                lazyObserver.unobserve(entry.target);
+            }
+        });
+    });
+
+    heavyAnimations.forEach(element => {
+        element.style.animationPlayState = 'paused';
+        lazyObserver.observe(element);
+    });
+}
+
+// Initialize lazy animations when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeLazyAnimations);
+
+// Add resize handler for responsive adjustments
+window.addEventListener('resize', () => {
+    const container = document.querySelector('.container');
+    if (window.innerWidth < 768) {
+        container.style.padding = '10px';
+    } else {
+        container.style.padding = '20px';
+    }
+});
+
+// Add focus management for accessibility
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-navigation');
+    }
+});
+
+document.addEventListener('mousedown', () => {
+    document.body.classList.remove('keyboard-navigation');
+});
+
+// Add CSS for keyboard navigation
+const keyboardNavCSS = `
+    .keyboard-navigation .btn:focus,
+    .keyboard-navigation .upload-area:focus {
+        outline: 3px solid #FFA500;
+        outline-offset: 2px;
+    }
+`;
+
+const style = document.createElement('style');
+style.textContent = keyboardNavCSS;
+document.head.appendChild(style);
+    </script>
+</body>
+</html>

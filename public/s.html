@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sargami AI - Music Sentiment Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #2c1810 50%, #4a2c17 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            padding: 20px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.2);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFA500;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #FFA500;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #cccccc;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Floating Notes */
+        .floating-note {
+            position: absolute;
+            font-size: 20px;
+            color: #FFA500;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .note1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .note2 { top: 30%; right: 15%; animation-delay: 2s; }
+        .note3 { bottom: 20%; left: 20%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Analysis Tool */
+        .analysis-tool {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid #FFA500;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            position: relative;
+        }
+        
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .tool-header h2 {
+            font-size: 2.5rem;
+            color: #FFA500;
+            margin-bottom: 15px;
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: #FFA500;
+        }
+        
+        .text-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #FFA500;
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            height: fit-content;
+            align-self: end;
+        }
+        
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Results Section */
+        .results {
+            display: none;
+            margin-top: 40px;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sentiment-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #FFA500;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .sentiment-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sentiment-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #FFA500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .sentiment-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFA500;
+        }
+        
+        .score-bar {
+            background: rgba(255, 165, 0, 0.2);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFA500, #FFD700);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .emotion-item {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .emotion-name {
+            font-weight: 600;
+            color: #FFA500;
+            margin-bottom: 10px;
+        }
+        
+        .emotion-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* Wave Decoration */
+        .wave-decoration {
+            height: 60px;
+            background: linear-gradient(90deg, transparent, #FFA500, transparent);
+            margin: 60px 0;
+            border-radius: 30px;
+            opacity: 0.3;
+            position: relative;
+        }
+        
+        .wave-decoration::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FFA500 0px,
+                #FFA500 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            animation: wave 2s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
+        }
+        
+        /* Features Grid */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #FFA500;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFA500;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #FFA500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #FFA500;
+        }
+        
+        .feature-card p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .emotions-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">🎵 Sargami AI</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#analysis">Analysis</a></li>
+                    <li><a href="#synthesis">Synthesis</a></li>
+                    <li><a href="#simulation">Simulation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="floating-note note1">♪</div>
+            <div class="floating-note note2">♫</div>
+            <div class="floating-note note3">♬</div>
+            
+            <h1>Music Sentiment Analysis</h1>
+            <p>Discover the emotional landscape of your music with AI-powered sentiment analysis. Analyze lyrics, understand emotional patterns, and unlock the feelings within your compositions.</p>
+        </div>
+    </section>
+
+    <!-- Analysis Tool -->
+    <section class="container">
+        <div class="analysis-tool">
+            <div class="tool-header">
+                <h2>🎭 Analyze Your Music</h2>
+                <p>Enter your lyrics or song text below to discover its emotional sentiment</p>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="lyrics">Song Lyrics or Text</label>
+                    <textarea 
+                        id="lyrics" 
+                        class="text-input" 
+                        placeholder="Enter your song lyrics here...&#10;&#10;Example:&#10;🎵 In the silence of the night&#10;Stars are shining bright&#10;Music fills my soul with light&#10;Everything will be alright..."
+                    ></textarea>
+                </div>
+                <button class="analyze-btn" onclick="analyzeSentiment()">
+                    🔍 Analyze Sentiment
+                </button>
+            </div>
+            
+            <div class="results" id="results">
+                <div class="sentiment-card">
+                    <div class="sentiment-header">
+                        <div class="sentiment-icon" id="sentimentIcon">😊</div>
+                        <div>
+                            <h3 id="sentimentLabel">Positive</h3>
+                            <div class="sentiment-score" id="sentimentScore">85%</div>
+                        </div>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-fill" id="scoreFill" style="width: 85%"></div>
+                    </div>
+                    <p id="sentimentDescription">Your music expresses predominantly positive emotions with uplifting and optimistic themes.</p>
+                </div>
+                
+                <div class="emotions-grid" id="emotionsGrid">
+                    <div class="emotion-item">
+                        <div class="emotion-name">Joy</div>
+                        <div class="emotion-percentage">35%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Hope</div>
+                        <div class="emotion-percentage">25%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Peace</div>
+                        <div class="emotion-percentage">15%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Love</div>
+                        <div class="emotion-percentage">15%</div>
+                    </div>
+                    <div class="emotion-item">
+                        <div class="emotion-name">Nostalgia</div>
+                        <div class="emotion-percentage">10%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave Decoration -->
+    <div class="container">
+        <div class="wave-decoration"></div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>🎼 Sentiment Analysis Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Precise Detection</h3>
+                    <p>Advanced AI algorithms analyze emotional nuances in lyrics with high accuracy, detecting subtle sentiment patterns and emotional transitions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Metrics</h3>
+                    <p>Get comprehensive emotional breakdowns with percentage scores for joy, sadness, anger, fear, surprise, and other complex emotions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Visual Analysis</h3>
+                    <p>Beautiful visualizations show emotional patterns, sentiment flow, and intensity changes throughout your musical compositions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time Processing</h3>
+                    <p>Instant sentiment analysis with lightning-fast processing, allowing you to experiment and iterate on your musical creations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3>Music Context</h3>
+                    <p>Specialized for musical content with understanding of poetic devices, metaphors, and artistic expressions common in songs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Creative Insights</h3>
+                    <p>Discover hidden emotional themes and get suggestions for enhancing the emotional impact of your musical compositions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Advanced sentiment analysis engine with detailed musical context
+        class MusicSentimentAnalyzer {
+            constructor() {
+                this.positiveWords = [
+                    'love', 'happy', 'joy', 'bright', 'beautiful', 'amazing', 'wonderful', 'dream', 'hope', 'shine',
+                    'light', 'smile', 'dance', 'sing', 'fly', 'free', 'peace', 'harmony', 'bliss', 'magic',
+                    'celebrate', 'triumph', 'victory', 'glory', 'paradise', 'heaven', 'angel', 'sweet', 'perfect',
+                    'incredible', 'fantastic', 'awesome', 'brilliant', 'radiant', 'glowing', 'vibrant', 'alive'
+                ];
+                
+                this.negativeWords = [
+                    'sad', 'pain', 'hurt', 'cry', 'lonely', 'dark', 'broken', 'lost', 'fear', 'angry',
+                    'hate', 'die', 'death', 'cold', 'empty', 'nightmare', 'sorrow', 'tears', 'bitter',
+                    'cruel', 'hell', 'demon', 'evil', 'terrible', 'awful', 'horrible', 'tragic', 'misery',
+                    'despair', 'hopeless', 'abandon', 'betray', 'destroy', 'suffer', 'torment', 'agony'
+                ];
+                
+                this.emotionKeywords = {
+                    joy: ['happy', 'joy', 'celebrate', 'dance', 'laugh', 'smile', 'delight', 'cheerful', 'bright', 'sunshine'],
+                    love: ['love', 'heart', 'romance', 'kiss', 'embrace', 'together', 'forever', 'soulmate', 'passion', 'devotion'],
+                    sadness: ['sad', 'cry', 'tears', 'lonely', 'melancholy', 'blue', 'sorrow', 'grief', 'weep', 'mourn'],
+                    anger: ['angry', 'rage', 'fury', 'mad', 'hate', 'fight', 'war', 'battle', 'storm', 'fire'],
+                    fear: ['fear', 'scared', 'afraid', 'terror', 'panic', 'nightmare', 'dark', 'shadow', 'ghost', 'monster'],
+                    hope: ['hope', 'dream', 'wish', 'believe', 'faith', 'tomorrow', 'future', 'light', 'dawn', 'rise'],
+                    peace: ['peace', 'calm', 'quiet', 'still', 'serene', 'tranquil', 'gentle', 'soft', 'whisper', 'meditation'],
+                    nostalgia: ['remember', 'memory', 'past', 'yesterday', 'childhood', 'old', 'time', 'gone', 'used to', 'back then'],
+                    excitement: ['exciting', 'thrill', 'rush', 'energy', 'wild', 'crazy', 'adventure', 'fast', 'electric', 'alive'],
+                    longing: ['miss', 'want', 'need', 'yearn', 'crave', 'desire', 'wish', 'distant', 'away', 'return']
+                };
+                
+                this.musicalContext = {
+                    tempo: ['fast', 'slow', 'rhythm', 'beat', 'pulse', 'tempo', 'quick', 'steady'],
+                    instruments: ['guitar', 'piano', 'drums', 'violin', 'saxophone', 'trumpet', 'bass', 'synth'],
+                    structure: ['verse', 'chorus', 'bridge', 'intro', 'outro', 'solo', 'harmony', 'melody'],
+                    intensity: ['loud', 'soft', 'whisper', 'scream', 'shout', 'gentle', 'powerful', 'strong']
+                };
+            }
+            
+            analyzeText(text) {
+                const words = this.tokenize(text.toLowerCase());
+                const wordCount = words.length;
+                
+                if (wordCount === 0) return null;
+                
+                // Calculate sentiment scores
+                const sentimentScore = this.calculateSentimentScore(words);
+                const emotionScores = this.calculateEmotionScores(words);
+                const musicalElements = this.detectMusicalElements(words);
+                const linguisticFeatures = this.analyzeLinguisticFeatures(text, words);
+                const themeAnalysis = this.analyzeThemes(words);
+                
+                return {
+                    overallSentiment: this.interpretSentimentScore(sentimentScore),
+                    emotionBreakdown: emotionScores,
+                    musicalContext: musicalElements,
+                    linguisticAnalysis: linguisticFeatures,
+                    thematicAnalysis: themeAnalysis,
+                    confidence: this.calculateConfidence(wordCount, sentimentScore),
+                    rawScore: sentimentScore,
+                    wordCount: wordCount
+                };
+            }
+            
+            tokenize(text) {
+                return text.toLowerCase()
+                    .replace(/[^\w\s]/g, ' ')
+                    .split(/\s+/)
+                    .filter(word => word.length > 2);
+            }
+            
+            calculateSentimentScore(words) {
+                let positiveScore = 0;
+                let negativeScore = 0;
+                
+                words.forEach(word => {
+                    // Check positive words with weight
+                    if (this.positiveWords.includes(word)) {
+                        positiveScore += 1;
+                    }
+                    // Check negative words with weight
+                    if (this.negativeWords.includes(word)) {
+                        negativeScore += 1;
+                    }
+                    
+                    // Advanced pattern matching
+                    if (word.includes('happi') || word.includes('joy')) positiveScore += 0.8;
+                    if (word.includes('sad') || word.includes('depress')) negativeScore += 0.8;
+                });
+                
+                // Normalize score between -1 and 1
+                const totalWords = words.length;
+                const netScore = (positiveScore - negativeScore) / Math.max(totalWords * 0.3, 1);
+                return Math.max(-1, Math.min(1, netScore));
+            }
+            
+            calculateEmotionScores(words) {
+                const emotions = {};
+                const totalWords = words.length;
+                
+                Object.keys(this.emotionKeywords).forEach(emotion => {
+                    let score = 0;
+                    this.emotionKeywords[emotion].forEach(keyword => {
+                        words.forEach(word => {
+                            if (word.includes(keyword) || keyword.includes(word)) {
+                                score += 1;
+                            }
+                        });
+                    });
+                    emotions[emotion] = Math.min(100, Math.round((score / Math.max(totalWords * 0.1, 1)) * 100));
+                });
+                
+                // Normalize to ensure total doesn't exceed 100%
+                const total = Object.values(emotions).reduce((sum, val) => sum + val, 0);
+                if (total > 100) {
+                    Object.keys(emotions).forEach(key => {
+                        emotions[key] = Math.round((emotions[key] / total) * 100);
+                    });
+                }
+                
+                // Sort and return top emotions
+                return Object.entries(emotions)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 6)
+                    .filter(([,score]) => score > 5);
+            }
+            
+            detectMusicalElements(words) {
+                const elements = {
+                    hasMusicalTerms: false,
+                    instruments: [],
+                    musicalConcepts: [],
+                    rhythmicWords: 0
+                };
+                
+                words.forEach(word => {
+                    // Check for instruments
+                    Object.values(this.musicalContext.instruments).forEach(instrument => {
+                        if (word.includes(instrument)) {
+                            elements.instruments.push(instrument);
+                            elements.hasMusicalTerms = true;
+                        }
+                    });
+                    
+                    // Check for musical structure
+                    this.musicalContext.structure.forEach(concept => {
+                        if (word.includes(concept)) {
+                            elements.musicalConcepts.push(concept);
+                            elements.hasMusicalTerms = true;
+                        }
+                    });
+                    
+                    // Count rhythmic words
+                    if (this.musicalContext.tempo.some(tempo => word.includes(tempo))) {
+                        elements.rhythmicWords++;
+                    }
+                });
+                
+                return elements;
+            }
+            
+            analyzeLinguisticFeatures(originalText, words) {
+                return {
+                    repetition: this.detectRepetition(words),
+                    rhymePattern: this.analyzeRhymePattern(originalText),
+                    averageWordLength: words.reduce((sum, word) => sum + word.length, 0) / words.length,
+                    uniqueWordRatio: new Set(words).size / words.length,
+                    exclamationCount: (originalText.match(/!/g) || []).length,
+                    questionCount: (originalText.match(/\?/g) || []).length,
+                    metaphorIndicators: this.detectMetaphors(words)
+                };
+            }
+            
+            detectRepetition(words) {
+                const wordCounts = {};
+                words.forEach(word => {
+                    wordCounts[word] = (wordCounts[word] || 0) + 1;
+                });
+                
+                const repeatedWords = Object.entries(wordCounts)
+                    .filter(([word, count]) => count > 1)
+                    .sort(([,a], [,b]) => b - a);
+                
+                return {
+                    hasRepetition: repeatedWords.length > 0,
+                    mostRepeated: repeatedWords.slice(0, 3),
+                    repetitionScore: repeatedWords.length / words.length
+                };
+            }
+            
+            analyzeRhymePattern(text) {
+                const lines = text.split('\n').filter(line => line.trim().length > 0);
+                const lastWords = lines.map(line => {
+                    const words = line.trim().split(/\s+/);
+                    return words[words.length - 1]?.toLowerCase().replace(/[^\w]/g, '') || '';
+                });
+                
+                // Simple rhyme detection based on suffix similarity
+                let rhymeScore = 0;
+                for (let i = 0; i < lastWords.length - 1; i++) {
+                    for (let j = i + 1; j < lastWords.length; j++) {
+                        if (this.wordsRhyme(lastWords[i], lastWords[j])) {
+                            rhymeScore++;
+                        }
+                    }
+                }
+                
+                return {
+                    hasRhyme: rhymeScore > 0,
+                    rhymeScore: rhymeScore,
+                    lineCount: lines.length
+                };
+            }
+            
+            wordsRhyme(word1, word2) {
+                if (word1.length < 2 || word2.length < 2) return false;
+                const suffix1 = word1.slice(-2);
+                const suffix2 = word2.slice(-2);
+                return suffix1 === suffix2 && word1 !== word2;
+            }
+            
+            detectMetaphors(words) {
+                const metaphorIndicators = ['like', 'as', 'seems', 'appears', 'reminds', 'feels like', 'sounds like'];
+                let metaphorCount = 0;
+                
+                words.forEach(word => {
+                    if (metaphorIndicators.some(indicator => word.includes(indicator))) {
+                        metaphorCount++;
+                    }
+                });
+                
+                return metaphorCount;
+            }
+            
+            analyzeThemes(words) {
+                const themes = {
+                    nature: ['sky', 'sun', 'moon', 'star', 'tree', 'flower', 'ocean', 'mountain', 'river', 'wind'],
+                    time: ['time', 'moment', 'forever', 'never', 'always', 'today', 'tomorrow', 'yesterday', 'now', 'then'],
+                    relationships: ['friend', 'family', 'mother', 'father', 'lover', 'partner', 'together', 'apart', 'alone'],
+                    spirituality: ['god', 'heaven', 'soul', 'spirit', 'pray', 'faith', 'believe', 'divine', 'sacred'],
+                    journey: ['road', 'path', 'journey', 'travel', 'destination', 'home', 'away', 'return', 'go', 'come']
+                };
+                
+                const themeScores = {};
+                Object.keys(themes).forEach(theme => {
+                    let score = 0;
+                    themes[theme].forEach(keyword => {
+                        words.forEach(word => {
+                            if (word.includes(keyword)) score++;
+                        });
+                    });
+                    themeScores[theme] = score;
+                });
+                
+                return Object.entries(themeScores)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 3)
+                    .filter(([,score]) => score > 0);
+            }
+            
+            interpretSentimentScore(score) {
+                if (score > 0.6) return { label: 'Very Positive', icon: '😄', intensity: 'high' };
+                if (score > 0.2) return { label: 'Positive', icon: '😊', intensity: 'medium' };
+                if (score > -0.2) return { label: 'Neutral', icon: '😐', intensity: 'balanced' };
+                if (score > -0.6) return { label: 'Melancholic', icon: '😔', intensity: 'medium' };
+                return { label: 'Very Sad', icon: '😢', intensity: 'high' };
+            }
+            
+            calculateConfidence(wordCount, sentimentScore) {
+                const baseConfidence = Math.min(wordCount / 50, 1); // More words = higher confidence
+                const sentimentStrength = Math.abs(sentimentScore);
+                return Math.round((baseConfidence * 0.7 + sentimentStrength * 0.3) * 100);
+            }
+        }
+        
+        // Initialize analyzer
+        const analyzer = new MusicSentimentAnalyzer();
+        
+        function analyzeSentiment() {
+            const lyrics = document.getElementById('lyrics').value.trim();
+            
+            if (!lyrics) {
+                alert('Please enter some lyrics or text to analyze!');
+                return;
+            }
+            
+            // Show loading state
+            const analyzeBtn = document.querySelector('.analyze-btn');
+            analyzeBtn.innerHTML = '🔄 Analyzing...';
+            analyzeBtn.disabled = true;
+            
+            // Simulate processing time for realism
+            setTimeout(() => {
+                const analysis = analyzer.analyzeText(lyrics);
+                
+                if (!analysis) {
+                    alert('Unable to analyze the text. Please try with more content.');
+                    return;
+                }
+                
+                displayResults(analysis);
+                
+                // Reset button
+                analyzeBtn.innerHTML = '🔍 Analyze Sentiment';
+                analyzeBtn.disabled = false;
+            }, 1500);
+        }
+        
+        function displayResults(analysis) {
+            const { overallSentiment, emotionBreakdown, musicalContext, linguisticAnalysis, thematicAnalysis, confidence, wordCount } = analysis;
+            
+            // Update main sentiment display
+            const sentimentScore = Math.round((analysis.rawScore + 1) * 50); // Convert to 0-100 scale
+            document.getElementById('sentimentIcon').textContent = overallSentiment.icon;
+            document.getElementById('sentimentLabel').textContent = overallSentiment.label;
+            document.getElementById('sentimentScore').textContent = sentimentScore + '%';
+            document.getElementById('scoreFill').style.width = sentimentScore + '%';
+            
+            // Enhanced description with analysis details
+            const description = generateDetailedDescription(analysis);
+            document.getElementById('sentimentDescription').innerHTML = description;
+            
+            // Update emotions grid with top emotions
+            const emotionsGrid = document.getElementById('emotionsGrid');
+            emotionsGrid.innerHTML = '';
+            
+            if (emotionBreakdown.length > 0) {
+                emotionBreakdown.forEach(([emotion, percentage]) => {
+                    const emotionItem = document.createElement('div');
+                    emotionItem.className = 'emotion-item';
+                    emotionItem.innerHTML = `
+                        <div class="emotion-name">${capitalize(emotion)}</div>
+                        <div class="emotion-percentage">${percentage}%</div>
+                    `;
+                    emotionsGrid.appendChild(emotionItem);
+                });
+            } else {
+                emotionsGrid.innerHTML = '<div class="emotion-item"><div class="emotion-name">Neutral Tone</div><div class="emotion-percentage">--</div></div>';
+            }
+            
+            // Add detailed analysis card
+            addDetailedAnalysisCard(analysis);
+            
+            // Show results
+            const results = document.getElementById('results');
+            results.classList.add('show');
+            results.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function generateDetailedDescription(analysis) {
+            const { overallSentiment, confidence, wordCount, musicalContext, linguisticAnalysis, thematicAnalysis } = analysis;
+            
+            let description = `Your music expresses <strong>${overallSentiment.label.toLowerCase()}</strong> sentiment with <strong>${confidence}% confidence</strong> based on ${wordCount} words analyzed. `;
+            
+            if (musicalContext.hasMusicalTerms) {
+                description += `The lyrics contain musical elements including ${musicalContext.instruments.join(', ')} and structural concepts. `;
+            }
+            
+            if (linguisticAnalysis.repetition.hasRepetition) {
+                description += `Strong use of repetition detected, enhancing the emotional impact. `;
+            }
+            
+            if (thematicAnalysis.length > 0) {
+                const topTheme = thematicAnalysis[0][0];
+                description += `Primary theme: <em>${topTheme}</em>.`;
+            }
+            
+            return description;
+        }
+        
+        function addDetailedAnalysisCard(analysis) {
+            const { linguisticAnalysis, thematicAnalysis, musicalContext, confidence } = analysis;
+            
+            // Remove existing detailed analysis if present
+            const existingCard = document.getElementById('detailed-analysis');
+            if (existingCard) existingCard.remove();
+            
+            const detailedCard = document.createElement('div');
+            detailedCard.id = 'detailed-analysis';
+            detailedCard.className = 'sentiment-card';
+            detailedCard.style.marginTop = '20px';
+            
+            detailedCard.innerHTML = `
+                <div class="sentiment-header">
+                    <div class="sentiment-icon">📊</div>
+                    <div>
+                        <h3>Detailed Analysis</h3>
+                        <div style="color: #FFA500; font-size: 14px;">Advanced Linguistic & Musical Insights</div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div class="analysis-section">
+                        <h4 style="color: #FFA500; margin-bottom: 10px;">🎵 Musical Elements</h4>
+                        <p><strong>Musical Terms:</strong> ${musicalContext.hasMusicalTerms ? 'Detected' : 'Not found'}</p>
+                        <p><strong>Instruments:</strong> ${musicalContext.instruments.length > 0 ? musicalContext.instruments.join(', ') : 'None mentioned'}</p>
+                        <p><strong>Rhythmic Words:</strong> ${musicalContext.rhythmicWords}</p>
+                    </div>
+                    <div class="analysis-section">
+                        <h4 style="color: #FFA500; margin-bottom: 10px;">📝 Linguistic Features</h4>
+                        <p><strong>Repetition Score:</strong> ${Math.round(linguisticAnalysis.repetition.repetitionScore * 100)}%</p>
+                        <p><strong>Unique Word Ratio:</strong> ${Math.round(linguisticAnalysis.uniqueWordRatio * 100)}%</p>
+                        <p><strong>Avg Word Length:</strong> ${linguisticAnalysis.averageWordLength.toFixed(1)} chars</p>
+                        <p><strong>Exclamations:</strong> ${linguisticAnalysis.exclamationCount}</p>
+                    </div>
+                    <div class="analysis-section">
+                        <h4 style="color: #FFA500; margin-bottom: 10px;">🎭 Thematic Analysis</h4>
+                        ${thematicAnalysis.length > 0 ? 
+                            thematicAnalysis.map(([theme, score]) => 
+                                `<p><strong>${capitalize(theme)}:</strong> ${score} references</p>`
+                            ).join('') : 
+                            '<p>No dominant themes detected</p>'
+                        }
+                    </div>
+                    <div class="analysis-section">
+                        <h4 style="color: #FFA500; margin-bottom: 10px;">🎯 Quality Metrics</h4>
+                        <p><strong>Analysis Confidence:</strong> ${confidence}%</p>
+                        <p><strong>Rhyme Pattern:</strong> ${linguisticAnalysis.rhymePattern.hasRhyme ? 'Detected' : 'Not found'}</p>
+                        <p><strong>Literary Devices:</strong> ${linguisticAnalysis.metaphorIndicators > 0 ? 'Present' : 'Minimal'}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results').appendChild(detailedCard);
+        }
+        
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+        
+        // Demo with enter key
+        document.getElementById('lyrics').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeSentiment();
+            }
+        });
+        
+        // Enhanced placeholder and sample text
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('lyrics');
+            
+            // Add real-time character counter
+            const charCounter = document.createElement('div');
+            charCounter.style.cssText = 'color: #FFA500; font-size: 12px; text-align: right; margin-top: 5px;';
+            textarea.parentNode.appendChild(charCounter);
+            
+            textarea.addEventListener('input', function() {
+                const count = this.value.length;
+                charCounter.textContent = `${count} characters`;
+                
+                if (count > 500) {
+                    charCounter.style.color = '#FFD700';
+                } else if (count > 100) {
+                    charCounter.style.color = '#FFA500';
+                } else {
+                    charCounter.style.color = '#cccccc';
+                }
+            });
+            
+            textarea.addEventListener('focus', function() {
+                if (this.value === '') {
+                    this.placeholder = 'Enter your song lyrics here for detailed sentiment analysis...\n\nExample:\n🎵 In the silence of the night\nStars are dancing in the light\nMusic flows through my soul\nMaking broken hearts whole\n\nTip: More detailed lyrics = better analysis\nPress Ctrl+Enter for quick analysis!';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
