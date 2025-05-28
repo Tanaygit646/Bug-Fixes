@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis App</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a1034 0%, #151a52 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #e0e7ff;
+}
+
+.container {
+    background: rgba(23, 24, 58, 0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.6s ease-out;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #8b5cf6, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    color: #c7d2fe;
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #c7d2fe;
+    font-size: 1.1rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #6366f1;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea::placeholder {
+    color: #a5b4fc;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #ec4899;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.3);
+}
+
+.button-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+button {
+    background: linear-gradient(90deg, #8b5cf6, #6366f1, #ec4899);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-width: 150px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.result-section {
+    display: none;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-card {
+    background: #1e2259;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 20px;
+    border-left: 4px solid #8b5cf6;
+    color: white;
+}
+
+.sentiment-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.positive {
+    color: #28a745;
+}
+
+.negative {
+    color: #dc3545;
+}
+
+.neutral {
+    color: #ffc107;
+}
+
+.confidence-bar {
+    background: #2a2e6d;
+    border-radius: 10px;
+    height: 20px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.8s ease;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+}
+
+.confidence-text {
+    font-size: 0.9rem;
+    color: #a5b4fc;
+    margin-top: 5px;
+}
+
+.error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 1px solid #f5c6cb;
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sentiment Analyzer</h1>
+        <p class="subtitle">Analyze the emotional tone of your text</p>
+
+        <div class="input-section">
+            <label for="textInput">Enter your text:</label>
+            <textarea 
+                id="textInput" 
+                placeholder="Type or paste your text here to analyze its sentiment..."
+                maxlength="5000"
+            ></textarea>
+        </div>
+
+        <div class="button-container">
+            <button id="analyzeBtn" onclick="analyzeSentiment()">
+                Analyze Sentiment
+            </button>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div class="result-card">
+                <div id="sentimentLabel" class="sentiment-label"></div>
+                <div class="confidence-bar">
+                    <div id="confidenceFill" class="confidence-fill" style="width: 0%"></div>
+                </div>
+                <div id="confidenceText" class="confidence-text"></div>
+            </div>
+        </div>
+
+        <div id="errorSection"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/analyze';
+
+        async function analyzeSentiment() {
+            const textInput = document.getElementById('textInput');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const resultSection = document.getElementById('resultSection');
+            const errorSection = document.getElementById('errorSection');
+            
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showError('Please enter some text to analyze.');
+                return;
+            }
+
+            // Clear previous results
+            resultSection.style.display = 'none';
+            errorSection.innerHTML = '';
+            
+            // Show loading state
+            analyzeBtn.innerHTML = '<span class="loading"></span>Analyzing...';
+            analyzeBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayResult(data);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to analyze sentiment. Please make sure the backend server is running on http://localhost:5000');
+            } finally {
+                analyzeBtn.innerHTML = 'Analyze Sentiment';
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        function displayResult(data) {
+            const resultSection = document.getElementById('resultSection');
+            const sentimentLabel = document.getElementById('sentimentLabel');
+            const confidenceFill = document.getElementById('confidenceFill');
+            const confidenceText = document.getElementById('confidenceText');
+
+            const sentiment = data.sentiment.toLowerCase();
+            const confidence = Math.round(data.confidence * 100);
+
+            sentimentLabel.textContent = data.sentiment;
+            sentimentLabel.className = `sentiment-label ${sentiment}`;
+            
+            confidenceFill.style.width = `${confidence}%`;
+            confidenceText.textContent = `Confidence: ${confidence}%`;
+
+            resultSection.style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorSection = document.getElementById('errorSection');
+            errorSection.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        // Allow Enter key to trigger analysis (Ctrl/Cmd + Enter)
+        document.getElementById('textInput').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                analyzeSentiment();
+            }
+        });
+    </script>
+</body>
+</html>
